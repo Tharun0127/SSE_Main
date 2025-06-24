@@ -44,6 +44,9 @@ const formSchema = z.object({
   }),
 });
 
+// A unique value for the "None" option that won't clash with product names.
+const NONE_OPTION_VALUE = "__none__";
+
 export function ContactForm() {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
@@ -152,14 +155,17 @@ export function ContactForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Product of Interest (Optional)</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                  <Select
+                    onValueChange={(value) => field.onChange(value === NONE_OPTION_VALUE ? "" : value)}
+                    value={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a product" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">None</SelectItem>
+                      <SelectItem value={NONE_OPTION_VALUE}>None</SelectItem>
                       {products.map((product) => (
                         <SelectItem key={product.id} value={product.name}>
                           {product.name}
