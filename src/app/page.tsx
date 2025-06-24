@@ -7,7 +7,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronLeft, ChevronRight, Zap, Thermometer, Leaf } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Zap, Thermometer, Leaf, LayoutGrid, AirVent, SlidersHorizontal, MoreHorizontal } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -62,6 +62,29 @@ const features = [
     title: "Sleek, Modern Design",
     description: "Cool Breeze products don't just feel good, they look good. Enhance your space with our stylish designs.",
   },
+];
+
+const categories = [
+  {
+    name: "Grills",
+    icon: LayoutGrid,
+    href: "/products",
+  },
+  {
+    name: "Diffusers",
+    icon: AirVent,
+    href: "/products",
+  },
+  {
+    name: "Dampers",
+    icon: SlidersHorizontal,
+    href: "/products",
+  },
+  {
+    name: "Others",
+    icon: MoreHorizontal,
+    href: "/products",
+  }
 ];
 
 const featuredProducts = products.filter(p => p.featured);
@@ -196,6 +219,31 @@ export default function Home() {
                     <Link href="/products">View All Products <ArrowRight className="ml-2"/></Link>
                 </Button>
             </div>
+        </div>
+      </section>
+      
+      <section id="categories" className="w-full py-16 md:py-24 bg-background">
+        <div className="container">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Browse By Category</h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Find the perfect HVAC components for your needs by exploring our specialized categories.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {categories.map((category) => (
+              <Link href={category.href} key={category.name}>
+                <Card className="text-center p-6 bg-card rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group">
+                  <div className="flex justify-center mb-4">
+                    <div className="p-4 bg-primary/10 rounded-full transition-colors group-hover:bg-primary">
+                      <category.icon className="h-8 w-8 text-primary transition-colors group-hover:text-primary-foreground" />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold font-heading mb-2">{category.name}</h3>
+                </Card>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
     </div>
