@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -53,8 +52,8 @@ export default function Home() {
         <Carousel
           plugins={[plugin.current]}
           className="w-full"
-          onMouseEnter={plugin.current.stop}
-          onMouseLeave={plugin.current.reset}
+          onMouseEnter={() => plugin.current?.stop()}
+          onMouseLeave={() => plugin.current?.reset()}
           opts={{
               loop: true,
           }}
