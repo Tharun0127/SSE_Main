@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Package, Users, BarChart as BarChartIcon, ExternalLink, ArrowUpDown, ShoppingBag } from "lucide-react";
+import { MoreHorizontal, Package, CheckCircle2, BarChart as BarChartIcon, ExternalLink, ArrowUpDown, ShoppingBag } from "lucide-react";
 import {
   ChartContainer,
   ChartTooltip,
@@ -79,8 +79,8 @@ export function AdminDashboard() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   const totalEnquiries = enquiries.length;
-  const newEnquiries = enquiries.filter(e => e.status === 'New').length;
   const inProduction = enquiries.filter(e => e.status === 'In Production').length;
+  const completedEnquiries = enquiries.filter(e => e.status === 'Completed').length;
 
   const sortedEnquiries = useMemo(() => {
     return [...enquiries].sort((a, b) => {
@@ -110,22 +110,22 @@ export function AdminDashboard() {
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">New Enquiries</CardTitle>
-                        <Users className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">+{newEnquiries}</div>
-                        <p className="text-xs text-muted-foreground">Requires immediate attention</p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">In Production</CardTitle>
                         <Package className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{inProduction}</div>
                         <p className="text-xs text-muted-foreground">Orders currently being fulfilled</p>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Completed Orders</CardTitle>
+                        <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">{completedEnquiries}</div>
+                        <p className="text-xs text-muted-foreground">Fulfilled and completed enquiries</p>
                     </CardContent>
                 </Card>
             </div>
