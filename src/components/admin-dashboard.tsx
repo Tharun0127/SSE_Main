@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { useState, useMemo } from 'react';
 import {
   Card,
   CardContent,
@@ -16,14 +19,15 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Package, Users, BarChart as BarChartIcon, ExternalLink } from "lucide-react";
+import { MoreHorizontal, Package, Users, BarChart as BarChartIcon, ExternalLink, ArrowUpDown } from "lucide-react";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   ChartConfig
 } from "@/components/ui/chart"
-import { Bar, BarChart, XAxis, YAxis } from "recharts";
+import { Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import { format, parseISO } from 'date-fns';
 
 const enquiries = [
   { id: "ENQ-001", name: "Alice Johnson", email: "alice@example.com", phone: "123-456-7890", product: "Linear Bar Grille", message: "I'd like to get a quote for 10 units for a commercial project.", date: "2023-10-26", status: "New" },
@@ -45,24 +49,49 @@ const StatusBadge = ({ status }: { status: Enquiry["status"] }) => {
   return <Badge variant={variant} className="capitalize">{status}</Badge>;
 };
 
-const chartData = [
-  { status: "New", count: enquiries.filter(e => e.status === 'New').length, fill: "hsl(var(--chart-1))" },
-  { status: "Contacted", count: enquiries.filter(e => e.status === 'Contacted').length, fill: "hsl(var(--chart-2))" },
-  { status: "Quote Sent", count: enquiries.filter(e => e.status === 'Quote Sent').length, fill: "hsl(var(--chart-3))" },
-  { status: "In Production", count: enquiries.filter(e => e.status === 'In Production').length, fill: "hsl(var(--chart-4))" },
-  { status: "Completed", count: enquiries.filter(e => e.status === 'Completed').length, fill: "hsl(var(--chart-5))" },
-  { status: "Cancelled", count: enquiries.filter(e => e.status === 'Cancelled').length, fill: "hsl(var(--destructive))" },
-];
+// Process data for the growth chart
+const enquiriesByDate = enquiries.reduce((acc, enquiry) => {
+  const date = enquiry.date;
+  if (!acc[date]) {
+    acc[date] = 0;
+  }
+  acc[date]++;
+  return acc;
+}, {} as Record<string, number>);
+
+const chartData = Object.keys(enquiriesByDate)
+  .map(date => ({
+    date,
+    enquiries: enquiriesByDate[date],
+  }))
+  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
 const chartConfig = {
-  count: { label: "Enquiries" },
+  enquiries: {
+    label: "Enquiries",
+    color: "hsl(var(--chart-1))",
+  },
 } satisfies ChartConfig;
 
 
 export function AdminDashboard() {
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+
   const totalEnquiries = enquiries.length;
   const newEnquiries = enquiries.filter(e => e.status === 'New').length;
   const inProduction = enquiries.filter(e => e.status === 'In Production').length;
+
+  const sortedEnquiries = useMemo(() => {
+    return [...enquiries].sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+    });
+  }, [sortOrder]);
+
+  const toggleSortOrder = () => {
+    setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+  }
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -102,24 +131,50 @@ export function AdminDashboard() {
             <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
                 <Card className="xl:col-span-2">
                     <CardHeader>
-                        <CardTitle>Enquiry Status Overview</CardTitle>
-                        <CardDescription>A visual breakdown of all enquiries by their current status.</CardDescription>
+                        <CardTitle>Enquiries Over Time</CardTitle>
+                        <CardDescription>Growth of customer enquiries over the past week.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
-                            <BarChart data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                                <XAxis dataKey="status" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-                                <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-                                <ChartTooltip cursor={{fill: 'hsl(var(--muted))'}} content={<ChartTooltipContent />} />
-                                <Bar dataKey="count" radius={8} />
-                            </BarChart>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <LineChart
+                                    data={chartData}
+                                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis 
+                                        dataKey="date" 
+                                        tickFormatter={(str) => format(parseISO(str), "MMM d")}
+                                        stroke="#888888"
+                                    />
+                                    <YAxis allowDecimals={false} stroke="#888888"/>
+                                    <ChartTooltip
+                                        cursor={{ fill: 'hsl(var(--muted))' }}
+                                        content={<ChartTooltipContent />}
+                                    />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="enquiries"
+                                        stroke="hsl(var(--primary))"
+                                        strokeWidth={2}
+                                        dot={{ fill: "hsl(var(--primary))", r: 4 }}
+                                        activeDot={{ r: 8 }}
+                                    />
+                                </LineChart>
+                            </ResponsiveContainer>
                         </ChartContainer>
                     </CardContent>
                 </Card>
                 <Card>
-                    <CardHeader>
-                        <CardTitle>Recent Enquiries</CardTitle>
-                        <CardDescription>The 6 most recent customer enquiries.</CardDescription>
+                    <CardHeader className="flex flex-row items-center justify-between">
+                        <div>
+                            <CardTitle>Enquiries</CardTitle>
+                            <CardDescription>The {sortedEnquiries.length} most recent customer enquiries.</CardDescription>
+                        </div>
+                        <Button variant="outline" size="sm" onClick={toggleSortOrder}>
+                            <ArrowUpDown className="mr-2 h-4 w-4" />
+                            Sort by Date
+                        </Button>
                     </CardHeader>
                     <CardContent>
                         <Table>
@@ -131,7 +186,7 @@ export function AdminDashboard() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {enquiries.slice(0, 6).map((enquiry) => (
+                                {sortedEnquiries.slice(0, 6).map((enquiry) => (
                                 <TableRow key={enquiry.id}>
                                     <TableCell>
                                         <div className="font-medium">{enquiry.name}</div>
