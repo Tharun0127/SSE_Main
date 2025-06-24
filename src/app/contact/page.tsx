@@ -1,6 +1,7 @@
 import { ContactForm } from '@/components/contact-form';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Phone, Mail, MapPin } from 'lucide-react';
+import Image from 'next/image';
 
 export default function ContactPage() {
   return (
@@ -52,6 +53,22 @@ export default function ContactPage() {
                   <h3 className="font-semibold text-base">Address</h3>
                   <p className="text-muted-foreground text-base">123 Industrial Park, Suite 100<br/>Ventura, CA 93003</p>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-headline">Our Location</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="aspect-video relative rounded-lg overflow-hidden">
+                <Image
+                  src="https://placehold.co/600x400.png"
+                  alt="Map to Sri Sai Enterprises"
+                  fill
+                  className="object-cover"
+                  data-ai-hint="Ventura California map"
+                />
               </div>
             </CardContent>
           </Card>
