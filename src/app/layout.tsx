@@ -5,7 +5,7 @@ import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'HVAC Solutions',
+  title: 'Sri Sai Enterprises',
   description: 'Premium HVAC components for commercial and residential use.',
 };
 

@@ -54,7 +54,7 @@ export default function Home() {
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-semibold">About Us</div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">Decades of Dedication to Quality</h2>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  At HVAC Solutions, we are committed to engineering excellence. For over 20 years, we have been a leading manufacturer of high-quality HVAC components, delivering innovative and reliable solutions for commercial and residential projects worldwide. Our mission is to enhance air management through superior design, performance, and customer service.
+                  At Sri Sai Enterprises, we are committed to engineering excellence. For over 20 years, we have been a leading manufacturer of high-quality HVAC components, delivering innovative and reliable solutions for commercial and residential projects worldwide. Our mission is to enhance air management through superior design, performance, and customer service.
                 </p>
               </div>
             </div>

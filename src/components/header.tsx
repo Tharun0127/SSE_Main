@@ -35,18 +35,18 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
-        <Link href="/" className="flex items-center space-x-2">
+        <Link href="/" className="mr-auto flex items-center space-x-2">
           <Factory className="h-6 w-6 text-primary" />
           <span className="font-bold font-headline sm:inline-block text-lg">
-            HVAC Solutions
+            Sri Sai Enterprises
           </span>
         </Link>
-        <nav className="ml-auto hidden md:flex gap-6">
+        <nav className="hidden md:flex gap-6">
           {navLinks.map((link) => (
             <NavLink key={link.href} {...link} className="text-sm" />
           ))}
         </nav>
-        <div className="ml-auto md:hidden">
+        <div className="ml-4 md:hidden">
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -62,7 +62,7 @@ export function Header() {
               >
                 <Factory className="h-6 w-6 text-primary" />
                 <span className="font-bold font-headline sm:inline-block text-lg">
-                  HVAC Solutions
+                  Sri Sai Enterprises
                 </span>
               </Link>
               <div className="flex flex-col space-y-6">
