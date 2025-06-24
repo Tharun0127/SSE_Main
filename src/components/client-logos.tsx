@@ -21,7 +21,7 @@ export function ClientLogos() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
           <div className="space-y-3">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-primary-foreground">Trusted by Industry Leaders</h2>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-heading text-foreground">Trusted by Industry Leaders</h2>
             <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               We are proud to partner with leading HVAC dealers and brands to deliver exceptional quality and service.
             </p>
@@ -31,12 +31,12 @@ export function ClientLogos() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16 max-w-3xl mx-auto">
             <div className="flex flex-col items-center justify-center p-8 bg-secondary rounded-lg shadow-lg">
                 <Briefcase className="h-12 w-12 text-primary mb-4" />
-                <p className="text-5xl font-bold font-headline">20+</p>
+                <p className="text-5xl font-bold font-heading">20+</p>
                 <p className="text-lg text-muted-foreground">Years of Experience</p>
             </div>
             <div className="flex flex-col items-center justify-center p-8 bg-secondary rounded-lg shadow-lg">
                 <Users className="h-12 w-12 text-primary mb-4" />
-                <p className="text-5xl font-bold font-headline">100+</p>
+                <p className="text-5xl font-bold font-heading">100+</p>
                 <p className="text-lg text-muted-foreground">HVAC Dealers</p>
             </div>
         </div>
