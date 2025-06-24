@@ -1,162 +1,69 @@
+'use client';
+
+import { useState } from 'react';
+import { AdminDashboard } from '@/components/admin-dashboard';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Lock } from 'lucide-react';
 
-// Mock data for customer enquiries
-const enquiries = [
-  {
-    id: "ENQ-001",
-    name: "Alice Johnson",
-    email: "alice@example.com",
-    product: "Linear Bar Grille",
-    date: "2023-10-26",
-    status: "New",
-  },
-  {
-    id: "ENQ-002",
-    name: "Bob Smith",
-    email: "bob@example.com",
-    product: "Adjustable Air Diffuser",
-    date: "2023-10-25",
-    status: "Quote Sent",
-  },
-  {
-    id: "ENQ-003",
-    name: "Charlie Brown",
-    email: "charlie@example.com",
-    product: "Motorized Fire Damper",
-    date: "2023-10-24",
-    status: "In Production",
-  },
-  {
-    id: "ENQ-004",
-    name: "Diana Prince",
-    email: "diana@example.com",
-    product: "4-Way Ceiling Diffuser",
-    date: "2023-10-23",
-    status: "Completed",
-  },
-  {
-    id: "ENQ-005",
-    name: "Ethan Hunt",
-    email: "ethan@example.com",
-    product: "Weatherproof Louvre",
-    date: "2023-10-22",
-    status: "Contacted",
-  },
-   {
-    id: "ENQ-006",
-    name: "Fiona Glenanne",
-    email: "fiona@example.com",
-    product: "Heavy-Duty Floor Grille",
-    date: "2023-10-21",
-    status: "Cancelled",
-  },
-];
+export default function AdminLoginPage() {
+  const [password, setPassword] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [error, setError] = useState('');
 
-type Enquiry = (typeof enquiries)[0];
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === 'sse890') {
+      setIsAuthenticated(true);
+      setError('');
+    } else {
+      setError('Invalid password. Please try again.');
+      setPassword('');
+    }
+  };
 
-const StatusBadge = ({ status }: { status: Enquiry["status"] }) => {
-  const variant: "default" | "secondary" | "destructive" | "outline" =
-    status === "New" ? "default" :
-    status === "Completed" ? "secondary" :
-    status === "Cancelled" ? "destructive" :
-    "outline";
+  if (isAuthenticated) {
+    return <AdminDashboard />;
+  }
 
-  return <Badge variant={variant}>{status}</Badge>;
-};
-
-
-export default function AdminPage() {
   return (
-    <div className="container py-12 md:py-20">
-      <Card>
-        <CardHeader>
-          <CardTitle>Customer Enquiries</CardTitle>
+    <div className="flex items-center justify-center min-h-screen bg-muted/40 p-4">
+      <Card className="w-full max-w-sm">
+        <CardHeader className="text-center">
+          <div className="mx-auto bg-primary text-primary-foreground p-3 rounded-full w-fit mb-4">
+            <Lock className="h-6 w-6" />
+          </div>
+          <CardTitle className="text-2xl font-heading">Admin Access</CardTitle>
           <CardDescription>
-            A list of recent enquiries from the contact form.
+            Please enter the password to access the dashboard.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[40px]">
-                    <Checkbox aria-label="Select all" />
-                  </TableHead>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Product</TableHead>
-                  <TableHead className="hidden md:table-cell">Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>
-                    <span className="sr-only">Actions</span>
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {enquiries.map((enquiry) => (
-                  <TableRow key={enquiry.id}>
-                    <TableCell>
-                      <Checkbox aria-label={`Select enquiry ${enquiry.id}`} />
-                    </TableCell>
-                    <TableCell>
-                      <div className="font-medium">{enquiry.name}</div>
-                      <div className="text-sm text-muted-foreground truncate">
-                        {enquiry.email}
-                      </div>
-                    </TableCell>
-                    <TableCell>{enquiry.product}</TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {enquiry.date}
-                    </TableCell>
-                    <TableCell>
-                      <StatusBadge status={enquiry.status as Enquiry['status']} />
-                    </TableCell>
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button aria-haspopup="true" size="icon" variant="ghost">
-                            <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Toggle menu</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem>View Details</DropdownMenuItem>
-                          <DropdownMenuItem>Mark as Contacted</DropdownMenuItem>
-                          <DropdownMenuItem>Send Quote</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-2">
+              <Input
+                id="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            {error && (
+              <p className="text-sm font-medium text-destructive">{error}</p>
+            )}
+            <Button type="submit" className="w-full">
+              Unlock
+            </Button>
+          </form>
         </CardContent>
       </Card>
     </div>
