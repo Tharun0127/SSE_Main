@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { products, type Product } from "@/lib/products";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { products, type Product } from "@/lib/products";
 
 function ProductCard({ product }: { product: Product }) {
   return (
@@ -34,6 +37,14 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
+const ProductGrid = ({ products }: { products: Product[] }) => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+    {products.map((product) => (
+      <ProductCard key={product.id} product={product} />
+    ))}
+  </div>
+);
+
 export default function ProductsPage() {
   const categories = Array.from(new Set(products.map(p => p.category)));
 
@@ -44,18 +55,27 @@ export default function ProductsPage() {
           <h1 className="text-4xl md:text-5xl font-bold font-headline">Our Products</h1>
           <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Explore our full catalog of premium HVAC components.</p>
         </div>
-        <div className="space-y-16">
+        
+        <Tabs defaultValue="All" className="w-full">
+          <div className="flex justify-center">
+            <TabsList>
+              <TabsTrigger value="All">All</TabsTrigger>
+              {categories.map((category) => (
+                <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
+
+          <TabsContent value="All">
+            <ProductGrid products={products} />
+          </TabsContent>
+
           {categories.map((category) => (
-            <section key={category}>
-              <h2 className="text-3xl font-bold font-headline mb-8 border-b-2 border-primary pb-2">{category}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {products.filter(p => p.category === category).map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            </section>
+            <TabsContent key={category} value={category}>
+              <ProductGrid products={products.filter(p => p.category === category)} />
+            </TabsContent>
           ))}
-        </div>
+        </Tabs>
       </div>
     </div>
   );
