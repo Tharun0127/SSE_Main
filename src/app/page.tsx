@@ -45,7 +45,7 @@ const slides = [
 
 export default function Home() {
   const plugin = React.useRef(
-    Autoplay({ delay: 4000, stopOnInteraction: true })
+    Autoplay({ delay: 2000, stopOnInteraction: true })
   );
 
   return (
@@ -57,6 +57,8 @@ export default function Home() {
           opts={{
               loop: true,
           }}
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
         >
           <CarouselContent className="-ml-0">
             {slides.map((slide, index) => (
