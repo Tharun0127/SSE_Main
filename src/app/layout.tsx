@@ -7,8 +7,8 @@ import { Poppins, PT_Sans } from 'next/font/google';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: 'Cool Breeze',
-  description: 'Premium air cooling products for modern living.',
+  title: 'Sri Sai Enterprises',
+  description: 'High-quality HVAC solutions for all your needs.',
 };
 
 const fontHeading = Poppins({

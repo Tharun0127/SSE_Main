@@ -38,7 +38,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2">
           <Wind className="h-7 w-7 text-primary" />
           <span className="font-bold font-heading text-xl">
-            Cool Breeze
+            Sri Sai Enterprises
           </span>
         </Link>
         
@@ -64,7 +64,7 @@ export function Header() {
               <div className="flex items-center gap-2 mb-8">
                 <Wind className="h-7 w-7 text-primary" />
                 <span className="font-bold font-heading text-xl">
-                  Cool Breeze
+                  Sri Sai Enterprises
                 </span>
               </div>
               <nav className="flex flex-col gap-y-6">

@@ -67,7 +67,7 @@ export function ContactForm() {
         
         toast({
           title: "Message Sent!",
-          description: "Thanks for contacting Cool Breeze. We'll be in touch soon.",
+          description: "Thanks for contacting Sri Sai Enterprises. We'll be in touch soon.",
         });
 
         form.reset();

@@ -21,7 +21,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const slides = [
   {
     title: "Experience Pure Comfort",
-    description: "Innovative cooling solutions designed for your lifestyle. Stay cool, calm, and collected all year round.",
+    description: "Innovative HVAC solutions designed for your lifestyle. Stay cool, calm, and collected all year round.",
     image: "https://placehold.co/1920x1080.png",
     imageHint: "modern living room cool",
     link: "/products",
@@ -29,7 +29,7 @@ const slides = [
   },
   {
     title: "Engineered for Silence",
-    description: "Our whisper-quiet technology ensures you get powerful cooling without the noise. Perfect for bedrooms and offices.",
+    description: "Our whisper-quiet technology ensures you get powerful air management without the noise. Perfect for bedrooms and offices.",
     image: "https://placehold.co/1920x1080.png",
     imageHint: "serene bedroom minimalist",
     link: "/products",
@@ -37,7 +37,7 @@ const slides = [
   },
   {
     title: "Smart, Efficient, & Eco-Friendly",
-    description: "Lower your energy bills and your carbon footprint with our ENERGY STAR® certified air conditioners.",
+    description: "Lower your energy bills and your carbon footprint with our ENERGY STAR® certified HVAC systems.",
     image: "https://placehold.co/1920x1080.png",
     imageHint: "green leaf technology",
     link: "/products",
@@ -48,8 +48,8 @@ const slides = [
 const features = [
   {
     icon: Thermometer,
-    title: "Powerful Cooling",
-    description: "Our products are engineered to deliver maximum cooling performance, keeping you comfortable even on the hottest days.",
+    title: "Optimal Airflow",
+    description: "Our products are engineered to deliver maximum airflow performance, keeping you comfortable in any environment.",
   },
   {
     icon: Zap,
@@ -59,7 +59,7 @@ const features = [
   {
     icon: Leaf,
     title: "Sleek, Modern Design",
-    description: "Cool Breeze products don't just feel good, they look good. Enhance your space with our stylish designs.",
+    description: "Our products don't just feel good, they look good. Enhance your space with our stylish designs.",
   },
 ];
 
@@ -137,9 +137,9 @@ export default function Home() {
       <section id="why-us" className="w-full py-12 md:py-20 bg-background">
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Why Choose Cool Breeze?</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Why Choose Sri Sai Enterprises?</h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              We blend cutting-edge technology with sophisticated design to create air cooling products that elevate your comfort and your home.
+              We blend cutting-edge technology with sophisticated design to create HVAC products that elevate your comfort and your space.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

@@ -19,7 +19,7 @@ export function Footer() {
             <div className="flex items-center gap-2 justify-center md:justify-start">
               <Wind className="h-7 w-7 text-primary" />
               <span className="font-bold font-heading text-xl text-secondary-foreground">
-                Cool Breeze
+                Sri Sai Enterprises
               </span>
             </div>
 
@@ -51,7 +51,7 @@ export function Footer() {
         </div>
         <div className="mt-8 pt-8 border-t border-border/40 text-center">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} Cool Breeze. All rights reserved.
+            © {currentYear} Sri Sai Enterprises. All rights reserved.
           </p>
         </div>
       </div>

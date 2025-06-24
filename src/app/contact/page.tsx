@@ -42,7 +42,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-sm text-foreground">Email</h3>
-                  <a href="mailto:support@coolbreeze.com" className="text-muted-foreground hover:text-primary transition-colors text-sm">support@coolbreeze.com</a>
+                  <a href="mailto:support@srisaiep.com" className="text-muted-foreground hover:text-primary transition-colors text-sm">support@srisaiep.com</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -51,7 +51,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-sm text-foreground">Address</h3>
-                  <p className="text-muted-foreground text-sm">123 Cool Air Way, Suite 100<br/>San Francisco, CA 94105</p>
+                  <p className="text-muted-foreground text-sm">123 HVAC Way, Suite 100<br/>San Francisco, CA 94105</p>
                 </div>
               </div>
             </CardContent>
@@ -59,7 +59,7 @@ export default function ContactPage() {
           <div className="aspect-video relative rounded-lg overflow-hidden border">
                 <Image
                   src="https://placehold.co/600x400.png"
-                  alt="Map to Cool Breeze HQ"
+                  alt="Map to Sri Sai Enterprises HQ"
                   fill
                   className="object-cover"
                   data-ai-hint="San Francisco map"

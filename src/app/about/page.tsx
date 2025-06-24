@@ -36,9 +36,9 @@ export default function AboutPage() {
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 p-4">
-          <h1 className="text-4xl md:text-5xl font-extrabold font-heading tracking-tight">About Cool Breeze</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold font-heading tracking-tight">About Sri Sai Enterprises</h1>
           <p className="mt-4 max-w-2xl text-lg text-primary-foreground/80">
-            Pioneering excellence in air management solutions since 2004.
+            Pioneering excellence in HVAC solutions since 2004.
           </p>
         </div>
       </section>
@@ -48,7 +48,7 @@ export default function AboutPage() {
           <div>
             <h2 className="text-3xl font-extrabold font-heading text-foreground mb-4">Our Story</h2>
             <p className="text-muted-foreground mb-4">
-              Founded with a vision to revolutionize the HVAC industry, Cool Breeze has grown from a small workshop into a leading manufacturer of high-quality grilles, diffusers, and dampers. Our journey is one of innovation, commitment to quality, and a relentless pursuit of customer satisfaction.
+              Founded with a vision to revolutionize the HVAC industry, Sri Sai Enterprises has grown from a small workshop into a leading manufacturer of high-quality grilles, diffusers, and dampers. Our journey is one of innovation, commitment to quality, and a relentless pursuit of customer satisfaction.
             </p>
             <p className="text-muted-foreground">
               We believe that the air you breathe should be managed with precision and reliability. That's why every product we create is engineered to the highest standards, ensuring optimal performance and durability.
@@ -57,7 +57,7 @@ export default function AboutPage() {
           <div className="relative aspect-square rounded-lg overflow-hidden shadow-lg">
              <Image
                 src="https://placehold.co/600x600.png"
-                alt="Cool Breeze Factory"
+                alt="Sri Sai Enterprises Factory"
                 fill
                 className="object-cover"
                 data-ai-hint="HVAC manufacturing factory"
