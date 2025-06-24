@@ -1,7 +1,16 @@
 import React from 'react';
+import Image from 'next/image';
 import { Briefcase, Users } from 'lucide-react';
 
-const LOGOS = ["LG", "Daikin", "Blue Star", "Voltas", "Hitachi", "Carrier", "Trane"];
+const LOGOS = [
+  { name: "LG", hint: "LG logo" },
+  { name: "Daikin", hint: "Daikin logo" },
+  { name: "Blue Star", hint: "Blue Star logo" },
+  { name: "Voltas", hint: "Voltas logo" },
+  { name: "Hitachi", hint: "Hitachi logo" },
+  { name: "Carrier", hint: "Carrier logo" },
+  { name: "Trane", hint: "Trane logo" },
+];
 
 export function ClientLogos() {
   return (
@@ -32,17 +41,35 @@ export function ClientLogos() {
         <div
           className="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]"
         >
-          <ul className="flex items-center justify-center md:justify-start [&_li]:mx-8 animate-infinite-scroll">
+          <ul className="flex items-center justify-center md:justify-start animate-infinite-scroll">
             {LOGOS.map((logo, index) => (
-              <li key={index} className="text-2xl font-semibold text-muted-foreground whitespace-nowrap">
-                {logo}
+              <li key={index} className="mx-8 flex-shrink-0">
+                <div className="bg-card p-6 rounded-lg shadow-sm flex items-center justify-center h-24 w-48">
+                  <Image
+                    src="https://placehold.co/120x40.png"
+                    width={120}
+                    height={40}
+                    alt={`${logo.name} logo`}
+                    data-ai-hint={`${logo.name.toLowerCase()} logo`}
+                    className="object-contain"
+                  />
+                </div>
               </li>
             ))}
           </ul>
-          <ul className="flex items-center justify-center md:justify-start [&_li]:mx-8 animate-infinite-scroll" aria-hidden="true">
+          <ul className="flex items-center justify-center md:justify-start animate-infinite-scroll" aria-hidden="true">
              {LOGOS.map((logo, index) => (
-              <li key={index} className="text-2xl font-semibold text-muted-foreground whitespace-nowrap">
-                {logo}
+              <li key={index} className="mx-8 flex-shrink-0">
+                <div className="bg-card p-6 rounded-lg shadow-sm flex items-center justify-center h-24 w-48">
+                  <Image
+                    src="https://placehold.co/120x40.png"
+                    width={120}
+                    height={40}
+                    alt={`${logo.name} logo`}
+                    data-ai-hint={`${logo.name.toLowerCase()} logo`}
+                    className="object-contain"
+                  />
+                </div>
               </li>
             ))}
           </ul>

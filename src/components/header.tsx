@@ -46,7 +46,7 @@ export function Header() {
             <NavLink key={link.href} {...link} className="text-sm" />
           ))}
         </nav>
-        <div className="ml-4 md:hidden">
+        <div className="ml-auto md:hidden">
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
