@@ -24,9 +24,11 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  ChartConfig
+  ChartConfig,
+  ChartLegend,
+  ChartLegendContent,
 } from "@/components/ui/chart"
-import { Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import { Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Pie, PieChart, Cell } from "recharts";
 import { format, parseISO } from 'date-fns';
 import { products } from '@/lib/products';
 
@@ -37,7 +39,11 @@ const enquiries = [
   { id: "ENQ-004", name: "Diana Prince", email: "diana@example.com", phone: "456-789-0123", product: "4-Way Ceiling Diffuser", message: "Please send me the technical specifications.", date: "2023-10-23", status: "Completed" },
   { id: "ENQ-005", name: "Ethan Hunt", email: "ethan@example.com", phone: "567-890-1234", product: "Weatherproof Louvre", message: "Can this be customized to a specific color?", date: "2023-10-22", status: "Contacted" },
   { id: "ENQ-006", name: "Fiona Glenanne", email: "fiona@example.com", phone: "678-901-2345", product: "Heavy-Duty Floor Grille", message: "What is the lead time for an order of 50?", date: "2023-10-21", status: "Cancelled" },
+  { id: "ENQ-007", name: "Bruce Wayne", email: "bruce@wayne.com", phone: "789-123-4567", product: "Circular Ceiling Grille", message: "Need a quote for 20 units.", date: "2023-10-26", status: "Completed" },
+  { id: "ENQ-008", name: "Clark Kent", email: "clark@dailyplanet.com", phone: "890-123-4567", product: "Linear Bar Grille", message: "What is the material?", date: "2023-10-27", status: "New" },
+  { id: "ENQ-009", name: "Peter Parker", email: "peter@bugle.com", phone: "901-234-5678", product: "Motorized Fire Damper", message: "Follow up on previous enquiry.", date: "2023-10-27", status: "Contacted" },
 ];
+
 type Enquiry = (typeof enquiries)[0];
 
 const StatusBadge = ({ status }: { status: Enquiry["status"] }) => {
@@ -60,20 +66,37 @@ const enquiriesByDate = enquiries.reduce((acc, enquiry) => {
   return acc;
 }, {} as Record<string, number>);
 
-const chartData = Object.keys(enquiriesByDate)
+const lineChartData = Object.keys(enquiriesByDate)
   .map(date => ({
     date,
     enquiries: enquiriesByDate[date],
   }))
   .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-const chartConfig = {
+const lineChartConfig = {
   enquiries: {
     label: "Enquiries",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
+const pieChartConfig = {
+  count: {
+    label: "Enquiries",
+  },
+  active: {
+    label: "Active",
+    color: "hsl(var(--chart-1))",
+  },
+  completed: {
+    label: "Completed",
+    color: "hsl(var(--chart-2))",
+  },
+  cancelled: {
+    label: "Cancelled",
+    color: "hsl(var(--chart-5))",
+  },
+} satisfies ChartConfig;
 
 export function AdminDashboard() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
@@ -86,9 +109,30 @@ export function AdminDashboard() {
     return [...enquiries].sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
-      return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+      return sortOrder === 'asc' ? dateA - dateB : dateB - a.date.localeCompare(b.date);
     });
   }, [sortOrder]);
+
+  const pieData = useMemo(() => {
+    const counts = enquiries.reduce(
+      (acc, enquiry) => {
+        if (enquiry.status === 'Completed') {
+          acc.completed += 1;
+        } else if (enquiry.status === 'Cancelled') {
+          acc.cancelled += 1;
+        } else {
+          acc.active += 1;
+        }
+        return acc;
+      },
+      { completed: 0, cancelled: 0, active: 0 }
+    );
+    return [
+      { status: 'active', count: counts.active, fill: 'var(--color-active)' },
+      { status: 'completed', count: counts.completed, fill: 'var(--color-completed)' },
+      { status: 'cancelled', count: counts.cancelled, fill: 'var(--color-cancelled)' },
+    ];
+  }, []);
 
   const toggleSortOrder = () => {
     setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
@@ -130,42 +174,65 @@ export function AdminDashboard() {
                 </Card>
             </div>
             <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-                <Card className="xl:col-span-2">
-                    <CardHeader>
-                        <CardTitle>Enquiries Over Time</CardTitle>
-                        <CardDescription>Growth of customer enquiries over the past week.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart
-                                    data={chartData}
-                                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                                >
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis 
-                                        dataKey="date" 
-                                        tickFormatter={(str) => format(parseISO(str), "MMM d")}
-                                        stroke="#888888"
-                                    />
-                                    <YAxis allowDecimals={false} stroke="#888888"/>
-                                    <ChartTooltip
-                                        cursor={{ fill: 'hsl(var(--muted))' }}
-                                        content={<ChartTooltipContent />}
-                                    />
-                                    <Line
-                                        type="monotone"
-                                        dataKey="enquiries"
-                                        stroke="hsl(var(--primary))"
-                                        strokeWidth={2}
-                                        dot={{ fill: "hsl(var(--primary))", r: 4 }}
-                                        activeDot={{ r: 8 }}
-                                    />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </ChartContainer>
-                    </CardContent>
-                </Card>
+                <div className="grid gap-4 md:grid-cols-2 xl:col-span-2">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Enquiry Status</CardTitle>
+                            <CardDescription>Breakdown of all enquiries by status.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="pb-8">
+                            <ChartContainer config={pieChartConfig} className="mx-auto aspect-square max-h-[250px]">
+                                <PieChart>
+                                    <ChartTooltip content={<ChartTooltipContent nameKey="count" hideLabel />} />
+                                    <Pie data={pieData} dataKey="count" nameKey="status" innerRadius={60}>
+                                      {pieData.map((entry) => (
+                                        <Cell key={entry.status} fill={entry.fill} />
+                                      ))}
+                                    </Pie>
+                                    <ChartLegend content={<ChartLegendContent nameKey="status" />} />
+                                </PieChart>
+                            </ChartContainer>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Enquiries Over Time</CardTitle>
+                            <CardDescription>Growth of customer enquiries.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                             <ChartContainer config={lineChartConfig} className="min-h-[250px] w-full">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <LineChart
+                                        data={lineChartData}
+                                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                                    >
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis 
+                                            dataKey="date" 
+                                            tickFormatter={(str) => format(parseISO(str), "MMM d")}
+                                            stroke="#888888"
+                                            fontSize={12}
+                                        />
+                                        <YAxis allowDecimals={false} stroke="#888888" fontSize={12}/>
+                                        <ChartTooltip
+                                            cursor={{ fill: 'hsl(var(--muted))' }}
+                                            content={<ChartTooltipContent />}
+                                        />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="enquiries"
+                                            stroke="hsl(var(--primary))"
+                                            strokeWidth={2}
+                                            dot={{ fill: "hsl(var(--primary))", r: 4 }}
+                                            activeDot={{ r: 8 }}
+                                        />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </ChartContainer>
+                        </CardContent>
+                    </Card>
+                </div>
+
                 <div className="space-y-4 md:space-y-8">
                   <Card>
                       <CardHeader className="flex flex-row items-center justify-between">
