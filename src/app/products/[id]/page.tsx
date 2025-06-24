@@ -1,0 +1,106 @@
+'use client';
+
+import { useParams } from 'next/navigation';
+import Image from 'next/image';
+import Link from 'next/link';
+import { products, type Product } from '@/lib/products';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { ArrowLeft, Scaling, Ruler } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+
+function getProductById(id: number): Product | undefined {
+  return products.find((p) => p.id === id);
+}
+
+export default function ProductDetailPage() {
+  const params = useParams();
+  const productId = parseInt(params.id as string, 10);
+  const product = getProductById(productId);
+
+  if (!product) {
+    return (
+      <div className="container py-20 text-center">
+        <h1 className="text-2xl font-bold">Product not found</h1>
+        <Button asChild className="mt-6">
+          <Link href="/products">
+            <ArrowLeft className="mr-2" /> Back to Products
+          </Link>
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-muted/40">
+        <div className="container py-12 md:py-20">
+             <div className="mb-8">
+                <Button asChild variant="outline" size="sm">
+                    <Link href="/products">
+                    <ArrowLeft className="mr-2 h-4 w-4" /> Back to All Products
+                    </Link>
+                </Button>
+            </div>
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+                <div className="relative aspect-square rounded-lg overflow-hidden border shadow-lg">
+                    <Image
+                        src={product.imageUrl}
+                        alt={product.name}
+                        fill
+                        className="object-cover"
+                        data-ai-hint={product.imageHint}
+                        priority
+                    />
+                </div>
+
+                <div className="space-y-6">
+                    <div>
+                        <Badge variant="secondary" className="mb-2">{product.category}</Badge>
+                        <h1 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">{product.name}</h1>
+                        <p className="mt-4 text-lg text-muted-foreground">{product.longDescription}</p>
+                    </div>
+
+                    <Separator />
+                    
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-xl font-heading">Product Specifications</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {product.measurementUnit && (
+                          <div className="flex items-center gap-3">
+                            <Ruler className="h-5 w-5 text-primary" />
+                            <div>
+                              <h3 className="font-semibold text-foreground">Measurement Unit</h3>
+                              <p className="text-muted-foreground">{product.measurementUnit}</p>
+                            </div>
+                          </div>
+                        )}
+                        {product.availableSizes && product.availableSizes.length > 0 && (
+                          <div className="flex items-start gap-3">
+                            <Scaling className="h-5 w-5 text-primary mt-1" />
+                            <div>
+                                <h3 className="font-semibold text-foreground">Available Sizes</h3>
+                                <div className="flex flex-wrap gap-2 mt-1">
+                                    {product.availableSizes.map(size => (
+                                        <Badge key={size} variant="outline">{size}</Badge>
+                                    ))}
+                                </div>
+                            </div>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+
+                    <Button asChild size="lg" className="w-full">
+                       <Link href={`/contact?product=${encodeURIComponent(product.name)}`}>
+                            Enquire Now
+                        </Link>
+                    </Button>
+                </div>
+            </div>
+        </div>
+    </div>
+  );
+}

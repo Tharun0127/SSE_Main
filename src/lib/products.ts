@@ -8,6 +8,8 @@ export interface Product {
   imageUrl: string;
   imageHint: string;
   featured: boolean;
+  measurementUnit?: string;
+  availableSizes?: string[];
 }
 
 export const products: Product[] = [
@@ -21,6 +23,8 @@ export const products: Product[] = [
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "linear bar grille",
     featured: true,
+    measurementUnit: "Inches",
+    availableSizes: ["24x8", "36x8", "48x8", "Custom"],
   },
   {
     id: 2,
@@ -32,6 +36,8 @@ export const products: Product[] = [
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "air diffuser vent",
     featured: true,
+    measurementUnit: "Inches",
+    availableSizes: ["6x6", "8x8", "12x12", "18x18", "Custom"],
   },
   {
     id: 3,
@@ -43,6 +49,8 @@ export const products: Product[] = [
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "industrial fire damper",
     featured: true,
+    measurementUnit: "mm",
+    availableSizes: ["100x100", "200x200", "300x300", "Custom"],
   },
   {
     id: 4,
@@ -54,6 +62,8 @@ export const products: Product[] = [
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "round ceiling grille",
     featured: false,
+    measurementUnit: "Inches (Diameter)",
+    availableSizes: ["8", "10", "12", "16", "Custom"],
   },
   {
     id: 5,
@@ -65,6 +75,8 @@ export const products: Product[] = [
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "square ceiling diffuser",
     featured: false,
+    measurementUnit: "Inches",
+    availableSizes: ["24x24 (Overall)", "12x12 (Neck)", "Custom"],
   },
   {
     id: 6,
@@ -76,6 +88,8 @@ export const products: Product[] = [
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "ductwork volume damper",
     featured: false,
+    measurementUnit: "Inches",
+    availableSizes: ["6x6", "12x12", "18x12", "24x24", "Custom"],
   },
   {
     id: 7,
@@ -87,6 +101,8 @@ export const products: Product[] = [
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "outdoor ventilation louvre",
     featured: false,
+    measurementUnit: "Inches",
+    availableSizes: ["12x12", "24x24", "36x36", "48x48", "Custom"],
   },
   {
     id: 8,
@@ -98,6 +114,8 @@ export const products: Product[] = [
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "industrial floor grille",
     featured: false,
+    measurementUnit: "Inches",
+    availableSizes: ["12x12", "24x12", "24x24", "Custom"],
   },
   {
     id: 9,
@@ -109,6 +127,8 @@ export const products: Product[] = [
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "perforated diffuser panel",
     featured: false,
+    measurementUnit: "Inches",
+    availableSizes: ["24x24 (Overall)", "12x12 (Neck)", "Custom"],
   },
   {
     id: 10,
@@ -120,6 +140,8 @@ export const products: Product[] = [
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "duct backdraft damper",
     featured: false,
+    measurementUnit: "Inches (Diameter)",
+    availableSizes: ["4", "6", "8", "10", "12"],
   },
   {
     id: 11,
@@ -131,6 +153,8 @@ export const products: Product[] = [
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "duct access panel",
     featured: false,
+    measurementUnit: "Inches",
+    availableSizes: ["8x8", "12x12", "16x16", "24x24"],
   },
   {
     id: 12,
@@ -142,5 +166,7 @@ export const products: Product[] = [
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "flexible duct connector",
     featured: false,
+    measurementUnit: "Inches (Width)",
+    availableSizes: ["3", "4", "6", "Custom"],
   }
 ];

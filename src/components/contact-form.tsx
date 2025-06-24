@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState, useTransition } from "react";
+import { useSearchParams } from 'next/navigation';
 import {
   Select,
   SelectContent,
@@ -46,6 +47,8 @@ const formSchema = z.object({
 export function ContactForm() {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
+  const productQueryParam = searchParams.get('product');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,7 +56,7 @@ export function ContactForm() {
       name: "",
       email: "",
       phone: "",
-      product: "",
+      product: productQueryParam || "",
       message: "",
     },
   });
@@ -126,7 +129,7 @@ export function ContactForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Product of Interest (Optional)</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a product" />

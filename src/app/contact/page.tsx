@@ -2,6 +2,8 @@ import { ContactForm } from '@/components/contact-form';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import Image from 'next/image';
+import { Suspense } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ContactPage() {
   return (
@@ -17,7 +19,9 @@ export default function ContactPage() {
             <CardDescription>Fill out the form and our team will get back to you shortly.</CardDescription>
           </CardHeader>
           <CardContent>
-            <ContactForm />
+            <Suspense fallback={<Skeleton className="h-[450px] w-full" />}>
+              <ContactForm />
+            </Suspense>
           </CardContent>
         </Card>
         <div className="lg:col-span-2 space-y-6">
