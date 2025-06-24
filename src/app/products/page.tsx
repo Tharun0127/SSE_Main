@@ -25,7 +25,7 @@ function ProductCard({ product }: { product: Product }) {
           <p className="text-xl font-bold text-primary">{product.price}</p>
           <Button asChild className="font-semibold">
             <Link href="/contact">
-              {product.price === "Request a Quote" ? "Get Quote" : "Buy Now"}
+              Enquiry Now
             </Link>
           </Button>
         </div>
