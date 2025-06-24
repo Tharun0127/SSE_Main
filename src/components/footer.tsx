@@ -13,7 +13,7 @@ export function Footer() {
 
   return (
     <footer className="bg-secondary">
-      <div className="container py-12">
+      <div className="container py-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
             <div className="flex items-center gap-2 justify-center md:justify-start">
               <Wind className="h-7 w-7 text-primary" />

@@ -34,7 +34,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/90 backdrop-blur-lg">
-      <div className="container flex h-20 items-center justify-between">
+      <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Wind className="h-7 w-7 text-primary" />
           <span className="font-bold font-heading text-xl">

@@ -17,7 +17,7 @@ export default function ProductsPage() {
 
   return (
     <div className="bg-background">
-      <div className="container py-20 md:py-28">
+      <div className="container py-16 md:py-24">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-extrabold font-heading text-foreground">Our Products</h1>
           <p className="text-lg text-muted-foreground mt-4 max-w-2xl mx-auto">Explore our full catalog of premium air cooling solutions.</p>

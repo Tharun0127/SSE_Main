@@ -81,15 +81,13 @@ export default function Home() {
       <section className="w-full relative bg-background">
         <Carousel
           plugins={[plugin.current]}
-          className="w-full group"
+          className="w-full"
           opts={{ loop: true }}
-          onMouseEnter={plugin.current.stop}
-          onMouseLeave={plugin.current.reset}
         >
           <CarouselContent className="-ml-0">
             {slides.map((slide, index) => (
               <CarouselItem key={index} className="pl-0">
-                <div className="min-h-[calc(100vh-5rem)] w-full relative flex items-center justify-center">
+                <div className="min-h-[calc(100vh-4rem)] w-full relative flex items-center justify-center">
                   <Image
                     src={slide.image}
                     alt={slide.title}
@@ -99,7 +97,7 @@ export default function Home() {
                     priority={index === 0}
                   />
                   <div className="absolute inset-0 bg-black/50" />
-                  <div className="relative text-center text-white p-4">
+                  <div className="relative text-center text-primary-foreground p-4">
                       {isMounted && <motion.h1 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -112,7 +110,7 @@ export default function Home() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.4 }}
-                        className="max-w-2xl text-neutral-200 md:text-xl mt-6 mx-auto drop-shadow-md"
+                        className="max-w-2xl text-primary-foreground/80 md:text-xl mt-6 mx-auto drop-shadow-md"
                       >
                           {slide.description}
                       </motion.p>}
@@ -133,12 +131,10 @@ export default function Home() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 text-white bg-white/10 hover:bg-white/20 border-white/30 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity" />
-          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 text-white bg-white/10 hover:bg-white/20 border-white/30 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity" />
         </Carousel>
       </section>
 
-      <section id="why-us" className="w-full py-20 md:py-28 bg-background">
+      <section id="why-us" className="w-full py-16 md:py-24 bg-background">
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Why Choose Cool Breeze?</h2>
@@ -148,7 +144,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="text-center p-6 bg-card rounded-lg border">
+              <Card key={index} className="text-center p-6 bg-card rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div className="flex justify-center mb-4">
                   <div className="p-4 bg-primary/10 rounded-full">
                     <feature.icon className="h-8 w-8 text-primary" />
@@ -162,7 +158,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="featured-products" className="w-full py-20 md:py-28 bg-muted/50">
+      <section id="featured-products" className="w-full py-16 md:py-24 bg-muted/50">
         <div className="container">
             <div className="text-center max-w-3xl mx-auto mb-16">
                 <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Featured Products</h2>
