@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Poppins, PT_Sans } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { WhatsAppWidget } from '@/components/whatsapp-widget';
+import { AdminAuthHandler } from '@/components/admin-auth-handler';
 
 export const metadata: Metadata = {
   title: 'Sri Sai Enterprises',
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={cn("font-sans antialiased", fontSans.variable, fontHeading.variable)}>
+        <AdminAuthHandler />
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-grow">{children}</main>

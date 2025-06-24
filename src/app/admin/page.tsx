@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AdminDashboard } from '@/components/admin-dashboard';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,15 +12,27 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Lock } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function AdminLoginPage() {
-  const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  // On component mount, check if the user is already authenticated in this session.
+  useEffect(() => {
+    const authStatus = sessionStorage.getItem('isAdminAuthenticated') === 'true';
+    if (authStatus) {
+      setIsAuthenticated(true);
+    }
+    setIsLoading(false);
+  }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === 'sse890') {
+      sessionStorage.setItem('isAdminAuthenticated', 'true');
       setIsAuthenticated(true);
       setError('');
     } else {
@@ -29,10 +41,21 @@ export default function AdminLoginPage() {
     }
   };
 
+  // While checking auth, show a skeleton to prevent the login form from flashing.
+  if (isLoading) {
+    return (
+       <div className="flex items-center justify-center min-h-screen bg-muted/40 p-4">
+         <Skeleton className="w-full max-w-sm h-[380px]" />
+       </div>
+    );
+  }
+
+  // If authenticated, show the dashboard.
   if (isAuthenticated) {
     return <AdminDashboard />;
   }
 
+  // Otherwise, show the login form.
   return (
     <div className="flex items-center justify-center min-h-screen bg-muted/40 p-4">
       <Card className="w-full max-w-sm">
