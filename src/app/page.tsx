@@ -18,6 +18,7 @@ import {
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 import { Card } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const slides = [
   {
@@ -64,18 +65,6 @@ const features = [
   },
 ];
 
-const categoriesData = [
-  { name: "Grills" },
-  { name: "Diffusers" },
-  { name: "Dampers" },
-  { name: "Others" },
-];
-
-const productsByCategories = categoriesData.map(category => ({
-  ...category,
-  products: products.filter(p => p.category === category.name).slice(0, 3)
-}));
-
 export default function Home() {
   const plugin = React.useRef(
     Autoplay({ delay: 5000, stopOnInteraction: true })
@@ -85,6 +74,9 @@ export default function Home() {
   React.useEffect(() => {
     setIsMounted(true);
   }, []);
+  
+  const categories = ['All', 'Grills', 'Diffusers', 'Dampers', 'Others'];
+  const featuredProducts = products.filter(p => p.featured);
 
   return (
     <div className="flex flex-col">
@@ -168,31 +160,51 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="categories" className="w-full py-16 md:py-24 bg-muted/50">
+      <section id="featured-products" className="w-full py-16 md:py-24 bg-muted/50">
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Shop By Category</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Featured Products</h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Find the perfect HVAC components for your needs by exploring our specialized categories.
+              Discover our top-rated and most popular products, handpicked for their quality and performance.
             </p>
           </div>
-          <div className="space-y-20">
-            {productsByCategories.map((category) => (
-              <div key={category.name}>
-                <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-8">
-                  <h3 className="text-2xl md:text-3xl font-bold font-heading mb-4 sm:mb-0">{category.name}</h3>
-                  <Button asChild variant="outline">
-                    <Link href={`/products?category=${category.name}`}>View All {category.name} <ArrowRight className="ml-2"/></Link>
-                  </Button>
-                </div>
+          <Tabs defaultValue="All" className="w-full">
+            <div className="flex justify-center mb-12">
+              <TabsList className="grid grid-cols-2 sm:grid-cols-5 w-full max-w-lg">
+                {categories.map((category) => (
+                  <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+
+            <TabsContent value="All">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {featuredProducts.slice(0, 3).map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+              <div className="text-center mt-12">
+                <Button asChild size="lg" variant="outline">
+                  <Link href="/products">View All Products <ArrowRight className="ml-2"/></Link>
+                </Button>
+              </div>
+            </TabsContent>
+
+            {categories.filter(c => c !== 'All').map((category) => (
+              <TabsContent key={category} value={category}>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {category.products.map((product) => (
+                  {products.filter(p => p.category === category).slice(0, 3).map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
                 </div>
-              </div>
+                <div className="text-center mt-12">
+                  <Button asChild size="lg" variant="outline">
+                    <Link href={`/products?category=${category}`}>View All {category} <ArrowRight className="ml-2"/></Link>
+                  </Button>
+                </div>
+              </TabsContent>
             ))}
-          </div>
+          </Tabs>
         </div>
       </section>
     </div>
