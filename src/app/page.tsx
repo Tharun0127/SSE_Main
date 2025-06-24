@@ -54,8 +54,6 @@ export default function Home() {
         <Carousel
           plugins={[plugin.current]}
           className="w-full group"
-          onMouseEnter={() => plugin.current?.stop()}
-          onMouseLeave={() => plugin.current?.reset()}
           opts={{
               loop: true,
           }}
