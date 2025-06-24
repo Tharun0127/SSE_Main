@@ -12,13 +12,11 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 
 const slides = [
   {
-    title: "Slide 1: Engineered for Excellence",
+    title: "Engineered for Excellence",
     description: "Providing top-tier Grills, Diffusers, and Dampers for optimal HVAC performance.",
     image: "https://placehold.co/1920x1080.png",
     imageHint: "modern architecture vents",
@@ -26,7 +24,7 @@ const slides = [
     linkLabel: "Explore Products"
   },
   {
-    title: "Slide 2: Decades of Dedication",
+    title: "Decades of Dedication",
     description: "For over 20 years, we have been a leading manufacturer of high-quality HVAC components, delivering innovative and reliable solutions.",
     image: "https://placehold.co/1920x1080.png",
     imageHint: "HVAC factory",
@@ -34,7 +32,7 @@ const slides = [
     linkLabel: "About Us"
   },
   {
-    title: "Slide 3: Innovative Solutions",
+    title: "Innovative Solutions",
     description: "From large commercial buildings to custom residential homes, our products are designed to meet the most demanding specifications.",
     image: "https://placehold.co/1920x1080.png",
     imageHint: "building blueprint HVAC",
@@ -53,12 +51,10 @@ export default function Home() {
       <section className="w-full relative bg-background">
         <Carousel
           plugins={[plugin.current]}
-          className="w-full group"
+          className="w-full"
           opts={{
               loop: true,
           }}
-          onMouseEnter={() => plugin.current?.stop()}
-          onMouseLeave={() => plugin.current?.reset()}
         >
           <CarouselContent className="-ml-0">
             {slides.map((slide, index) => (
@@ -93,8 +89,6 @@ export default function Home() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 opacity-0 transition-opacity group-hover:opacity-100" />
-          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 opacity-0 transition-opacity group-hover:opacity-100" />
         </Carousel>
       </section>
 
