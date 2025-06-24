@@ -12,6 +12,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 
 const slides = [
@@ -43,7 +45,7 @@ const slides = [
 
 export default function Home() {
   const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true })
+    Autoplay({ delay: 4000, stopOnInteraction: true })
   );
 
   return (
@@ -51,7 +53,7 @@ export default function Home() {
       <section className="w-full relative bg-background">
         <Carousel
           plugins={[plugin.current]}
-          className="w-full"
+          className="w-full group"
           onMouseEnter={() => plugin.current?.stop()}
           onMouseLeave={() => plugin.current?.reset()}
           opts={{
@@ -91,6 +93,8 @@ export default function Home() {
               </CarouselItem>
             ))}
           </CarouselContent>
+          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-white/20 text-white opacity-0 transition-opacity hover:bg-white/40 group-hover:opacity-100" />
+          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-white/20 text-white opacity-0 transition-opacity hover:bg-white/40 group-hover:opacity-100" />
         </Carousel>
       </section>
 
