@@ -50,8 +50,8 @@ export default function ProductsPage() {
 
   return (
     <div className="bg-background">
-      <div className="container py-12 md:py-16">
-        <div className="text-center mb-12">
+      <div className="container py-8 md:py-12">
+        <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold font-headline">Our Products</h1>
           <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Explore our full catalog of premium HVAC components.</p>
         </div>

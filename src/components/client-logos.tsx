@@ -5,9 +5,9 @@ const LOGOS = ["LG", "Daikin", "Blue Star", "Voltas", "Hitachi", "Carrier", "Tra
 
 export function ClientLogos() {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/50">
+    <section className="w-full py-12 md:py-16 lg:py-20 bg-muted/50">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">Trusted by Industry Leaders</h2>
             <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
