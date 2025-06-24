@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -31,20 +31,19 @@ import {
 import { Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Pie, PieChart, Cell } from "recharts";
 import { format, parseISO } from 'date-fns';
 import { products } from '@/lib/products';
+import { Skeleton } from '@/components/ui/skeleton';
 
-const enquiries = [
-  { id: "ENQ-001", name: "Alice Johnson", email: "alice@example.com", phone: "123-456-7890", product: "Linear Bar Grille", message: "I'd like to get a quote for 10 units for a commercial project.", date: "2023-10-26", status: "New" },
-  { id: "ENQ-002", name: "Bob Smith", email: "bob@example.com", phone: "234-567-8901", product: "Adjustable Air Diffuser", message: "What are the available sizes for this diffuser?", date: "2023-10-25", status: "Quote Sent" },
-  { id: "ENQ-003", name: "Charlie Brown", email: "charlie@example.com", phone: "345-678-9012", product: "Motorized Fire Damper", message: "Enquiring about bulk pricing for a new office building.", date: "2023-10-24", status: "In Production" },
-  { id: "ENQ-004", name: "Diana Prince", email: "diana@example.com", phone: "456-789-0123", product: "4-Way Ceiling Diffuser", message: "Please send me the technical specifications.", date: "2023-10-23", status: "Completed" },
-  { id: "ENQ-005", name: "Ethan Hunt", email: "ethan@example.com", phone: "567-890-1234", product: "Weatherproof Louvre", message: "Can this be customized to a specific color?", date: "2023-10-22", status: "Contacted" },
-  { id: "ENQ-006", name: "Fiona Glenanne", email: "fiona@example.com", phone: "678-901-2345", product: "Heavy-Duty Floor Grille", message: "What is the lead time for an order of 50?", date: "2023-10-21", status: "Cancelled" },
-  { id: "ENQ-007", name: "Bruce Wayne", email: "bruce@wayne.com", phone: "789-123-4567", product: "Circular Ceiling Grille", message: "Need a quote for 20 units.", date: "2023-10-26", status: "Completed" },
-  { id: "ENQ-008", name: "Clark Kent", email: "clark@dailyplanet.com", phone: "890-123-4567", product: "Linear Bar Grille", message: "What is the material?", date: "2023-10-27", status: "New" },
-  { id: "ENQ-009", name: "Peter Parker", email: "peter@bugle.com", phone: "901-234-5678", product: "Motorized Fire Damper", message: "Follow up on previous enquiry.", date: "2023-10-27", status: "Contacted" },
-];
-
-type Enquiry = (typeof enquiries)[0];
+// This is now the definitive type for an Enquiry
+type Enquiry = { 
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  product?: string;
+  message: string;
+  date: string;
+  status: "New" | "Contacted" | "Quote Sent" | "In Production" | "Completed" | "Cancelled";
+};
 
 const StatusBadge = ({ status }: { status: Enquiry["status"] }) => {
   const variant: "default" | "secondary" | "destructive" | "outline" =
@@ -55,23 +54,6 @@ const StatusBadge = ({ status }: { status: Enquiry["status"] }) => {
 
   return <Badge variant={variant} className="capitalize">{status}</Badge>;
 };
-
-// Process data for the growth chart
-const enquiriesByDate = enquiries.reduce((acc, enquiry) => {
-  const date = enquiry.date;
-  if (!acc[date]) {
-    acc[date] = 0;
-  }
-  acc[date]++;
-  return acc;
-}, {} as Record<string, number>);
-
-const lineChartData = Object.keys(enquiriesByDate)
-  .map(date => ({
-    date,
-    enquiries: enquiriesByDate[date],
-  }))
-  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
 const lineChartConfig = {
   enquiries: {
@@ -99,8 +81,17 @@ const pieChartConfig = {
 } satisfies ChartConfig;
 
 export function AdminDashboard() {
+  const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
+  useEffect(() => {
+    // Fetch enquiries from localStorage when the component mounts
+    const storedEnquiries = JSON.parse(localStorage.getItem('enquiries') || '[]');
+    setEnquiries(storedEnquiries);
+    setIsLoading(false);
+  }, []);
+  
   const totalEnquiries = enquiries.length;
   const inProduction = enquiries.filter(e => e.status === 'In Production').length;
   const completedEnquiries = enquiries.filter(e => e.status === 'Completed').length;
@@ -109,9 +100,27 @@ export function AdminDashboard() {
     return [...enquiries].sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
-      return sortOrder === 'asc' ? dateA - dateB : dateB - a.date.localeCompare(b.date);
+      return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
     });
-  }, [sortOrder]);
+  }, [sortOrder, enquiries]);
+
+  const lineChartData = useMemo(() => {
+    const enquiriesByDate = enquiries.reduce((acc, enquiry) => {
+      const date = enquiry.date;
+      if (!acc[date]) {
+        acc[date] = 0;
+      }
+      acc[date]++;
+      return acc;
+    }, {} as Record<string, number>);
+    
+    return Object.keys(enquiriesByDate)
+      .map(date => ({
+        date,
+        enquiries: enquiriesByDate[date],
+      }))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  }, [enquiries]);
 
   const pieData = useMemo(() => {
     const counts = enquiries.reduce(
@@ -132,10 +141,26 @@ export function AdminDashboard() {
       { status: 'completed', count: counts.completed, fill: 'var(--color-completed)' },
       { status: 'cancelled', count: counts.cancelled, fill: 'var(--color-cancelled)' },
     ];
-  }, []);
+  }, [enquiries]);
 
   const toggleSortOrder = () => {
     setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen w-full flex-col bg-muted/40 p-4 md:p-8">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <Skeleton className="h-[108px]" />
+          <Skeleton className="h-[108px]" />
+          <Skeleton className="h-[108px]" />
+        </div>
+        <div className="mt-8 grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
+          <Skeleton className="h-[350px] xl:col-span-2" />
+          <Skeleton className="h-[350px]" />
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -204,7 +229,7 @@ export function AdminDashboard() {
                                 <ResponsiveContainer width="100%" height="100%">
                                     <LineChart
                                         data={lineChartData}
-                                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                                        margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
                                     >
                                         <CartesianGrid strokeDasharray="3 3" />
                                         <XAxis 
@@ -233,44 +258,50 @@ export function AdminDashboard() {
                     </Card>
                 </div>
 
-                <div className="space-y-4 md:space-y-8">
-                  <Card>
+                <div className="space-y-4 md:space-y-8 xl:col-span-1">
+                  <Card className="h-full flex flex-col">
                       <CardHeader className="flex flex-row items-center justify-between">
                           <div>
                               <CardTitle>Enquiries</CardTitle>
-                              <CardDescription>The {sortedEnquiries.length} most recent customer enquiries.</CardDescription>
+                              <CardDescription>Your {sortedEnquiries.length} most recent enquiries.</CardDescription>
                           </div>
                           <Button variant="outline" size="sm" onClick={toggleSortOrder}>
                               <ArrowUpDown className="mr-2 h-4 w-4" />
-                              Sort by Date
+                              Sort
                           </Button>
                       </CardHeader>
-                      <CardContent>
-                          <Table>
-                              <TableHeader>
-                                  <TableRow>
-                                      <TableHead>Customer</TableHead>
-                                      <TableHead>Status</TableHead>
-                                      <TableHead className="text-right">Action</TableHead>
-                                  </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                  {sortedEnquiries.slice(0, 6).map((enquiry) => (
-                                  <TableRow key={enquiry.id}>
-                                      <TableCell>
-                                          <div className="font-medium">{enquiry.name}</div>
-                                          <div className="hidden text-sm text-muted-foreground md:inline">{enquiry.product}</div>
-                                      </TableCell>
-                                      <TableCell><StatusBadge status={enquiry.status as Enquiry['status']} /></TableCell>
-                                      <TableCell className="text-right">
-                                          <Button asChild size="sm" variant="outline">
-                                              <Link href={`/admin/enquiries/${enquiry.id}`}>Details <ExternalLink className="ml-2 h-3 w-3" /></Link>
-                                          </Button>
-                                      </TableCell>
-                                  </TableRow>
-                                  ))}
-                              </TableBody>
-                          </Table>
+                      <CardContent className="flex-grow overflow-y-auto">
+                           {sortedEnquiries.length > 0 ? (
+                               <Table>
+                                  <TableHeader>
+                                      <TableRow>
+                                          <TableHead>Customer</TableHead>
+                                          <TableHead>Status</TableHead>
+                                          <TableHead className="text-right">Action</TableHead>
+                                      </TableRow>
+                                  </TableHeader>
+                                  <TableBody>
+                                      {sortedEnquiries.slice(0, 6).map((enquiry) => (
+                                      <TableRow key={enquiry.id}>
+                                          <TableCell>
+                                              <div className="font-medium">{enquiry.name}</div>
+                                              <div className="hidden text-sm text-muted-foreground md:inline">{enquiry.product}</div>
+                                          </TableCell>
+                                          <TableCell><StatusBadge status={enquiry.status} /></TableCell>
+                                          <TableCell className="text-right">
+                                              <Button asChild size="sm" variant="outline">
+                                                  <Link href={`/admin/enquiries/${enquiry.id}`}>Details <ExternalLink className="ml-2 h-3 w-3" /></Link>
+                                              </Button>
+                                          </TableCell>
+                                      </TableRow>
+                                      ))}
+                                  </TableBody>
+                              </Table>
+                           ) : (
+                                <div className="flex items-center justify-center h-full text-center text-muted-foreground">
+                                    <p>No enquiries yet. <br /> New enquiries from the contact form will appear here.</p>
+                                </div>
+                           )}
                       </CardContent>
                   </Card>
                    <Card>

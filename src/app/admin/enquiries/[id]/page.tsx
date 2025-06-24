@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import {
   Card,
@@ -38,19 +38,20 @@ import {
   Edit,
 } from 'lucide-react';
 import Link from 'next/link';
+import { Skeleton } from '@/components/ui/skeleton';
 
-// Mock data - In a real app, this would be fetched from a database
-const enquiries = [
-  { id: "ENQ-001", name: "Alice Johnson", email: "alice@example.com", phone: "123-456-7890", product: "Linear Bar Grille", message: "I'd like to get a quote for 10 units for a commercial project. What is the lead time for this order?", date: "2023-10-26", status: "New" },
-  { id: "ENQ-002", name: "Bob Smith", email: "bob@example.com", phone: "234-567-8901", product: "Adjustable Air Diffuser", message: "What are the available sizes for this diffuser? Can you send me a spec sheet?", date: "2023-10-25", status: "Quote Sent" },
-  { id: "ENQ-003", name: "Charlie Brown", email: "charlie@example.com", phone: "345-678-9012", product: "Motorized Fire Damper", message: "Enquiring about bulk pricing for a new office building. We need around 50 dampers.", date: "2023-10-24", status: "In Production" },
-  { id: "ENQ-004", name: "Diana Prince", email: "diana@example.com", phone: "456-789-0123", product: "4-Way Ceiling Diffuser", message: "Please send me the technical specifications for the 4-way diffuser.", date: "2023-10-23", status: "Completed" },
-  { id: "ENQ-005", name: "Ethan Hunt", email: "ethan@example.com", phone: "567-890-1234", product: "Weatherproof Louvre", message: "Can this be customized to a specific RAL color? We need a dark bronze finish.", date: "2023-10-22", status: "Contacted" },
-  { id: "ENQ-006", name: "Fiona Glenanne", email: "fiona@example.com", phone: "678-901-2345", product: "Heavy-Duty Floor Grille", message: "What is the lead time for an order of 50 heavy-duty floor grilles?", date: "2023-10-21", status: "Cancelled" },
-];
+type EnquiryStatus = "New" | "Contacted" | "Quote Sent" | "In Production" | "Completed" | "Cancelled";
 
-type Enquiry = (typeof enquiries)[0];
-type EnquiryStatus = Enquiry['status'];
+type Enquiry = { 
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  product?: string;
+  message: string;
+  date: string;
+  status: EnquiryStatus;
+};
 
 const ALL_STATUSES: EnquiryStatus[] = ["New", "Contacted", "Quote Sent", "In Production", "Completed", "Cancelled"];
 
@@ -71,17 +72,58 @@ const StatusBadge = ({ status }: { status: EnquiryStatus }) => {
   );
 };
 
-// In a real app, you'd fetch a single enquiry based on the ID.
-function getEnquiryById(id: string) {
-  return enquiries.find((e) => e.id === id);
-}
-
 export default function EnquiryDetailsPage() {
   const params = useParams();
-  const initialEnquiry = getEnquiryById(params.id as string);
-  const [enquiry, setEnquiry] = useState(initialEnquiry);
-  const [selectedStatus, setSelectedStatus] = useState<EnquiryStatus | undefined>(enquiry?.status);
+  const [enquiry, setEnquiry] = useState<Enquiry | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [allEnquiries, setAllEnquiries] = useState<Enquiry[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<EnquiryStatus | undefined>(undefined);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (params.id) {
+      const storedEnquiries = JSON.parse(localStorage.getItem('enquiries') || '[]') as Enquiry[];
+      const foundEnquiry = storedEnquiries.find((e) => e.id === params.id);
+      
+      setAllEnquiries(storedEnquiries);
+      setEnquiry(foundEnquiry || null);
+
+      if (foundEnquiry) {
+        setSelectedStatus(foundEnquiry.status);
+      }
+      setIsLoading(false);
+    }
+  }, [params.id]);
+
+  const handleStatusUpdate = () => {
+    if (selectedStatus && enquiry) {
+      const updatedEnquiries = allEnquiries.map(e => 
+        e.id === enquiry.id ? { ...e, status: selectedStatus } : e
+      );
+      localStorage.setItem('enquiries', JSON.stringify(updatedEnquiries));
+      setEnquiry({ ...enquiry, status: selectedStatus });
+    }
+    setIsDialogOpen(false);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="bg-muted/40 min-h-screen">
+        <div className="container py-12 md:py-20">
+            <Skeleton className="h-8 w-40 mb-8" />
+            <div className="grid gap-8 md:grid-cols-3">
+              <div className="md:col-span-2 space-y-4">
+                <Skeleton className="h-[300px] w-full" />
+              </div>
+              <div className="space-y-6">
+                <Skeleton className="h-[200px] w-full" />
+                <Skeleton className="h-[150px] w-full" />
+              </div>
+            </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!enquiry) {
     return (
@@ -92,20 +134,12 @@ export default function EnquiryDetailsPage() {
         </p>
         <Button asChild className="mt-6">
           <Link href="/admin">
-            <ArrowLeft className="mr-2" /> Back to Dashboard
+            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
           </Link>
         </Button>
       </div>
     );
   }
-
-  const handleStatusUpdate = () => {
-    if (selectedStatus) {
-      setEnquiry({ ...enquiry, status: selectedStatus });
-      // In a real app, you would also make an API call to save this change to the database.
-    }
-    setIsDialogOpen(false);
-  };
 
   return (
     <div className="bg-muted/40 min-h-screen">
@@ -121,9 +155,9 @@ export default function EnquiryDetailsPage() {
           <div className="md:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle className="flex justify-between items-center font-heading">
+                <CardTitle className="flex flex-wrap justify-between items-center gap-2 font-heading">
                   <span>Enquiry Details</span>
-                  <StatusBadge status={enquiry.status as EnquiryStatus} />
+                  <StatusBadge status={enquiry.status} />
                 </CardTitle>
                 <CardDescription>Enquiry ID: {enquiry.id}</CardDescription>
               </CardHeader>
@@ -192,20 +226,22 @@ export default function EnquiryDetailsPage() {
                   <Mail className="h-4 w-4 text-muted-foreground" />
                   <a
                     href={`mailto:${enquiry.email}`}
-                    className="text-primary hover:underline"
+                    className="text-primary hover:underline break-all"
                   >
                     {enquiry.email}
                   </a>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="h-4 w-4 text-muted-foreground" />
-                  <a
-                    href={`tel:${enquiry.phone}`}
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    {enquiry.phone}
-                  </a>
-                </div>
+                 {enquiry.phone && (
+                    <div className="flex items-center gap-3">
+                      <Phone className="h-4 w-4 text-muted-foreground" />
+                      <a
+                        href={`tel:${enquiry.phone}`}
+                        className="text-muted-foreground hover:text-primary"
+                      >
+                        {enquiry.phone}
+                      </a>
+                    </div>
+                 )}
               </CardContent>
             </Card>
             <Card>
@@ -215,12 +251,14 @@ export default function EnquiryDetailsPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 text-sm">
-                <div className="flex items-center gap-3">
-                  <Package className="h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium text-foreground">
-                    {enquiry.product}
-                  </span>
-                </div>
+                {enquiry.product && (
+                  <div className="flex items-center gap-3">
+                    <Package className="h-4 w-4 text-muted-foreground" />
+                    <span className="font-medium text-foreground">
+                      {enquiry.product}
+                    </span>
+                  </div>
+                )}
                 <div className="flex items-center gap-3">
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                   <span className="text-muted-foreground">

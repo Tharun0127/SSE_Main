@@ -63,17 +63,40 @@ export function ContactForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(() => {
-      // In a real app, you would send this data to a server.
-      // For this demo, we'll simulate a network request.
+      // Simulate network request
       setTimeout(() => {
-        console.log(values);
-        
-        toast({
-          title: "Message Sent!",
-          description: "Thanks for contacting Sri Sai Enterprises. We'll be in touch soon.",
-        });
+        try {
+          const existingEnquiries = JSON.parse(localStorage.getItem('enquiries') || '[]');
+          
+          const newEnquiry = {
+            ...values,
+            id: `ENQ-${String(Date.now()).slice(-4)}-${String(Math.random()).slice(2, 6)}`, // Unique ID
+            date: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
+            status: 'New' as const,
+          };
 
-        form.reset();
+          const updatedEnquiries = [...existingEnquiries, newEnquiry];
+          localStorage.setItem('enquiries', JSON.stringify(updatedEnquiries));
+
+          toast({
+            title: "Message Sent!",
+            description: "Thanks for contacting Sri Sai Enterprises. We'll be in touch soon.",
+          });
+          
+          form.reset({ name: "", email: "", phone: "", product: "", message: "" });
+          // Manually reset product field if it was pre-filled
+          if (productQueryParam) {
+            form.setValue('product', '');
+          }
+
+        } catch (error) {
+          console.error("Failed to save enquiry:", error);
+          toast({
+            variant: "destructive",
+            title: "Submission Failed",
+            description: "Could not save your enquiry. Please try again later.",
+          });
+        }
       }, 1000);
     });
   }
@@ -136,6 +159,7 @@ export function ContactForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                      <SelectItem value="">None</SelectItem>
                       {products.map((product) => (
                         <SelectItem key={product.id} value={product.name}>
                           {product.name}
