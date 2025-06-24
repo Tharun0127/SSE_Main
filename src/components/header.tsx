@@ -22,8 +22,8 @@ export function Header() {
     <Link
       href={href}
       className={cn(
-        "font-medium transition-colors hover:text-primary",
-        pathname === href ? "text-primary" : "text-foreground/80",
+        "font-medium transition-colors text-foreground/60 hover:text-primary",
+        pathname === href && "text-primary",
         className
       )}
       onClick={() => setIsMobileMenuOpen(false)}
@@ -33,45 +33,50 @@ export function Header() {
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
-        <Link href="/" className="mr-auto flex items-center space-x-2">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 max-w-screen-2xl items-center">
+        <Link href="/" className="mr-6 flex items-center space-x-2">
           <Factory className="h-6 w-6 text-primary" />
           <span className="font-bold font-headline sm:inline-block text-lg">
             Sri Sai Enterprises
           </span>
         </Link>
-        <nav className="hidden md:flex gap-6">
+        <nav className="hidden md:flex gap-6 flex-1">
           {navLinks.map((link) => (
             <NavLink key={link.href} {...link} className="text-sm" />
           ))}
         </nav>
-        <div className="ml-4 md:hidden">
-          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle Menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="pr-0 w-[300px]">
-              <Link
-                href="/"
-                className="mr-6 flex items-center space-x-2 mb-8"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <Factory className="h-6 w-6 text-primary" />
-                <span className="font-bold font-headline sm:inline-block text-lg">
-                  Sri Sai Enterprises
-                </span>
-              </Link>
-              <div className="flex flex-col space-y-6">
-                {navLinks.map((link) => (
-                  <NavLink key={link.href} {...link} className="text-lg px-2" />
-                ))}
-              </div>
-            </SheetContent>
-          </Sheet>
+        <div className="flex items-center gap-4">
+            <Button asChild className="hidden sm:flex">
+                 <Link href="/contact">Get a Quote</Link>
+            </Button>
+            <div className="md:hidden">
+              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-6 w-6" />
+                    <span className="sr-only">Toggle Menu</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="pr-0 w-[300px] sm:w-[340px]">
+                  <Link
+                    href="/"
+                    className="mr-6 flex items-center space-x-2 mb-8"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Factory className="h-6 w-6 text-primary" />
+                    <span className="font-bold font-headline sm:inline-block text-lg">
+                      Sri Sai Enterprises
+                    </span>
+                  </Link>
+                  <div className="flex flex-col space-y-6">
+                    {navLinks.map((link) => (
+                      <NavLink key={link.href} {...link} className="text-lg px-2" />
+                    ))}
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
         </div>
       </div>
     </header>
