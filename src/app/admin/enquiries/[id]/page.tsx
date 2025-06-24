@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import {
   Card,
   CardContent,
@@ -75,12 +76,9 @@ function getEnquiryById(id: string) {
   return enquiries.find((e) => e.id === id);
 }
 
-export default function EnquiryDetailsPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const initialEnquiry = getEnquiryById(params.id);
+export default function EnquiryDetailsPage() {
+  const params = useParams();
+  const initialEnquiry = getEnquiryById(params.id as string);
   const [enquiry, setEnquiry] = useState(initialEnquiry);
   const [selectedStatus, setSelectedStatus] = useState<EnquiryStatus | undefined>(enquiry?.status);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
