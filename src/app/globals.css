@@ -4,31 +4,31 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 210 100% 13%;
+    --background: 240 8% 97%; /* Ivory Mist */
+    --foreground: 240 9% 20%; /* Graphite Grey */
     --card: 0 0% 100%;
-    --card-foreground: 210 100% 13%;
+    --card-foreground: 240 9% 20%; /* Graphite Grey */
     --popover: 0 0% 100%;
-    --popover-foreground: 210 100% 13%;
-    --primary: 210 100% 13%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 0 60% 95%;
-    --secondary-foreground: 210 100% 13%;
-    --muted: 210 30% 94%;
-    --muted-foreground: 210 10% 45%;
-    --accent: 2 77% 54%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 2 77% 54%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 210 20% 88%;
-    --input: 210 20% 88%;
-    --ring: 210 100% 13%;
+    --popover-foreground: 240 9% 20%; /* Graphite Grey */
+    --primary: 240 9% 20%; /* Graphite Grey */
+    --primary-foreground: 240 8% 97%; /* Ivory Mist */
+    --secondary: 76 6% 77%; /* Muted Olive */
+    --secondary-foreground: 240 9% 20%; /* Graphite Grey */
+    --muted: 60 13% 91%; /* Stone Taupe */
+    --muted-foreground: 240 4% 33%; /* Soft Charcoal */
+    --accent: 76 6% 77%; /* Muted Olive */
+    --accent-foreground: 240 9% 20%; /* Graphite Grey */
+    --destructive: 0 65% 55%; /* Inferred Muted Red */
+    --destructive-foreground: 240 8% 97%; /* Ivory Mist */
+    --border: 60 5% 83%; /* Ash Beige */
+    --input: 60 5% 83%; /* Ash Beige */
+    --ring: 240 9% 20%; /* Graphite Grey */
     --radius: 0.8rem;
-    --chart-1: 199 80% 50%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 54 80% 60%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --chart-1: 240 9% 20%; /* Graphite Grey */
+    --chart-2: 76 6% 77%; /* Muted Olive */
+    --chart-3: 240 4% 33%; /* Soft Charcoal */
+    --chart-4: 60 5% 83%; /* Ash Beige */
+    --chart-5: 60 13% 91%; /* Stone Taupe */
   }
 }
 
