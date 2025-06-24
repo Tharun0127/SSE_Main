@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Factory, Menu } from "lucide-react";
+import { Wind, Menu } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
-  { href: "/contact", label: "Contact Us" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Header() {
@@ -22,7 +22,7 @@ export function Header() {
     <Link
       href={href}
       className={cn(
-        "font-medium transition-colors text-foreground/60 hover:text-primary",
+        "font-medium text-lg md:text-sm transition-colors text-foreground/70 hover:text-primary",
         pathname === href && "text-primary",
         className
       )}
@@ -33,50 +33,47 @@ export function Header() {
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 max-w-screen-2xl items-center">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
-          <Factory className="h-6 w-6 text-primary" />
-          <span className="font-bold font-headline sm:inline-block text-lg">
-            Sri Sai Enterprises
+    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/90 backdrop-blur-lg">
+      <div className="container flex h-20 items-center justify-between">
+        <Link href="/" className="flex items-center gap-2">
+          <Wind className="h-7 w-7 text-primary" />
+          <span className="font-bold font-heading text-xl">
+            Cool Breeze
           </span>
         </Link>
-        <nav className="hidden md:flex gap-6 flex-1">
+        
+        <nav className="hidden md:flex gap-x-6 items-center">
           {navLinks.map((link) => (
-            <NavLink key={link.href} {...link} className="text-sm" />
+            <NavLink key={link.href} {...link} />
           ))}
         </nav>
-        <div className="flex items-center gap-4">
-            <Button asChild className="hidden sm:flex">
-                 <Link href="/contact">Get a Quote</Link>
-            </Button>
-            <div className="md:hidden">
-              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Menu className="h-6 w-6" />
-                    <span className="sr-only">Toggle Menu</span>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="left" className="pr-0 w-[300px] sm:w-[340px]">
-                  <Link
-                    href="/"
-                    className="mr-6 flex items-center space-x-2 mb-8"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Factory className="h-6 w-6 text-primary" />
-                    <span className="font-bold font-headline sm:inline-block text-lg">
-                      Sri Sai Enterprises
-                    </span>
-                  </Link>
-                  <div className="flex flex-col space-y-6">
-                    {navLinks.map((link) => (
-                      <NavLink key={link.href} {...link} className="text-lg px-2" />
-                    ))}
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
+
+        <div className="flex items-center gap-2">
+           <Button asChild className="hidden sm:flex" size="sm">
+              <Link href="/contact">Contact Us</Link>
+           </Button>
+
+           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Toggle Menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px]">
+              <div className="flex items-center gap-2 mb-8">
+                <Wind className="h-7 w-7 text-primary" />
+                <span className="font-bold font-heading text-xl">
+                  Cool Breeze
+                </span>
+              </div>
+              <nav className="flex flex-col gap-y-6">
+                {navLinks.map((link) => (
+                  <NavLink key={link.href} {...link} />
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

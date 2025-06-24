@@ -55,7 +55,7 @@ export function ContactForm() {
         
         toast({
           title: "Message Sent!",
-          description: "Thanks for reaching out. We'll get back to you soon.",
+          description: "Thanks for contacting Cool Breeze. We'll be in touch soon.",
         });
 
         form.reset();
@@ -65,7 +65,7 @@ export function ContactForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="name"
@@ -112,7 +112,7 @@ export function ContactForm() {
         />
         <Button type="submit" className="w-full font-semibold" disabled={isPending}>
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Submit
+          Submit Message
         </Button>
       </form>
     </Form>

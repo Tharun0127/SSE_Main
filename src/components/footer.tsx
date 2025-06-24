@@ -1,5 +1,6 @@
-import { Factory, Facebook, Twitter, Instagram } from 'lucide-react';
+import { Wind, Facebook, Twitter, Instagram } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from './ui/button';
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -12,47 +13,44 @@ export function Footer() {
 
   return (
     <footer className="bg-secondary">
-      <div className="container py-12 mx-auto">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <Factory className="h-8 w-8 text-primary" />
-              <span className="font-bold text-xl font-headline text-primary-foreground">Sri Sai Enterprises</span>
+      <div className="container py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            <div className="flex items-center gap-2 justify-center md:justify-start">
+              <Wind className="h-7 w-7 text-primary" />
+              <span className="font-bold font-heading text-xl text-secondary-foreground">
+                Cool Breeze
+              </span>
             </div>
-            <p className="text-muted-foreground text-sm max-w-xs">
-              Providing top-tier Grills, Diffusers, and Dampers for optimal HVAC performance for over 20 years.
-            </p>
-          </div>
-          <div className="md:justify-self-center">
-            <h3 className="font-semibold text-primary-foreground mb-4 font-headline">Quick Links</h3>
-            <ul className="space-y-2">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="md:justify-self-end">
-            <h3 className="font-semibold text-primary-foreground mb-4 font-headline">Follow Us</h3>
-            <div className="flex space-x-4">
-              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Facebook className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Twitter className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Instagram className="h-5 w-5" />
-              </Link>
+
+            <nav className="flex justify-center gap-x-6">
+                 {navLinks.map((link) => (
+                    <Link key={link.href} href={link.href} className="text-sm font-medium text-secondary-foreground/80 hover:text-primary transition-colors">
+                        {link.label}
+                    </Link>
+                ))}
+            </nav>
+          
+            <div className="flex justify-center md:justify-end gap-x-3">
+              <Button variant="ghost" size="icon" asChild>
+                <Link href="#">
+                    <Facebook className="h-5 w-5 text-secondary-foreground/80" />
+                </Link>
+              </Button>
+              <Button variant="ghost" size="icon" asChild>
+                <Link href="#">
+                    <Twitter className="h-5 w-5 text-secondary-foreground/80" />
+                </Link>
+              </Button>
+              <Button variant="ghost" size="icon" asChild>
+                <Link href="#">
+                    <Instagram className="h-5 w-5 text-secondary-foreground/80" />
+                </Link>
+              </Button>
             </div>
-          </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-border/40 text-center">
+        <div className="mt-8 pt-8 border-t border-border/40 text-center">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} Sri Sai Enterprises. All rights reserved.
+            © {currentYear} Cool Breeze. All rights reserved.
           </p>
         </div>
       </div>

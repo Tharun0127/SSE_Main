@@ -3,23 +3,24 @@ import './globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster";
-import { Poppins, Roboto } from 'next/font/google';
+import { Poppins, PT_Sans } from 'next/font/google';
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: 'Sri Sai Enterprises',
-  description: 'Premium HVAC components for commercial and residential use.',
+  title: 'Cool Breeze',
+  description: 'Premium air cooling products for modern living.',
 };
 
-const headlineFont = Poppins({
+const fontHeading = Poppins({
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
-  variable: '--font-headline',
+  weight: ['400', '600', '700', '800'],
+  variable: '--font-heading',
 });
 
-const bodyFont = Roboto({
+const fontSans = PT_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  variable: '--font-body',
+  weight: ['400', '700'],
+  variable: '--font-sans',
 });
 
 export default function RootLayout({
@@ -28,8 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`scroll-smooth dark ${headlineFont.variable} ${bodyFont.variable}`}>
-      <body className="font-body antialiased bg-background text-foreground">
+    <html lang="en" className="scroll-smooth">
+      <body className={cn("font-sans antialiased", fontSans.variable, fontHeading.variable)}>
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-grow">{children}</main>
