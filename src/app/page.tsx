@@ -166,11 +166,31 @@ export default function Home() {
                     Discover our most popular cooling solutions, loved by customers for their performance and style.
                 </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div className="md:hidden">
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: true,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-4">
+                  {featuredProducts.map((product) => (
+                    <CarouselItem key={product.id} className="pl-4 basis-4/5">
+                      <ProductCard product={product} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+            </div>
+
+            <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {featuredProducts.map((product) => (
                     <ProductCard key={product.id} product={product} />
                 ))}
             </div>
+
             <div className="text-center mt-16">
                 <Button asChild size="lg" variant="outline">
                     <Link href="/products">View All Products <ArrowRight className="ml-2"/></Link>

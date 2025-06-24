@@ -21,10 +21,10 @@ export function ProductCard({ product }: { product: Product }) {
         <CardTitle className="font-heading mb-2 text-xl">{product.name}</CardTitle>
         <CardDescription className="text-base flex-grow mb-6 text-muted-foreground">{product.description}</CardDescription>
         <div className="flex justify-between items-center mt-auto pt-4 border-t">
-          <p className="text-2xl font-bold font-heading text-foreground">{product.price}</p>
+          <p className="text-lg font-semibold font-heading text-muted-foreground">Request a Quote</p>
           <Button asChild>
             <Link href="/contact">
-              Get a Quote
+              Enquiry
             </Link>
           </Button>
         </div>

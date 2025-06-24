@@ -34,14 +34,10 @@ export default {
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
-          dark: '#3A6D8C',
-          light: '#6A9AB0',
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
-          dark: '#E2DAD6',
-          light: '#3A6D8C',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
@@ -50,8 +46,6 @@ export default {
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
-          dark: '#cc1f1a',
-          light: '#ef5753',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
@@ -67,14 +61,6 @@ export default {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
-        neutral: {
-          DEFAULT: '#f8fafc',
-          dark: '#dae1e7',
-          light: '#ffffff',
-        },
-        'custom-blue': '#005F73',
-        'custom-yellow': '#FFDD67',
-        'custom-green': '#1F8A70',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -107,12 +93,17 @@ export default {
             opacity: '1',
             transform: 'translateY(0)',
           },
-        }
+        },
+        'infinite-scroll': {
+            '0%': { transform: 'translateX(0)' },
+            '100%': { transform: 'translateX(-50%)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
+        'infinite-scroll': 'infinite-scroll 25s linear infinite',
       },
     },
   },
