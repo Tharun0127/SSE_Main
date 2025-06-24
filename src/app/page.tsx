@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { ClientLogos } from "@/components/client-logos";
 
 export default function Home() {
 
@@ -68,6 +69,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <ClientLogos />
     </div>
   );
 }
