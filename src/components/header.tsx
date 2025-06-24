@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Wind, Menu } from "lucide-react";
+import { Factory, Menu } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -35,18 +35,18 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
-          <Wind className="h-6 w-6 text-primary" />
+        <Link href="/" className="flex items-center space-x-2">
+          <Factory className="h-6 w-6 text-primary" />
           <span className="font-bold font-headline sm:inline-block text-lg">
-            Cool Breeze
+            HVAC Solutions
           </span>
         </Link>
-        <nav className="hidden gap-6 md:flex flex-1">
+        <nav className="ml-auto hidden md:flex gap-6">
           {navLinks.map((link) => (
             <NavLink key={link.href} {...link} className="text-sm" />
           ))}
         </nav>
-        <div className="flex items-center justify-end md:hidden">
+        <div className="ml-4 md:hidden">
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -60,9 +60,9 @@ export function Header() {
                 className="mr-6 flex items-center space-x-2 mb-8"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <Wind className="h-6 w-6 text-primary" />
+                <Factory className="h-6 w-6 text-primary" />
                 <span className="font-bold font-headline sm:inline-block text-lg">
-                  Cool Breeze
+                  HVAC Solutions
                 </span>
               </Link>
               <div className="flex flex-col space-y-6">

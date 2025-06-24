@@ -5,8 +5,8 @@ import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'Cool Breeze',
-  description: 'High-quality air cooling products',
+  title: 'HVAC Solutions',
+  description: 'Premium HVAC components for commercial and residential use.',
 };
 
 export default function RootLayout({

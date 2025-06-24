@@ -35,16 +35,25 @@ function ProductCard({ product }: { product: Product }) {
 }
 
 export default function ProductsPage() {
+  const categories = Array.from(new Set(products.map(p => p.category)));
+
   return (
     <div className="bg-background">
       <div className="container py-12 md:py-16">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold font-headline">Our Products</h1>
-          <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Explore our full catalog of premium air cooling solutions.</p>
+          <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Explore our full catalog of premium HVAC components.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+        <div className="space-y-16">
+          {categories.map((category) => (
+            <section key={category}>
+              <h2 className="text-3xl font-bold font-headline mb-8 border-b-2 border-primary pb-2">{category}</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {products.filter(p => p.category === category).map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            </section>
           ))}
         </div>
       </div>

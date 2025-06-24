@@ -1,12 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { products } from "@/lib/products";
 import { ArrowRight } from "lucide-react";
 
 export default function Home() {
-  const featuredProducts = products.filter((product) => product.featured);
 
   return (
     <div className="flex flex-col">
@@ -16,10 +13,10 @@ export default function Home() {
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline">
-                  Stay Cool, Live Better
+                  Engineered for Excellence in Air Management
                 </h1>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  Discover our innovative range of air cooling solutions designed for ultimate comfort and efficiency.
+                  Providing top-tier Grills, Diffusers, and Dampers for optimal HVAC performance.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -31,7 +28,7 @@ export default function Home() {
                 </Button>
                 <Button asChild size="lg" variant="outline" className="font-semibold">
                   <Link href="/contact">
-                    Contact Sales
+                    Contact Us
                   </Link>
                 </Button>
               </div>
@@ -40,49 +37,34 @@ export default function Home() {
               src="https://placehold.co/600x500.png"
               width="600"
               height="500"
-              alt="Hero Product"
-              data-ai-hint="modern living room"
+              alt="Modern building with HVAC vents"
+              data-ai-hint="modern architecture vents"
               className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square"
             />
           </div>
         </div>
       </section>
 
-      <section id="features" className="w-full py-12 md:py-24 lg:py-32">
+      <section id="about-us" className="w-full py-12 md:py-24 lg:py-32 bg-card">
         <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-semibold">Featured Products</div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">Cooling You Can Count On</h2>
-              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Check out our top-rated products, loved by customers for their performance, design, and reliability.
-              </p>
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-24">
+            <div className="flex flex-col justify-center space-y-4">
+              <div className="space-y-2">
+                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-semibold">About Us</div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">Decades of Dedication to Quality</h2>
+                <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  At HVAC Solutions, we are committed to engineering excellence. For over 20 years, we have been a leading manufacturer of high-quality HVAC components, delivering innovative and reliable solutions for commercial and residential projects worldwide. Our mission is to enhance air management through superior design, performance, and customer service.
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:max-w-none lg:grid-cols-3 pt-12">
-            {featuredProducts.map((product) => (
-              <Card key={product.id} className="h-full flex flex-col transition-shadow duration-300 hover:shadow-xl">
-                <CardHeader className="p-0">
-                  <div className="aspect-video relative">
-                    <Image
-                      src={product.imageUrl}
-                      alt={product.name}
-                      fill
-                      className="rounded-t-lg object-cover"
-                      data-ai-hint={product.imageHint}
-                    />
-                  </div>
-                </CardHeader>
-                <CardContent className="flex flex-col flex-grow p-6">
-                  <CardTitle className="font-headline mb-2">{product.name}</CardTitle>
-                  <CardDescription className="flex-grow">{product.description}</CardDescription>
-                  <p className="text-lg font-semibold mt-4">{product.price}</p>
-                   <Button asChild className="mt-4 w-full font-semibold">
-                    <Link href="/products">View Details</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+            <Image
+              alt="Factory"
+              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
+              height="400"
+              src="https://placehold.co/600x400.png"
+              data-ai-hint="HVAC factory"
+              width="600"
+            />
           </div>
         </div>
       </section>
