@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <Card className="h-full flex flex-col overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 bg-card border">
+    <Card className="h-full flex flex-col overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border">
        <CardHeader className="p-0 relative aspect-square">
           <Image
             src={product.imageUrl}
@@ -16,12 +16,12 @@ export function ProductCard({ product }: { product: Product }) {
             data-ai-hint={product.imageHint}
           />
         </CardHeader>
-      <CardContent className="p-6 flex flex-col flex-grow">
+      <CardContent className="p-4 flex flex-col flex-grow">
         <p className="text-sm text-primary font-semibold mb-1">{product.category}</p>
-        <CardTitle className="font-heading mb-2 text-xl">{product.name}</CardTitle>
-        <CardDescription className="text-base flex-grow mb-6 text-muted-foreground">{product.description}</CardDescription>
+        <CardTitle className="font-heading mb-1 text-lg">{product.name}</CardTitle>
+        <CardDescription className="text-sm flex-grow mb-4 text-muted-foreground">{product.description}</CardDescription>
         <div className="flex justify-between items-center mt-auto pt-4 border-t">
-          <p className="text-lg font-semibold font-heading text-muted-foreground">Request a Quote</p>
+          <p className="text-base font-semibold font-heading text-muted-foreground">Request a Quote</p>
           <Button asChild>
             <Link href="/contact">
               Enquiry

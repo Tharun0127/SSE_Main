@@ -7,13 +7,11 @@ import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronLeft, ChevronRight, Zap, Thermometer, Leaf, LayoutGrid, AirVent, SlidersHorizontal, MoreHorizontal } from "lucide-react";
+import { ArrowRight, Zap, Thermometer, Leaf } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
@@ -89,7 +87,7 @@ export default function Home() {
           <CarouselContent className="-ml-0">
             {slides.map((slide, index) => (
               <CarouselItem key={index} className="pl-0">
-                <div className="min-h-[calc(100vh-4rem)] w-full relative flex items-center justify-center">
+                <div className="min-h-[500px] md:min-h-[600px] lg:min-h-[700px] w-full relative flex items-center justify-center">
                   <Image
                     src={slide.image}
                     alt={slide.title}
@@ -104,7 +102,7 @@ export default function Home() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.2 }}
-                        className="text-4xl md:text-6xl lg:text-7xl font-extrabold font-heading tracking-tight drop-shadow-lg max-w-4xl"
+                        className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight drop-shadow-lg max-w-4xl"
                       >
                           {slide.title}
                       </motion.h1>}
@@ -112,7 +110,7 @@ export default function Home() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.4 }}
-                        className="max-w-2xl text-primary-foreground/80 md:text-xl mt-6 mx-auto drop-shadow-md"
+                        className="max-w-2xl text-primary-foreground/80 md:text-lg mt-6 mx-auto drop-shadow-md"
                       >
                           {slide.description}
                       </motion.p>}
@@ -136,9 +134,9 @@ export default function Home() {
         </Carousel>
       </section>
 
-      <section id="why-us" className="w-full py-16 md:py-24 bg-background">
+      <section id="why-us" className="w-full py-12 md:py-20 bg-background">
         <div className="container">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Why Choose Cool Breeze?</h2>
             <p className="mt-4 text-lg text-muted-foreground">
               We blend cutting-edge technology with sophisticated design to create air cooling products that elevate your comfort and your home.
@@ -148,8 +146,8 @@ export default function Home() {
             {features.map((feature, index) => (
               <Card key={index} className="text-center p-6 bg-card rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div className="flex justify-center mb-4">
-                  <div className="p-4 bg-primary/10 rounded-full">
-                    <feature.icon className="h-8 w-8 text-primary" />
+                  <div className="p-3 bg-primary/10 rounded-full">
+                    <feature.icon className="h-7 w-7 text-primary" />
                   </div>
                 </div>
                 <h3 className="text-xl font-bold font-heading mb-2">{feature.title}</h3>
@@ -160,16 +158,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="featured-products" className="w-full py-16 md:py-24 bg-muted/50">
+      <section id="featured-products" className="w-full py-12 md:py-20 bg-muted/50">
         <div className="container">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Featured Products</h2>
             <p className="mt-4 text-lg text-muted-foreground">
               Discover our top-rated and most popular products, handpicked for their quality and performance.
             </p>
           </div>
           <Tabs defaultValue="All" className="w-full">
-            <div className="flex justify-center mb-12">
+            <div className="flex justify-center mb-10">
               <TabsList className="grid grid-cols-2 sm:grid-cols-5 w-full max-w-lg">
                 {categories.map((category) => (
                   <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
@@ -178,7 +176,7 @@ export default function Home() {
             </div>
 
             <TabsContent value="All">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {featuredProducts.slice(0, 3).map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
@@ -192,7 +190,7 @@ export default function Home() {
 
             {categories.filter(c => c !== 'All').map((category) => (
               <TabsContent key={category} value={category}>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {products.filter(p => p.category === category).slice(0, 3).map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
