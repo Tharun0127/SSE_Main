@@ -1,49 +1,102 @@
+
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import * as React from "react";
+import Autoplay from "embla-carousel-autoplay";
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { ClientLogos } from "@/components/client-logos";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
+const slides = [
+  {
+    title: "Engineered for Excellence in Air Management",
+    description: "Providing top-tier Grills, Diffusers, and Dampers for optimal HVAC performance.",
+    image: "https://placehold.co/1920x1080.png",
+    imageHint: "modern architecture vents",
+    link: "/products",
+    linkLabel: "Explore Products"
+  },
+  {
+    title: "Decades of Dedication to Quality",
+    description: "For over 20 years, we have been a leading manufacturer of high-quality HVAC components, delivering innovative and reliable solutions.",
+    image: "https://placehold.co/1920x1080.png",
+    imageHint: "HVAC factory",
+    link: "/#about-us",
+    linkLabel: "About Us"
+  },
+  {
+    title: "Innovative Solutions for Every Project",
+    description: "From large commercial buildings to custom residential homes, our products are designed to meet the most demanding specifications.",
+    image: "https://placehold.co/1920x1080.png",
+    imageHint: "building blueprint HVAC",
+    link: "/contact",
+    linkLabel: "Contact Us"
+  }
+];
 
 export default function Home() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true })
+  );
 
   return (
     <div className="flex flex-col">
-      <section className="w-full py-12 md:py-20 lg:py-28 bg-gradient-to-br from-background to-blue-50">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline">
-                  Engineered for Excellence in Air Management
-                </h1>
-                <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  Providing top-tier Grills, Diffusers, and Dampers for optimal HVAC performance.
-                </p>
-              </div>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button asChild size="lg" className="font-semibold">
-                  <Link href="/products">
-                    Explore Products
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="font-semibold">
-                  <Link href="/contact">
-                    Contact Us
-                  </Link>
-                </Button>
-              </div>
-            </div>
-            <Image
-              src="https://placehold.co/600x500.png"
-              width="600"
-              height="500"
-              alt="Modern building with HVAC vents"
-              data-ai-hint="modern architecture vents"
-              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square"
-            />
-          </div>
-        </div>
+      <section className="w-full relative bg-background">
+        <Carousel
+          plugins={[plugin.current]}
+          className="w-full"
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
+          opts={{
+              loop: true,
+          }}
+        >
+          <CarouselContent className="-ml-0">
+            {slides.map((slide, index) => (
+              <CarouselItem key={index} className="pl-0">
+                <div className="h-[70vh] w-full relative">
+                  <Image
+                    src={slide.image}
+                    alt={slide.title}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={slide.imageHint}
+                    priority={index === 0}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20" />
+                  <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white p-4">
+                    <div className="container">
+                        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-white drop-shadow-lg">
+                            {slide.title}
+                        </h1>
+                        <p className="max-w-[700px] mx-auto text-neutral-200 md:text-xl mt-4 drop-shadow-md">
+                            {slide.description}
+                        </p>
+                        <Button asChild size="lg" className="mt-8 font-semibold">
+                          <Link href={slide.link}>
+                            {slide.linkLabel}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Link>
+                        </Button>
+                    </div>
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden md:flex text-white bg-black/30 hover:bg-black/50 border-white/50 hover:border-white" />
+          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden md:flex text-white bg-black/30 hover:bg-black/50 border-white/50 hover:border-white" />
+        </Carousel>
       </section>
 
       <section id="about-us" className="w-full py-12 md:py-16 lg:py-20 bg-card">
