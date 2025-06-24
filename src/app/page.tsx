@@ -93,8 +93,8 @@ export default function Home() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:text-white/80" />
-          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:text-white/80" />
+          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 opacity-0 transition-opacity group-hover:opacity-100" />
+          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 opacity-0 transition-opacity group-hover:opacity-100" />
         </Carousel>
       </section>
 
