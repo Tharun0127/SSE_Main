@@ -16,7 +16,7 @@ import {
 
 const slides = [
   {
-    title: "Engineered for Excellence in Air Management",
+    title: "Slide 1: Engineered for Excellence",
     description: "Providing top-tier Grills, Diffusers, and Dampers for optimal HVAC performance.",
     image: "https://placehold.co/1920x1080.png",
     imageHint: "modern architecture vents",
@@ -24,7 +24,7 @@ const slides = [
     linkLabel: "Explore Products"
   },
   {
-    title: "Decades of Dedication to Quality",
+    title: "Slide 2: Decades of Dedication",
     description: "For over 20 years, we have been a leading manufacturer of high-quality HVAC components, delivering innovative and reliable solutions.",
     image: "https://placehold.co/1920x1080.png",
     imageHint: "HVAC factory",
@@ -32,7 +32,7 @@ const slides = [
     linkLabel: "About Us"
   },
   {
-    title: "Innovative Solutions for Every Project",
+    title: "Slide 3: Innovative Solutions",
     description: "From large commercial buildings to custom residential homes, our products are designed to meet the most demanding specifications.",
     image: "https://placehold.co/1920x1080.png",
     imageHint: "building blueprint HVAC",
@@ -43,7 +43,7 @@ const slides = [
 
 export default function Home() {
   const plugin = React.useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true })
+    Autoplay({ delay: 2000, stopOnInteraction: true })
   );
 
   return (
