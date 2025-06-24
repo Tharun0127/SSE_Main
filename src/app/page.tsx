@@ -64,30 +64,17 @@ const features = [
   },
 ];
 
-const categories = [
-  {
-    name: "Grills",
-    icon: LayoutGrid,
-    href: "/products",
-  },
-  {
-    name: "Diffusers",
-    icon: AirVent,
-    href: "/products",
-  },
-  {
-    name: "Dampers",
-    icon: SlidersHorizontal,
-    href: "/products",
-  },
-  {
-    name: "Others",
-    icon: MoreHorizontal,
-    href: "/products",
-  }
+const categoriesData = [
+  { name: "Grills" },
+  { name: "Diffusers" },
+  { name: "Dampers" },
+  { name: "Others" },
 ];
 
-const featuredProducts = products.filter(p => p.featured);
+const productsByCategories = categoriesData.map(category => ({
+  ...category,
+  products: products.filter(p => p.category === category.name).slice(0, 3)
+}));
 
 export default function Home() {
   const plugin = React.useRef(
@@ -181,67 +168,29 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="featured-products" className="w-full py-16 md:py-24 bg-muted/50">
-        <div className="container">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-                <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Featured Products</h2>
-                <p className="mt-4 text-lg text-muted-foreground">
-                    Discover our most popular cooling solutions, loved by customers for their performance and style.
-                </p>
-            </div>
-            
-            <div className="md:hidden">
-              <Carousel
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-                className="w-full"
-              >
-                <CarouselContent className="-ml-4">
-                  {featuredProducts.map((product) => (
-                    <CarouselItem key={product.id} className="pl-4 basis-4/5">
-                      <ProductCard product={product} />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-              </Carousel>
-            </div>
-
-            <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {featuredProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
-            </div>
-
-            <div className="text-center mt-16">
-                <Button asChild size="lg" variant="outline">
-                    <Link href="/products">View All Products <ArrowRight className="ml-2"/></Link>
-                </Button>
-            </div>
-        </div>
-      </section>
-      
-      <section id="categories" className="w-full py-16 md:py-24 bg-background">
+      <section id="categories" className="w-full py-16 md:py-24 bg-muted/50">
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Browse By Category</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Shop By Category</h2>
             <p className="mt-4 text-lg text-muted-foreground">
               Find the perfect HVAC components for your needs by exploring our specialized categories.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {categories.map((category) => (
-              <Link href={category.href} key={category.name}>
-                <Card className="text-center p-6 bg-card rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group">
-                  <div className="flex justify-center mb-4">
-                    <div className="p-4 bg-primary/10 rounded-full transition-colors group-hover:bg-primary">
-                      <category.icon className="h-8 w-8 text-primary transition-colors group-hover:text-primary-foreground" />
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-bold font-heading mb-2">{category.name}</h3>
-                </Card>
-              </Link>
+          <div className="space-y-20">
+            {productsByCategories.map((category) => (
+              <div key={category.name}>
+                <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-8">
+                  <h3 className="text-2xl md:text-3xl font-bold font-heading mb-4 sm:mb-0">{category.name}</h3>
+                  <Button asChild variant="outline">
+                    <Link href={`/products?category=${category.name}`}>View All {category.name} <ArrowRight className="ml-2"/></Link>
+                  </Button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {category.products.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>
