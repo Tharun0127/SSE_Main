@@ -5,6 +5,7 @@ import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster";
 import { Poppins, PT_Sans } from 'next/font/google';
 import { cn } from '@/lib/utils';
+import { WhatsAppWidget } from '@/components/whatsapp-widget';
 
 export const metadata: Metadata = {
   title: 'Sri Sai Enterprises',
@@ -37,6 +38,7 @@ export default function RootLayout({
           <Footer />
         </div>
         <Toaster />
+        <WhatsAppWidget />
       </body>
     </html>
   );

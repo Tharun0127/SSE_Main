@@ -17,6 +17,7 @@ import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ClientLogos } from "@/components/client-logos";
 
 const slides = [
   {
@@ -28,20 +29,20 @@ const slides = [
     linkLabel: "Explore Products"
   },
   {
-    title: "Engineered for Silence",
-    description: "Our whisper-quiet technology ensures you get powerful air management without the noise. Perfect for bedrooms and offices.",
+    title: "20 Years of Excellence",
+    description: "Learn about our journey and commitment to quality in the HVAC industry.",
     image: "https://placehold.co/1920x1080.png",
     imageHint: "serene bedroom minimalist",
-    link: "/products",
-    linkLabel: "See Our Fans"
+    link: "/about",
+    linkLabel: "About Us"
   },
   {
-    title: "Smart, Efficient, & Eco-Friendly",
-    description: "Lower your energy bills and your carbon footprint with our ENERGY STAR® certified HVAC systems.",
+    title: "Have a Question?",
+    description: "Our team is ready to assist you with product information, quotes, and support.",
     image: "https://placehold.co/1920x1080.png",
     imageHint: "green leaf technology",
-    link: "/products",
-    linkLabel: "Learn More"
+    link: "/contact",
+    linkLabel: "Send an Enquiry"
   }
 ];
 
@@ -205,6 +206,7 @@ export default function Home() {
           </Tabs>
         </div>
       </section>
+      <ClientLogos />
     </div>
   );
 }
