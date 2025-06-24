@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Package, Users, BarChart as BarChartIcon, ExternalLink, ArrowUpDown } from "lucide-react";
+import { MoreHorizontal, Package, Users, BarChart as BarChartIcon, ExternalLink, ArrowUpDown, ShoppingBag } from "lucide-react";
 import {
   ChartContainer,
   ChartTooltip,
@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/chart"
 import { Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
 import { format, parseISO } from 'date-fns';
+import { products } from '@/lib/products';
 
 const enquiries = [
   { id: "ENQ-001", name: "Alice Johnson", email: "alice@example.com", phone: "123-456-7890", product: "Linear Bar Grille", message: "I'd like to get a quote for 10 units for a commercial project.", date: "2023-10-26", status: "New" },
@@ -165,45 +166,61 @@ export function AdminDashboard() {
                         </ChartContainer>
                     </CardContent>
                 </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between">
-                        <div>
-                            <CardTitle>Enquiries</CardTitle>
-                            <CardDescription>The {sortedEnquiries.length} most recent customer enquiries.</CardDescription>
-                        </div>
-                        <Button variant="outline" size="sm" onClick={toggleSortOrder}>
-                            <ArrowUpDown className="mr-2 h-4 w-4" />
-                            Sort by Date
-                        </Button>
-                    </CardHeader>
-                    <CardContent>
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Customer</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead className="text-right">Action</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {sortedEnquiries.slice(0, 6).map((enquiry) => (
-                                <TableRow key={enquiry.id}>
-                                    <TableCell>
-                                        <div className="font-medium">{enquiry.name}</div>
-                                        <div className="hidden text-sm text-muted-foreground md:inline">{enquiry.product}</div>
-                                    </TableCell>
-                                    <TableCell><StatusBadge status={enquiry.status as Enquiry['status']} /></TableCell>
-                                    <TableCell className="text-right">
-                                        <Button asChild size="sm" variant="outline">
-                                            <Link href={`/admin/enquiries/${enquiry.id}`}>Details <ExternalLink className="ml-2 h-3 w-3" /></Link>
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </CardContent>
-                </Card>
+                <div className="space-y-4 md:space-y-8">
+                  <Card>
+                      <CardHeader className="flex flex-row items-center justify-between">
+                          <div>
+                              <CardTitle>Enquiries</CardTitle>
+                              <CardDescription>The {sortedEnquiries.length} most recent customer enquiries.</CardDescription>
+                          </div>
+                          <Button variant="outline" size="sm" onClick={toggleSortOrder}>
+                              <ArrowUpDown className="mr-2 h-4 w-4" />
+                              Sort by Date
+                          </Button>
+                      </CardHeader>
+                      <CardContent>
+                          <Table>
+                              <TableHeader>
+                                  <TableRow>
+                                      <TableHead>Customer</TableHead>
+                                      <TableHead>Status</TableHead>
+                                      <TableHead className="text-right">Action</TableHead>
+                                  </TableRow>
+                              </TableHeader>
+                              <TableBody>
+                                  {sortedEnquiries.slice(0, 6).map((enquiry) => (
+                                  <TableRow key={enquiry.id}>
+                                      <TableCell>
+                                          <div className="font-medium">{enquiry.name}</div>
+                                          <div className="hidden text-sm text-muted-foreground md:inline">{enquiry.product}</div>
+                                      </TableCell>
+                                      <TableCell><StatusBadge status={enquiry.status as Enquiry['status']} /></TableCell>
+                                      <TableCell className="text-right">
+                                          <Button asChild size="sm" variant="outline">
+                                              <Link href={`/admin/enquiries/${enquiry.id}`}>Details <ExternalLink className="ml-2 h-3 w-3" /></Link>
+                                          </Button>
+                                      </TableCell>
+                                  </TableRow>
+                                  ))}
+                              </TableBody>
+                          </Table>
+                      </CardContent>
+                  </Card>
+                   <Card>
+                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                          <CardTitle className="text-lg font-heading">Product Catalog</CardTitle>
+                          <ShoppingBag className="h-5 w-5 text-muted-foreground" />
+                      </CardHeader>
+                      <CardContent>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            You currently have {products.length} products. Add, edit, or view products in your catalog.
+                          </p>
+                          <Button asChild className="w-full">
+                              <Link href="/admin/products">Manage Products</Link>
+                          </Button>
+                      </CardContent>
+                  </Card>
+                </div>
             </div>
         </main>
     </div>
