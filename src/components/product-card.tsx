@@ -7,9 +7,9 @@ import { ArrowRight } from "lucide-react";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <Card className="h-full flex flex-col overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border hover:border-primary/50">
+    <Card className="h-full flex flex-col overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border">
        <Link href={`/products/${product.id}`} className="block overflow-hidden">
-        <CardHeader className="p-0 relative aspect-square">
+        <CardHeader className="p-0 relative aspect-video">
             <Image
               src={product.imageUrl}
               alt={product.name}
@@ -19,10 +19,10 @@ export function ProductCard({ product }: { product: Product }) {
             />
           </CardHeader>
        </Link>
-      <CardContent className="p-4 flex flex-col flex-grow">
+      <CardContent className="p-6 flex flex-col flex-grow">
         <p className="text-sm text-primary font-semibold mb-1">{product.category}</p>
         <Link href={`/products/${product.id}`} className="block">
-            <CardTitle className="font-heading mb-1 text-lg group-hover:text-primary transition-colors">{product.name}</CardTitle>
+            <CardTitle className="font-heading mb-2 text-xl group-hover:text-primary transition-colors">{product.name}</CardTitle>
         </Link>
         <CardDescription className="text-sm flex-grow mb-4 text-muted-foreground">{product.description}</CardDescription>
         <div className="flex justify-start items-center mt-auto pt-4 border-t">

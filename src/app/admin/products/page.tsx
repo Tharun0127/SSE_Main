@@ -27,7 +27,7 @@ export default function AdminProductsPage() {
   return (
     <div className="bg-muted/40 min-h-screen">
       <div className="container py-12 md:py-20">
-        <div className="mb-8 flex justify-between items-center">
+        <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <Button asChild variant="outline" size="sm">
             <Link href="/admin">
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
@@ -47,50 +47,53 @@ export default function AdminProductsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="hidden w-[100px] sm:table-cell">
-                    Image
-                  </TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead className="hidden md:table-cell">
-                    Description
-                  </TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {products.map((product) => (
-                  <TableRow key={product.id}>
-                    <TableCell className="hidden sm:table-cell">
-                      <Image
-                        alt={product.name}
-                        className="aspect-square rounded-md object-cover"
-                        height="64"
-                        src={product.imageUrl}
-                        width="64"
-                        data-ai-hint={product.imageHint}
-                      />
-                    </TableCell>
-                    <TableCell className="font-medium">{product.name}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{product.category}</Badge>
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell max-w-sm truncate">
-                      {product.description}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {/* Placeholder for future actions */}
-                      <Button size="sm" variant="ghost" disabled>
-                        Edit
-                      </Button>
-                    </TableCell>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">
+                      Image
+                    </TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead className="hidden md:table-cell">Category</TableHead>
+                    <TableHead className="hidden lg:table-cell">
+                      Description
+                    </TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {products.map((product) => (
+                    <TableRow key={product.id}>
+                      <TableCell>
+                        <div className="w-16 h-16 relative rounded-md overflow-hidden bg-white border">
+                          <Image
+                            alt={product.name}
+                            className="object-contain p-1"
+                            fill
+                            src={product.imageUrl}
+                            data-ai-hint={product.imageHint}
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-medium">{product.name}</TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        <Badge variant="outline">{product.category}</Badge>
+                      </TableCell>
+                      <TableCell className="hidden lg:table-cell max-w-sm truncate">
+                        {product.description}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {/* Placeholder for future actions */}
+                        <Button size="sm" variant="ghost" disabled>
+                          Edit
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
       </div>

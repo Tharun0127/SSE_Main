@@ -34,7 +34,7 @@ export default function ProductDetailPage() {
 
   return (
     <div className="bg-muted/40">
-        <div className="container py-12 md:py-20">
+        <div className="container py-16 md:py-24">
              <div className="mb-8">
                 <Button asChild variant="outline" size="sm">
                     <Link href="/products">
@@ -43,12 +43,12 @@ export default function ProductDetailPage() {
                 </Button>
             </div>
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
-                <div className="relative aspect-square rounded-lg overflow-hidden border shadow-lg">
+                <div className="relative aspect-video rounded-lg overflow-hidden border bg-white shadow-md">
                     <Image
                         src={product.imageUrl}
                         alt={product.name}
                         fill
-                        className="object-cover"
+                        className="object-contain p-4"
                         data-ai-hint={product.imageHint}
                         priority
                     />

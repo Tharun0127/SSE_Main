@@ -4,31 +4,31 @@
 
 @layer base {
   :root {
-    --background: 190 67% 93%; /* Very light cool blue */
-    --foreground: 210 10% 23%; /* Dark Slate Blue */
+    --background: 220 13% 97%; /* Light Cool Gray */
+    --foreground: 224 10% 10%; /* Near Black */
     --card: 0 0% 100%;
-    --card-foreground: 210 10% 23%;
+    --card-foreground: 224 10% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 210 10% 23%;
-    --primary: 199 79% 74%; /* Light cool blue */
-    --primary-foreground: 210 10% 15%;
-    --secondary: 190 30% 85%;
-    --secondary-foreground: 210 10% 23%;
-    --muted: 190 20% 90%;
-    --muted-foreground: 210 7% 45%;
-    --accent: 54 76% 75%; /* Pale yellow */
-    --accent-foreground: 210 10% 23%;
+    --popover-foreground: 224 10% 10%;
+    --primary: 240 5% 34%; /* Dark Slate Gray */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 91%; /* Light Gray */
+    --secondary-foreground: 240 5% 34%;
+    --muted: 220 14% 91%;
+    --muted-foreground: 220 9% 46%; /* Medium Gray */
+    --accent: 220 14% 91%;
+    --accent-foreground: 224 10% 10%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 190 20% 80%;
-    --input: 190 20% 80%;
-    --ring: 199 79% 74%;
-    --radius: 0.8rem;
-    --chart-1: 199 79% 74%;
-    --chart-2: 54 76% 75%;
-    --chart-3: 199 50% 60%;
-    --chart-4: 54 50% 60%;
-    --chart-5: 190 30% 85%;
+    --border: 220 13% 89%;
+    --input: 220 13% 89%;
+    --ring: 240 5% 34%;
+    --radius: 0.75rem;
+    --chart-1: 240 5% 34%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 50% 55%;
+    --chart-5: 220 9% 46%;
   }
 
   * {

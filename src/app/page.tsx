@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap, Thermometer, Leaf } from "lucide-react";
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ClientLogos } from "@/components/client-logos";
 import {
@@ -26,7 +26,7 @@ const features = [
   {
     icon: Thermometer,
     title: "Optimal Airflow",
-    description: "Our products are engineered to deliver maximum airflow performance, keeping you comfortable in any environment.",
+    description: "Our products are engineered to deliver maximum airflow performance, keeping you comfortable.",
   },
   {
     icon: Zap,
@@ -56,7 +56,7 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <section className="w-full bg-foreground text-background">
-        <div className="container grid md:grid-cols-2 gap-12 items-center py-24 md:py-40">
+        <div className="container grid md:grid-cols-2 gap-12 items-center py-20 md:py-32">
           <div className="flex flex-col items-start text-left">
               {isMounted && <motion.h1 
                   initial={{ opacity: 0, y: 20 }}
@@ -70,7 +70,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4 }}
-                  className="max-w-xl text-white/90 md:text-lg mt-6"
+                  className="max-w-xl text-white/80 md:text-lg mt-6"
               >
                   Innovative HVAC solutions designed for your lifestyle. Stay cool, calm, and collected all year round.
               </motion.p>}
@@ -80,7 +80,7 @@ export default function Home() {
                   transition={{ duration: 0.7, delay: 0.6 }}
                   className="mt-8"
               >
-                  <Button asChild size="lg" variant="secondary" className="font-semibold text-lg">
+                  <Button asChild size="lg" className="font-semibold text-lg">
                       <Link href="/products">
                           Explore Products
                           <ArrowRight className="ml-2 h-5 w-5" />
@@ -108,7 +108,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="why-us" className="w-full py-12 md:py-20 bg-background">
+      <section id="why-us" className="w-full py-16 md:py-24 bg-background">
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Why Choose Sri Sai Enterprises?</h2>
@@ -119,10 +119,10 @@ export default function Home() {
           {/* Desktop Grid */}
           <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="text-center p-6 bg-card rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <Card key={index} className="text-center p-8 bg-card rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div className="flex justify-center mb-4">
-                  <div className="p-3 bg-primary/10 rounded-full">
-                    <feature.icon className="h-7 w-7 text-primary" />
+                  <div className="p-4 bg-primary/10 rounded-full">
+                    <feature.icon className="h-8 w-8 text-primary" />
                   </div>
                 </div>
                 <h3 className="text-xl font-bold font-heading mb-2">{feature.title}</h3>
@@ -141,15 +141,15 @@ export default function Home() {
               <CarouselContent>
                 {features.map((feature, index) => (
                   <CarouselItem key={index}>
-                    <div className="p-1">
-                       <Card className="text-center p-6 bg-card rounded-lg border h-full">
+                    <div className="p-1 h-full">
+                       <Card className="text-center p-6 bg-card rounded-lg border h-full flex flex-col justify-center">
                           <div className="flex justify-center mb-4">
                             <div className="p-3 bg-primary/10 rounded-full">
                               <feature.icon className="h-7 w-7 text-primary" />
                             </div>
                           </div>
                           <h3 className="text-xl font-bold font-heading mb-2">{feature.title}</h3>
-                          <p className="text-muted-foreground">{feature.description}</p>
+                          <p className="text-muted-foreground text-sm">{feature.description}</p>
                         </Card>
                     </div>
                   </CarouselItem>
@@ -162,7 +162,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="featured-products" className="w-full py-12 md:py-20 bg-muted/50">
+      <section id="featured-products" className="w-full py-16 md:py-24 bg-muted/50">
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Featured Products</h2>
@@ -172,7 +172,7 @@ export default function Home() {
           </div>
           <Tabs defaultValue="All" className="w-full">
             <div className="flex justify-center mb-10">
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto pb-2">
                   <TabsList className="inline-flex">
                     {categories.map((category) => (
                       <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
@@ -182,22 +182,24 @@ export default function Home() {
             </div>
 
             <TabsContent value="All">
-               <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+               <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {featuredProducts.slice(0, 3).map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
                <div className="md:hidden">
-                <Carousel opts={{ align: "start", loop: true }} className="w-full">
-                  <CarouselContent className="-ml-2">
+                <Carousel opts={{ align: "start" }} className="w-full">
+                  <CarouselContent className="-ml-4">
                     {featuredProducts.slice(0, 3).map((product) => (
                        <CarouselItem key={product.id} className="pl-4 basis-4/5 sm:basis-2/3">
                           <ProductCard product={product} />
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  <CarouselPrevious className="left-2" />
-                  <CarouselNext className="right-2" />
+                   <div className="flex justify-center mt-6">
+                    <CarouselPrevious className="static -translate-x-1" />
+                    <CarouselNext className="static translate-x-1" />
+                  </div>
                 </Carousel>
               </div>
               <div className="text-center mt-12">
@@ -209,22 +211,25 @@ export default function Home() {
 
             {categories.filter(c => c !== 'All').map((category) => (
               <TabsContent key={category} value={category}>
-                <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                 <p className="text-center text-muted-foreground mb-8">Showing our top products for {category}.</p>
+                <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {products.filter(p => p.category === category).slice(0, 3).map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
                 </div>
                  <div className="md:hidden">
-                  <Carousel opts={{ align: "start", loop: true }} className="w-full">
-                    <CarouselContent className="-ml-2">
+                  <Carousel opts={{ align: "start" }} className="w-full">
+                    <CarouselContent className="-ml-4">
                       {products.filter(p => p.category === category).slice(0, 3).map((product) => (
                          <CarouselItem key={product.id} className="pl-4 basis-4/5 sm:basis-2/3">
                             <ProductCard product={product} />
                         </CarouselItem>
                       ))}
                     </CarouselContent>
-                    <CarouselPrevious className="left-2" />
-                    <CarouselNext className="right-2" />
+                    <div className="flex justify-center mt-6">
+                      <CarouselPrevious className="static -translate-x-1" />
+                      <CarouselNext className="static translate-x-1" />
+                    </div>
                   </Carousel>
                 </div>
                 <div className="text-center mt-12">
@@ -238,7 +243,7 @@ export default function Home() {
         </div>
       </section>
 
-       <section id="consult-us" className="w-full py-12 md:py-20 bg-background">
+       <section id="consult-us" className="w-full py-16 md:py-24 bg-background">
         <div className="container">
           <div className="mx-auto max-w-4xl text-center bg-card p-8 md:p-12 rounded-2xl shadow-lg border">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Have a Project in Mind?</h2>

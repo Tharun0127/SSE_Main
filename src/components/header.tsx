@@ -31,9 +31,9 @@ export function Header() {
     <Link
       href={href}
       className={cn(
-        "font-medium text-sm transition-colors hover:text-primary hover:font-bold",
+        "font-medium text-sm transition-colors hover:text-primary",
         "text-foreground",
-        pathname === href && "text-primary font-bold"
+        pathname === href && "text-primary font-semibold"
       )}
     >
       {label}
@@ -44,8 +44,8 @@ export function Header() {
     <Link
       href={href}
       className={cn(
-        "font-medium text-lg text-foreground/70 hover:text-primary hover:font-bold",
-        pathname === href && "text-primary font-bold"
+        "font-medium text-lg text-foreground/70 hover:text-primary",
+        pathname === href && "text-primary font-semibold"
       )}
       onClick={() => setIsMobileMenuOpen(false)}
     >
@@ -56,7 +56,7 @@ export function Header() {
   return (
     <header className={cn(
         "sticky top-0 z-50 w-full border-b transition-colors duration-300",
-        scrolled ? "border-border/60 bg-secondary/95 backdrop-blur-lg" : "bg-transparent border-transparent"
+        scrolled ? "border-border bg-background/95 backdrop-blur-lg" : "bg-background border-border"
       )}>
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
@@ -76,7 +76,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-           <Button asChild className="hidden sm:flex" size="sm" variant={scrolled ? "default" : "secondary"}>
+           <Button asChild className="hidden sm:flex" size="sm">
               <Link href="/contact">Contact Us</Link>
            </Button>
 

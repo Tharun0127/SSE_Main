@@ -100,7 +100,7 @@ export function AdminDashboard() {
     return [...enquiries].sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
-      return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+      return sortOrder === 'asc' ? dateA - dateB : dateB - a.date.localeCompare(b.date);
     });
   }, [sortOrder, enquiries]);
 
@@ -151,13 +151,13 @@ export function AdminDashboard() {
     return (
       <div className="flex min-h-screen w-full flex-col bg-muted/40 p-4 md:p-8">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Skeleton className="h-[108px]" />
-          <Skeleton className="h-[108px]" />
-          <Skeleton className="h-[108px]" />
+          <Skeleton className="h-[124px]" />
+          <Skeleton className="h-[124px]" />
+          <Skeleton className="h-[124px]" />
         </div>
         <div className="mt-8 grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-          <Skeleton className="h-[350px] xl:col-span-2" />
-          <Skeleton className="h-[350px]" />
+          <Skeleton className="h-[400px] xl:col-span-2" />
+          <Skeleton className="h-[400px]" />
         </div>
       </div>
     );
@@ -262,7 +262,7 @@ export function AdminDashboard() {
                   <Card className="h-full flex flex-col">
                       <CardHeader className="flex flex-row items-center justify-between">
                           <div>
-                              <CardTitle>Enquiries</CardTitle>
+                              <CardTitle>Recent Enquiries</CardTitle>
                               <CardDescription>Your {sortedEnquiries.length} most recent enquiries.</CardDescription>
                           </div>
                           <Button variant="outline" size="sm" onClick={toggleSortOrder}>
@@ -270,13 +270,14 @@ export function AdminDashboard() {
                               Sort
                           </Button>
                       </CardHeader>
-                      <CardContent className="flex-grow overflow-y-auto">
+                      <CardContent className="flex-grow overflow-hidden">
                            {sortedEnquiries.length > 0 ? (
+                            <div className="h-full overflow-y-auto">
                                <Table>
                                   <TableHeader>
                                       <TableRow>
                                           <TableHead>Customer</TableHead>
-                                          <TableHead>Status</TableHead>
+                                          <TableHead className="hidden sm:table-cell">Status</TableHead>
                                           <TableHead className="text-right">Action</TableHead>
                                       </TableRow>
                                   </TableHeader>
@@ -287,7 +288,7 @@ export function AdminDashboard() {
                                               <div className="font-medium">{enquiry.name}</div>
                                               <div className="hidden text-sm text-muted-foreground md:inline">{enquiry.product}</div>
                                           </TableCell>
-                                          <TableCell><StatusBadge status={enquiry.status} /></TableCell>
+                                          <TableCell className="hidden sm:table-cell"><StatusBadge status={enquiry.status} /></TableCell>
                                           <TableCell className="text-right">
                                               <Button asChild size="sm" variant="outline">
                                                   <Link href={`/admin/enquiries/${enquiry.id}`}>Details <ExternalLink className="ml-2 h-3 w-3" /></Link>
@@ -297,8 +298,9 @@ export function AdminDashboard() {
                                       ))}
                                   </TableBody>
                               </Table>
+                            </div>
                            ) : (
-                                <div className="flex items-center justify-center h-full text-center text-muted-foreground">
+                                <div className="flex items-center justify-center h-full text-center text-muted-foreground p-8">
                                     <p>No enquiries yet. <br /> New enquiries from the contact form will appear here.</p>
                                 </div>
                            )}

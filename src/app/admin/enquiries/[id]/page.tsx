@@ -155,10 +155,12 @@ export default function EnquiryDetailsPage() {
           <div className="md:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle className="flex flex-wrap justify-between items-center gap-2 font-heading">
-                  <span>Enquiry Details</span>
+                <div className="flex flex-wrap justify-between items-center gap-2">
+                  <CardTitle className="font-heading">
+                    Enquiry Details
+                  </CardTitle>
                   <StatusBadge status={enquiry.status} />
-                </CardTitle>
+                </div>
                 <CardDescription>Enquiry ID: {enquiry.id}</CardDescription>
               </CardHeader>
               <CardContent>
@@ -215,7 +217,7 @@ export default function EnquiryDetailsPage() {
                   Customer Information
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4 text-sm">
+              <CardContent className="space-y-4">
                 <div className="flex items-center gap-3">
                   <User className="h-4 w-4 text-muted-foreground" />
                   <span className="font-medium text-foreground">
@@ -250,7 +252,7 @@ export default function EnquiryDetailsPage() {
                   Enquiry Meta
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4 text-sm">
+              <CardContent className="space-y-4">
                 {enquiry.product && (
                   <div className="flex items-center gap-3">
                     <Package className="h-4 w-4 text-muted-foreground" />

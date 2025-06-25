@@ -8,7 +8,7 @@ import { ProductCard } from "@/components/product-card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const ProductGrid = ({ products }: { products: Product[] }) => (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
     {products.map((product) => (
       <ProductCard key={product.id} product={product} />
     ))}
@@ -24,12 +24,14 @@ function ProductsTabs() {
   return (
      <Tabs defaultValue={defaultTab} className="w-full">
       <div className="flex justify-center">
-        <TabsList className="bg-muted">
-          <TabsTrigger value="All">All</TabsTrigger>
-          {categories.map((category) => (
-            <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
-          ))}
-        </TabsList>
+        <div className="overflow-x-auto pb-2">
+            <TabsList className="inline-flex">
+            <TabsTrigger value="All">All</TabsTrigger>
+            {categories.map((category) => (
+                <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
+            ))}
+            </TabsList>
+        </div>
       </div>
 
       <TabsContent value="All">
@@ -48,7 +50,7 @@ function ProductsTabs() {
 export default function ProductsPage() {
   return (
     <div className="bg-background">
-      <div className="container py-12 md:py-20">
+      <div className="container py-16 md:py-24">
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Our Products</h1>
           <p className="text-lg text-muted-foreground mt-4 max-w-2xl mx-auto">Explore our full catalog of premium air cooling solutions.</p>

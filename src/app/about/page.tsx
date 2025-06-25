@@ -34,10 +34,10 @@ export default function AboutPage() {
           className="object-cover"
           data-ai-hint="modern office building"
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 p-4">
           <h1 className="text-4xl md:text-5xl font-extrabold font-heading tracking-tight">About Sri Sai Enterprises</h1>
-          <p className="mt-4 max-w-2xl text-lg text-primary-foreground/80">
+          <p className="mt-4 max-w-2xl text-lg text-white/80">
             Pioneering excellence in HVAC solutions since 2004.
           </p>
         </div>
@@ -75,28 +75,28 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="text-center p-6 bg-card border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <Card className="text-center p-8 bg-card border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <div className="flex justify-center mb-4">
-                <div className="p-3 bg-primary/10 rounded-full">
-                  <Target className="h-7 w-7 text-primary" />
+                <div className="p-4 bg-primary/10 rounded-full">
+                  <Target className="h-8 w-8 text-primary" />
                 </div>
               </div>
               <h3 className="text-xl font-bold font-heading mb-2">Quality First</h3>
               <p className="text-muted-foreground">We never compromise on quality. Our products are built to last, using only the best materials and manufacturing processes.</p>
             </Card>
-            <Card className="text-center p-6 bg-card border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <Card className="text-center p-8 bg-card border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <div className="flex justify-center mb-4">
-                <div className="p-3 bg-primary/10 rounded-full">
-                  <Users className="h-7 w-7 text-primary" />
+                <div className="p-4 bg-primary/10 rounded-full">
+                  <Users className="h-8 w-8 text-primary" />
                 </div>
               </div>
               <h3 className="text-xl font-bold font-heading mb-2">Customer Focus</h3>
               <p className="text-muted-foreground">Our customers are at the heart of everything we do. We strive to exceed expectations with every interaction.</p>
             </Card>
-            <Card className="text-center p-6 bg-card border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <Card className="text-center p-8 bg-card border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <div className="flex justify-center mb-4">
-                <div className="p-3 bg-primary/10 rounded-full">
-                  <BarChart className="h-7 w-7 text-primary" />
+                <div className="p-4 bg-primary/10 rounded-full">
+                  <BarChart className="h-8 w-8 text-primary" />
                 </div>
               </div>
               <h3 className="text-xl font-bold font-heading mb-2">Continuous Innovation</h3>
@@ -125,8 +125,8 @@ export default function AboutPage() {
                   data-ai-hint={member.hint}
                 />
               </div>
-              <CardContent className="p-4">
-                <CardTitle className="text-lg font-heading">{member.name}</CardTitle>
+              <CardContent className="p-6">
+                <CardTitle className="text-xl font-heading">{member.name}</CardTitle>
                 <p className="text-primary">{member.role}</p>
               </CardContent>
             </Card>
