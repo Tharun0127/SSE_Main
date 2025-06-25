@@ -263,7 +263,7 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="hidden md:grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="hidden md:grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div
                 key={feature.title}
