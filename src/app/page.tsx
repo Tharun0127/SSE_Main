@@ -116,7 +116,7 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Desktop View: Vertical Alternating Cards */}
+          {/* Desktop View: Alternating Vertical Cards */}
           <div className="hidden md:grid md:grid-cols-1 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div
@@ -146,31 +146,38 @@ export default function Home() {
 
           {/* Mobile View: Horizontal Scroll Carousel */}
           <div className="md:hidden">
-            <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory no-scrollbar">
-              {features.map((feature, index) => (
-                <div
-                  key={feature.title}
-                  className={cn(
-                    "flex flex-col flex-shrink-0 w-[90%] snap-start p-6 rounded-2xl shadow-lg text-center",
-                    ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
-                  )}
-                >
-                  <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
-                    <Image
-                      src={feature.image}
-                      alt={feature.title}
-                      fill
-                      className="object-cover"
-                      data-ai-hint={feature.imageHint}
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold font-heading mb-2 text-foreground">{feature.title}</h3>
-                    <p className="text-muted-foreground text-sm">{feature.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <Carousel opts={{ align: "start" }} className="w-full">
+              <CarouselContent className="-ml-4">
+                {features.map((feature, index) => (
+                  <CarouselItem key={feature.title} className="pl-4 basis-4/5 sm:basis-2/3">
+                    <div
+                      className={cn(
+                        "flex flex-col h-full p-6 rounded-2xl shadow-lg text-center",
+                        ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
+                      )}
+                    >
+                      <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
+                        <Image
+                          src={feature.image}
+                          alt={feature.title}
+                          fill
+                          className="object-cover"
+                          data-ai-hint={feature.imageHint}
+                        />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold font-heading mb-2 text-foreground">{feature.title}</h3>
+                        <p className="text-muted-foreground text-sm">{feature.description}</p>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="flex justify-center mt-6">
+                  <CarouselPrevious className="static -translate-x-1" />
+                  <CarouselNext className="static translate-x-1" />
+              </div>
+            </Carousel>
           </div>
 
         </div>
