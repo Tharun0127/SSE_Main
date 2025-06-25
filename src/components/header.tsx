@@ -22,11 +22,14 @@ export function Header() {
 
   useEffect(() => {
     setMounted(true);
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
+    
     window.addEventListener("scroll", handleScroll);
     handleScroll();
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -34,7 +37,7 @@ export function Header() {
     "sticky top-0 z-50 w-full border-b transition-colors duration-300",
     mounted && scrolled
       ? "border-border bg-card/80 backdrop-blur-sm"
-      : "bg-card border-transparent"
+      : "bg-background border-transparent"
   );
 
   const DesktopNavLink = ({ href, label }: { href: string; label: string }) => (
@@ -43,7 +46,7 @@ export function Header() {
       className={cn(
         "font-medium text-sm transition-colors hover:text-primary",
         mounted && pathname === href
-          ? "text-primary font-semibold"
+          ? "text-foreground font-semibold"
           : "text-muted-foreground"
       )}
     >
@@ -56,7 +59,7 @@ export function Header() {
       href={href}
       className={cn(
         "font-medium text-lg hover:text-primary",
-        pathname === href ? "text-primary font-semibold" : "text-muted-foreground"
+        mounted && pathname === href ? "text-primary font-semibold" : "text-muted-foreground"
       )}
       onClick={() => setIsMobileMenuOpen(false)}
     >
@@ -81,7 +84,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-           <Button asChild className="hidden sm:flex" size="sm" variant="secondary">
+           <Button asChild className="hidden sm:flex" size="sm">
               <Link href="/contact">Contact Us</Link>
            </Button>
 
@@ -104,7 +107,7 @@ export function Header() {
                   <MobileNavLink key={link.href} {...link} />
                 ))}
               </nav>
-               <Button asChild className="mt-8 w-full" variant="secondary">
+               <Button asChild className="mt-8 w-full">
                   <Link href="/contact">Contact Us</Link>
               </Button>
             </SheetContent>
