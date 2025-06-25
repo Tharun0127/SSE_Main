@@ -7,23 +7,18 @@ import { ArrowRight } from "lucide-react";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <Card className="h-full flex flex-col overflow-hidden group bg-card text-card-foreground rounded-lg border-2 border-transparent hover:border-primary transition-colors duration-300 shadow-sm">
+    <Card className="h-full flex flex-col overflow-hidden group bg-card text-card-foreground rounded-lg border hover:shadow-lg transition-shadow duration-300">
       <CardContent className="p-0 flex flex-col flex-grow">
-        {/* Content at the top */}
-        <div className="p-6 flex flex-col">
+        {/* Top Content: Text */}
+        <div className="p-6 pb-4">
           <p className="text-sm text-muted-foreground mb-1">{product.category}</p>
-          <h3 className="font-heading text-xl font-bold uppercase mb-2">
-             <Link href={`/products/${product.id}`} className="hover:underline">{product.name}</Link>
+          <h3 className="font-heading text-2xl font-bold uppercase mb-2">
+            <Link href={`/products/${product.id}`} className="hover:underline">{product.name}</Link>
           </h3>
-          <p className="text-muted-foreground text-sm mb-4">{product.description}</p>
-          <Button asChild variant="secondary" className="w-full font-semibold">
-            <Link href={`/products/${product.id}`}>
-              View Details <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+          <p className="text-muted-foreground text-sm">{product.description}</p>
         </div>
 
-        {/* Image container below, taking up remaining space */}
+        {/* Middle Content: Image (takes up available space) */}
         <div className="relative w-full flex-grow overflow-hidden bg-white flex items-center justify-center p-4">
           <Link href={`/products/${product.id}`} className="relative w-full h-full">
             <Image
@@ -34,6 +29,15 @@ export function ProductCard({ product }: { product: Product }) {
               data-ai-hint={product.imageHint}
             />
           </Link>
+        </div>
+
+        {/* Bottom Content: Button */}
+        <div className="p-6 pt-4">
+          <Button asChild variant="secondary" className="w-full font-semibold">
+            <Link href={`/products/${product.id}`}>
+              View Details <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </CardContent>
     </Card>
