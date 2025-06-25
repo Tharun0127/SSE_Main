@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Package, CheckCircle2, BarChart as BarChartIcon, ExternalLink, ArrowUpDown, ShoppingBag } from "lucide-react";
+import { ExternalLink, ArrowUpDown, ShoppingBag, BarChart as BarChartIcon, Package, CheckCircle2 } from "lucide-react";
 import {
   ChartContainer,
   ChartTooltip,
@@ -28,19 +28,18 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart"
-import { Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Pie, PieChart, Cell } from "recharts";
+import { Pie, PieChart, Cell, Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
 import { format, parseISO } from 'date-fns';
 import { products } from '@/lib/products';
 import { Skeleton } from '@/components/ui/skeleton';
 
-// This is now the definitive type for an Enquiry
 type Enquiry = { 
   id: string;
   name: string;
   email: string;
   phone?: string;
-  product?: string;
-  message: string;
+  projectDetails?: string;
+  message?: string;
   date: string;
   status: "New" | "Contacted" | "Quote Sent" | "In Production" | "Completed" | "Cancelled";
 };
@@ -210,8 +209,8 @@ export function AdminDashboard() {
                                 <PieChart>
                                     <ChartTooltip content={<ChartTooltipContent nameKey="count" hideLabel />} />
                                     <Pie data={pieData} dataKey="count" nameKey="status" innerRadius={60}>
-                                      {pieData.map((entry) => (
-                                        <Cell key={entry.status} fill={entry.fill} />
+                                      {pieData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.fill} />
                                       ))}
                                     </Pie>
                                     <ChartLegend content={<ChartLegendContent nameKey="status" />} />
@@ -286,7 +285,7 @@ export function AdminDashboard() {
                                       <TableRow key={enquiry.id}>
                                           <TableCell>
                                               <div className="font-medium">{enquiry.name}</div>
-                                              <div className="hidden text-sm text-muted-foreground md:inline">{enquiry.product}</div>
+                                              <div className="hidden text-sm text-muted-foreground md:inline truncate max-w-[150px]">{enquiry.projectDetails || 'No details'}</div>
                                           </TableCell>
                                           <TableCell className="hidden sm:table-cell"><StatusBadge status={enquiry.status} /></TableCell>
                                           <TableCell className="text-right">

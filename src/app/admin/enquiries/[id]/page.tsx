@@ -31,7 +31,6 @@ import {
 import {
   ArrowLeft,
   User,
-  Package,
   Calendar,
   Mail,
   Phone,
@@ -47,8 +46,8 @@ type Enquiry = {
   name: string;
   email: string;
   phone?: string;
-  product?: string;
-  message: string;
+  projectDetails?: string;
+  message?: string;
   date: string;
   status: EnquiryStatus;
 };
@@ -163,11 +162,31 @@ export default function EnquiryDetailsPage() {
                 </div>
                 <CardDescription>Enquiry ID: {enquiry.id}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <h3 className="font-semibold text-lg mb-4">Customer Message</h3>
-                <div className="text-muted-foreground bg-muted p-4 rounded-lg border">
-                  <p className="whitespace-pre-wrap">{enquiry.message}</p>
-                </div>
+              <CardContent className="space-y-6">
+                {enquiry.projectDetails && (
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">Project Details</h3>
+                    <div className="text-muted-foreground bg-muted p-4 rounded-lg border">
+                      <p className="whitespace-pre-wrap">{enquiry.projectDetails}</p>
+                    </div>
+                  </div>
+                )}
+                 {enquiry.message && (
+                    <div>
+                      <h3 className="font-semibold text-lg mb-2">Customer Message</h3>
+                      <div className="text-muted-foreground bg-muted p-4 rounded-lg border">
+                        <p className="whitespace-pre-wrap">{enquiry.message}</p>
+                      </div>
+                    </div>
+                 )}
+                 {!enquiry.projectDetails && !enquiry.message && (
+                    <div>
+                      <h3 className="font-semibold text-lg mb-2">No Details Provided</h3>
+                      <div className="text-muted-foreground bg-muted p-4 rounded-lg border">
+                        <p>The customer did not provide project details or a message.</p>
+                      </div>
+                    </div>
+                 )}
               </CardContent>
               <CardFooter>
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -253,14 +272,6 @@ export default function EnquiryDetailsPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {enquiry.product && (
-                  <div className="flex items-center gap-3">
-                    <Package className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium text-foreground">
-                      {enquiry.product}
-                    </span>
-                  </div>
-                )}
                 <div className="flex items-center gap-3">
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                   <span className="text-muted-foreground">

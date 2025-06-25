@@ -94,7 +94,7 @@ export default function ProductDetailPage() {
                     </Card>
 
                     <Button asChild size="lg" className="w-full">
-                       <Link href={`/contact?product=${encodeURIComponent(product.name)}`}>
+                       <Link href="/contact">
                             Enquire Now
                         </Link>
                     </Button>

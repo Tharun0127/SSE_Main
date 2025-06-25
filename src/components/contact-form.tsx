@@ -4,15 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState, useTransition } from "react";
-import { useSearchParams } from 'next/navigation';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { products } from "@/lib/products";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -35,23 +26,14 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
-  phone: z.string().optional(),
-  product: z.string().optional(),
-  message: z.string().min(10, {
-    message: "Message must be at least 10 characters.",
-  }).max(500, {
-    message: "Message must not exceed 500 characters."
-  }),
+  phone: z.string().min(1, "Phone number is required."),
+  projectDetails: z.string().optional(),
+  message: z.string().optional(),
 });
-
-// A unique value for the "None" option that won't clash with product names.
-const NONE_OPTION_VALUE = "__none__";
 
 export function ContactForm() {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
-  const searchParams = useSearchParams();
-  const productQueryParam = searchParams.get('product');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,7 +41,7 @@ export function ContactForm() {
       name: "",
       email: "",
       phone: "",
-      product: productQueryParam || "",
+      projectDetails: "",
       message: "",
     },
   });
@@ -86,11 +68,7 @@ export function ContactForm() {
             description: "Thanks for contacting Sri Sai Enterprises. We'll be in touch soon.",
           });
           
-          form.reset({ name: "", email: "", phone: "", product: "", message: "" });
-          // Manually reset product field if it was pre-filled
-          if (productQueryParam) {
-            form.setValue('product', '');
-          }
+          form.reset({ name: "", email: "", phone: "", projectDetails: "", message: "" });
 
         } catch (error) {
           console.error("Failed to save enquiry:", error);
@@ -135,60 +113,48 @@ export function ContactForm() {
               )}
             />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone Number (Optional)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="(123) 456-7890" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-             <FormField
-              control={form.control}
-              name="product"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Product of Interest (Optional)</FormLabel>
-                  <Select
-                    onValueChange={(value) => field.onChange(value === NONE_OPTION_VALUE ? "" : value)}
-                    value={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a product" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value={NONE_OPTION_VALUE}>None</SelectItem>
-                      {products.map((product) => (
-                        <SelectItem key={product.id} value={product.name}>
-                          {product.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-        </div>
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone Number</FormLabel>
+              <FormControl>
+                <Input placeholder="(123) 456-7890" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="projectDetails"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Project Details (Optional)</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Tell us about your project requirements..."
+                  className="resize-none"
+                  rows={4}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Message</FormLabel>
+              <FormLabel>Message (Optional)</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell us how we can help..."
+                  placeholder="Any additional information or questions..."
                   className="resize-none"
-                  rows={5}
+                  rows={3}
                   {...field}
                 />
               </FormControl>
