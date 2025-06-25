@@ -116,22 +116,18 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Desktop View: Alternating Layout */}
-          <div className="hidden md:flex flex-col gap-12">
+          {/* Desktop View: Vertical Alternating Cards */}
+          <div className="hidden md:grid md:grid-cols-1 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div
                 key={feature.title}
                 className={cn(
-                  "flex items-center justify-between gap-12 lg:gap-20 p-8 rounded-2xl shadow-lg",
-                  index % 2 === 1 ? "flex-row-reverse" : "flex-row",
+                  "flex rounded-2xl shadow-lg p-6 space-y-6 text-center",
+                  index % 2 === 1 ? "flex-col-reverse space-y-reverse" : "flex-col",
                   ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
                 )}
               >
-                <div className="w-full md:w-5/12">
-                  <h3 className="text-3xl font-bold font-heading mb-4 text-foreground">{feature.title}</h3>
-                  <p className="text-muted-foreground text-lg">{feature.description}</p>
-                </div>
-                <div className="w-full md:w-6/12 relative aspect-[4/3] rounded-lg overflow-hidden">
+                <div className="relative w-full aspect-square rounded-lg overflow-hidden">
                   <Image
                     src={feature.image}
                     alt={feature.title}
@@ -140,35 +136,41 @@ export default function Home() {
                     data-ai-hint={feature.imageHint}
                   />
                 </div>
+                <div>
+                  <h3 className="text-2xl font-bold font-heading mb-3 text-foreground">{feature.title}</h3>
+                  <p className="text-muted-foreground">{feature.description}</p>
+                </div>
               </div>
             ))}
           </div>
 
           {/* Mobile View: Horizontal Scroll Carousel */}
           <div className="md:hidden">
-              <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory no-scrollbar">
-                  {features.map((feature, index) => (
-                      <div
-                        key={feature.title}
-                        className={cn(
-                          "flex-shrink-0 w-[90%] snap-start p-6 rounded-2xl shadow-lg",
-                          ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
-                        )}
-                      >
-                          <div className="relative w-full aspect-video mb-4 rounded-lg overflow-hidden">
-                               <Image
-                                  src={feature.image}
-                                  alt={feature.title}
-                                  fill
-                                  className="object-cover"
-                                  data-ai-hint={feature.imageHint}
-                              />
-                          </div>
-                          <h3 className="text-xl font-bold font-heading mb-2 text-foreground">{feature.title}</h3>
-                          <p className="text-muted-foreground text-sm">{feature.description}</p>
-                      </div>
-                  ))}
-              </div>
+            <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory no-scrollbar">
+              {features.map((feature, index) => (
+                <div
+                  key={feature.title}
+                  className={cn(
+                    "flex flex-col flex-shrink-0 w-[90%] snap-start p-6 rounded-2xl shadow-lg text-center",
+                    ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
+                  )}
+                >
+                  <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
+                    <Image
+                      src={feature.image}
+                      alt={feature.title}
+                      fill
+                      className="object-cover"
+                      data-ai-hint={feature.imageHint}
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold font-heading mb-2 text-foreground">{feature.title}</h3>
+                    <p className="text-muted-foreground text-sm">{feature.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
         </div>
