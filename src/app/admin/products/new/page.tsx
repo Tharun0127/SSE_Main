@@ -7,6 +7,8 @@ import { z } from 'zod';
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { type Product } from '@/lib/products';
 
 import {
   Card,
@@ -59,6 +61,7 @@ const formSchema = z.object({
 
 export default function NewProductPage() {
   const { toast } = useToast();
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -75,22 +78,67 @@ export default function NewProductPage() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(() => {
-      setTimeout(() => {
-        console.log('New Product Submitted:', {
-          ...values,
-          // In a real app, you would upload the image and get a URL.
-          // For now, we just log the file object.
-          imageUrl: `(Pretend URL for ${values.image[0].name})`, 
-        });
-
+      const file = values.image[0];
+      if (!file) {
         toast({
-          title: 'Product Submitted!',
-          description: 'In a real app, this product would be saved to a database.',
+          variant: "destructive",
+          title: "Submission Failed",
+          description: "An image is required.",
         });
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        const imageUrl = reader.result as string;
 
-        form.reset();
-        setImagePreview(null);
-      }, 1000);
+        const newProductId = Date.now();
+
+        const newProduct: Product = {
+          id: newProductId,
+          name: values.name,
+          category: values.category,
+          description: values.description,
+          longDescription: values.longDescription,
+          price: "Request a Quote", // Default value
+          imageUrl: imageUrl,
+          imageHint: values.name.toLowerCase().replace(/\s/g, ' '),
+          featured: false, // New products are not featured by default
+          measurementUnit: values.measurementUnit,
+          availableSizes: values.availableSizes ? values.availableSizes.split(',').map(s => s.trim()) : [],
+        };
+
+        try {
+          const existingProducts = JSON.parse(localStorage.getItem('user-products') || '[]');
+          const updatedProducts = [...existingProducts, newProduct];
+          localStorage.setItem('user-products', JSON.stringify(updatedProducts));
+
+          toast({
+            title: 'Product Added!',
+            description: 'Your new product has been saved.',
+          });
+
+          form.reset();
+          setImagePreview(null);
+          router.push('/admin/products');
+
+        } catch (error) {
+          console.error("Failed to save product:", error);
+          toast({
+            variant: "destructive",
+            title: "Submission Failed",
+            description: "Could not save your product. Please try again later.",
+          });
+        }
+      };
+      reader.onerror = () => {
+        toast({
+          variant: "destructive",
+          title: "Image Error",
+          description: "Could not process the image file.",
+        });
+      }
     });
   }
 

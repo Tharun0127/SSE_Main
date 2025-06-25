@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/chart"
 import { Pie, PieChart, Cell, Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
 import { format, parseISO } from 'date-fns';
-import { products } from '@/lib/products';
+import { products as staticProducts, type Product } from '@/lib/products';
 import { Skeleton } from '@/components/ui/skeleton';
 
 type Enquiry = { 
@@ -83,13 +83,18 @@ const pieChartConfig = {
 
 export function AdminDashboard() {
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   useEffect(() => {
-    // Fetch enquiries from localStorage when the component mounts
     const storedEnquiries = JSON.parse(localStorage.getItem('enquiries') || '[]');
     setEnquiries(storedEnquiries);
+    
+    const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]');
+    const combinedProducts = [...staticProducts, ...userProducts];
+    setProducts(combinedProducts);
+
     setIsLoading(false);
   }, []);
   

@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { products } from "@/lib/products";
+import { products as staticProducts, type Product } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -55,8 +55,17 @@ const features = [
 ];
 
 export default function Home() {
+  const [allProducts, setAllProducts] = React.useState<Product[]>(staticProducts);
+
+  React.useEffect(() => {
+    const userProducts: Product[] = JSON.parse(localStorage.getItem('user-products') || '[]');
+    if (userProducts.length > 0) {
+      setAllProducts([...staticProducts, ...userProducts]);
+    }
+  }, []);
+
   const categories = ['All', 'Grills', 'Diffusers', 'Dampers', 'Others'];
-  const featuredProducts = products.filter(p => p.featured);
+  const featuredProducts = allProducts.filter(p => p.featured);
 
   return (
     <div className="flex flex-col bg-background">
@@ -188,14 +197,14 @@ export default function Home() {
                 <TabsContent key={category} value={category}>
                   <p className="text-center text-muted-foreground mb-8">Showing our top products for {category}.</p>
                   <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {products.filter(p => p.category === category).slice(0, 3).map((product) => (
+                    {allProducts.filter(p => p.category === category).slice(0, 3).map((product) => (
                       <ProductCard key={product.id} product={product} />
                     ))}
                   </div>
                   <div className="md:hidden">
                     <Carousel opts={{ align: "start" }} className="w-full">
                       <CarouselContent className="-ml-4">
-                        {products.filter(p => p.category === category).slice(0, 3).map((product) => (
+                        {allProducts.filter(p => p.category === category).slice(0, 3).map((product) => (
                           <CarouselItem key={product.id} className="pl-4 basis-4/5 sm:basis-2/3">
                               <ProductCard product={product} />
                           </CarouselItem>

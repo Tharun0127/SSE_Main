@@ -3,21 +3,51 @@
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { products, type Product } from '@/lib/products';
+import { products as staticProducts, type Product } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Scaling, Ruler } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-
-function getProductById(id: number): Product | undefined {
-  return products.find((p) => p.id === id);
-}
+import { useState, useEffect } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = parseInt(params.id as string, 10);
-  const product = getProductById(productId);
+  const [product, setProduct] = useState<Product | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (productId) {
+      const userProducts: Product[] = JSON.parse(localStorage.getItem('user-products') || '[]');
+      const allProducts = [...staticProducts, ...userProducts];
+      const foundProduct = allProducts.find((p) => p.id === productId);
+      setProduct(foundProduct);
+      setIsLoading(false);
+    }
+  }, [productId]);
+
+  if (isLoading) {
+    return (
+      <div className="bg-secondary">
+        <div className="container py-16 md:py-24">
+          <Skeleton className="h-9 w-44 mb-8" />
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
+            <Skeleton className="aspect-square rounded-lg" />
+            <div className="space-y-6">
+              <Skeleton className="h-6 w-24 rounded-full" />
+              <Skeleton className="h-12 w-3/4" />
+              <Skeleton className="h-20 w-full" />
+              <Separator />
+              <Skeleton className="h-48 w-full" />
+              <Skeleton className="h-12 w-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (

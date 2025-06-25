@@ -1,9 +1,9 @@
 "use client";
 
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { products, type Product } from "@/lib/products";
+import { products as staticProducts, type Product } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -21,11 +21,38 @@ const ProductGrid = ({ products }: { products: Product[] }) => (
   </div>
 );
 
+const ProductGridSkeleton = () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+        {Array.from({ length: 6 }).map((_, i) => (
+            <Skeleton key={i} className="h-[480px] rounded-lg" />
+        ))}
+    </div>
+);
+
+
 function ProductsTabs() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category');
-  const categories = Array.from(new Set(products.map(p => p.category)));
+  const [allProducts, setAllProducts] = useState<Product[]>(staticProducts);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]');
+    setAllProducts([...staticProducts, ...userProducts]);
+    setIsLoading(false);
+  }, []);
+
+  const categories = Array.from(new Set(allProducts.map(p => p.category)));
   const defaultTab = categoryParam && categories.includes(categoryParam) ? categoryParam : 'All';
+  
+  if (isLoading) {
+    return (
+        <div>
+            <Skeleton className="h-10 w-96 mx-auto rounded-md" />
+            <ProductGridSkeleton />
+        </div>
+    )
+  }
 
   return (
      <Tabs defaultValue={defaultTab} className="w-full">
@@ -41,12 +68,12 @@ function ProductsTabs() {
       </div>
 
       <TabsContent value="All">
-        <ProductGrid products={products} />
+        <ProductGrid products={allProducts} />
       </TabsContent>
 
       {categories.map((category) => (
         <TabsContent key={category} value={category}>
-          <ProductGrid products={products.filter(p => p.category === category)} />
+          <ProductGrid products={allProducts.filter(p => p.category === category)} />
         </TabsContent>
       ))}
     </Tabs>
@@ -62,7 +89,7 @@ export default function ProductsPage() {
           <p className="text-lg text-muted-foreground mt-4 max-w-2xl mx-auto">Explore our full catalog of premium HVAC solutions.</p>
         </div>
         
-        <Suspense fallback={<Skeleton className="h-10 w-96 mx-auto rounded-md" />}>
+        <Suspense fallback={<ProductGridSkeleton />}>
           <ProductsTabs />
         </Suspense>
       </div>

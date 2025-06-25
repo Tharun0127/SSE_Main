@@ -19,11 +19,46 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { products, Product } from '@/lib/products';
+import { products as staticProducts, type Product } from '@/lib/products';
 import { ArrowLeft, PlusCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useState, useEffect } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function AdminProductsPage() {
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]');
+    // Show newest products first
+    const combined = [...staticProducts, ...userProducts].sort((a,b) => b.id - a.id); 
+    setAllProducts(combined);
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="bg-secondary min-h-screen">
+        <div className="container py-12 md:py-20">
+          <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+             <Skeleton className="h-9 w-40" />
+             <Skeleton className="h-9 w-44" />
+          </div>
+          <Card>
+            <CardHeader>
+              <Skeleton className="h-8 w-40" />
+              <Skeleton className="h-4 w-64 mt-2" />
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="h-80 w-full" />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="bg-secondary min-h-screen">
       <div className="container py-12 md:py-20">
@@ -63,7 +98,7 @@ export default function AdminProductsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {products.map((product) => (
+                  {allProducts.map((product) => (
                     <TableRow key={product.id}>
                       <TableCell className="hidden sm:table-cell">
                         <div className="w-16 h-16 relative rounded-md overflow-hidden bg-white border">
