@@ -107,75 +107,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="why-us" className="w-full py-16 md:py-24 bg-background">
-        <div className="container">
-          <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20">
-            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Why Choose Sri Sai Enterprises?</h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              We blend cutting-edge technology with sophisticated design to create HVAC products that elevate your comfort and your space.
-            </p>
-          </div>
-
-          {/* Desktop View: Alternating Vertical Cards */}
-          <div className="hidden md:grid md:grid-cols-1 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={feature.title}
-                className={cn(
-                  "flex rounded-2xl shadow-lg p-6 space-y-6 text-center",
-                  index % 2 === 1 ? "flex-col-reverse space-y-reverse" : "flex-col",
-                  ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
-                )}
-              >
-                <div className="relative w-full aspect-square rounded-lg overflow-hidden">
-                  <Image
-                    src={feature.image}
-                    alt={feature.title}
-                    fill
-                    className="object-cover"
-                    data-ai-hint={feature.imageHint}
-                  />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold font-heading mb-3 text-foreground">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile View: Horizontal Snap-Scroll */}
-           <div className="md:hidden">
-            <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory space-x-4 pb-4 no-scrollbar -mx-4 px-4">
-              {features.map((feature, index) => (
-                 <div key={feature.title} className="snap-start flex-shrink-0 basis-4/5 sm:basis-2/3">
-                    <div
-                      className={cn(
-                        "flex flex-col h-full p-6 rounded-2xl shadow-lg text-center",
-                        ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
-                      )}
-                    >
-                      <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
-                        <Image
-                          src={feature.image}
-                          alt={feature.title}
-                          fill
-                          className="object-cover"
-                          data-ai-hint={feature.imageHint}
-                        />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold font-heading mb-2 text-foreground">{feature.title}</h3>
-                        <p className="text-muted-foreground text-sm">{feature.description}</p>
-                      </div>
-                    </div>
-                 </div>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </section>
+      <ClientLogos />
 
       <section id="featured-products" className="w-full py-16 md:py-24 bg-secondary">
         <div className="container">
@@ -257,6 +189,89 @@ export default function Home() {
           </Tabs>
         </div>
       </section>
+      
+      <section id="why-us" className="w-full py-16 md:py-24 bg-background">
+        <div className="container">
+          <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20">
+            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Why Choose Sri Sai Enterprises?</h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              We blend cutting-edge technology with sophisticated design to create HVAC products that elevate your comfort and your space.
+            </p>
+          </div>
+
+          <div className="md:hidden">
+            <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory space-x-4 pb-4 no-scrollbar -mx-4 px-4">
+              {features.map((feature, index) => (
+                 <div key={feature.title} className="snap-start flex-shrink-0 basis-4/5 sm:basis-2/3">
+                    <div
+                      className={cn(
+                        "flex flex-col h-full p-6 rounded-2xl shadow-lg text-center",
+                        ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
+                      )}
+                    >
+                      <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
+                        <Image
+                          src={feature.image}
+                          alt={feature.title}
+                          fill
+                          className="object-cover"
+                          data-ai-hint={feature.imageHint}
+                        />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold font-heading mb-2 text-foreground">{feature.title}</h3>
+                        <p className="text-muted-foreground text-sm">{feature.description}</p>
+                      </div>
+                    </div>
+                 </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="hidden md:grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <div
+                key={feature.title}
+                className={cn(
+                  "flex rounded-2xl shadow-lg p-6 space-y-6 text-center",
+                  index % 2 === 1 ? "flex-col-reverse space-y-reverse" : "flex-col",
+                  ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
+                )}
+              >
+                <div className="relative w-full aspect-square rounded-lg overflow-hidden">
+                  <Image
+                    src={feature.image}
+                    alt={feature.title}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={feature.imageHint}
+                  />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold font-heading mb-3 text-foreground">{feature.title}</h3>
+                  <p className="text-muted-foreground">{feature.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      <section className="w-full py-16 md:py-24 bg-secondary">
+        <div className="container">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 text-center max-w-lg mx-auto">
+            <div>
+              <h3 className="text-4xl md:text-5xl font-extrabold text-primary font-heading">20+</h3>
+              <p className="mt-2 text-muted-foreground">Years of Experience</p>
+            </div>
+            <div>
+              <h3 className="text-4xl md:text-5xl font-extrabold text-primary font-heading">100+</h3>
+              <p className="mt-2 text-muted-foreground">HVAC Dealers</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
        <section id="consult-us" className="w-full py-16 md:py-24 bg-background">
         <div className="container">
@@ -276,8 +291,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <ClientLogos />
     </div>
   );
 }
