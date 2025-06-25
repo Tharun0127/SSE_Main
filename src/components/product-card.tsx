@@ -21,7 +21,7 @@ export function ProductCard({ product }: { product: Product }) {
           {product.description}
         </CardDescription>
         
-        <div className="flex-grow my-4 flex items-center justify-center relative">
+        <div className="flex-grow my-4 flex items-center justify-center relative min-h-48">
           <Link href={`/products/${product.id}`} className="w-full h-full">
             <Image
               src={product.imageUrl}
