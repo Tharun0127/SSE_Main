@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react";
 export function ProductCard({ product }: { product: Product }) {
   return (
     <Card className="h-full flex flex-col overflow-hidden group bg-card text-card-foreground rounded-lg border shadow-sm hover:border-primary transition-colors duration-300">
-      <div className="relative w-full aspect-[4/3] overflow-hidden">
+      <div className="relative w-full aspect-[3/2] overflow-hidden bg-white">
         <Link href={`/products/${product.id}`}>
           <Image
             src={product.imageUrl}
@@ -20,12 +20,12 @@ export function ProductCard({ product }: { product: Product }) {
         </Link>
       </div>
       <CardContent className="p-6 flex flex-col flex-grow">
-        <CardDescription className="text-sm text-primary font-semibold mb-1">{product.category}</CardDescription>
-        <CardTitle className="font-heading text-xl font-bold mb-2">
+        <CardDescription className="text-sm text-muted-foreground mb-1">{product.category}</CardDescription>
+        <CardTitle className="font-heading text-xl font-bold mb-2 uppercase">
            <Link href={`/products/${product.id}`} className="hover:underline">{product.name}</Link>
         </CardTitle>
         <p className="text-muted-foreground text-sm flex-grow mb-4">{product.description}</p>
-        <Button asChild size="sm" className="w-full font-semibold mt-auto">
+        <Button asChild size="sm" variant="outline" className="w-full font-semibold mt-auto text-foreground">
           <Link href={`/products/${product.id}`}>
             View Details <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
