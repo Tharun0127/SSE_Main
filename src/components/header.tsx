@@ -18,17 +18,18 @@ export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
+
+    // Set initial state on mount
+    handleScroll();
+    // Add scroll listener
     window.addEventListener("scroll", handleScroll);
+
+    // Cleanup listener on unmount
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -37,8 +38,7 @@ export function Header() {
       href={href}
       className={cn(
         "font-medium text-sm transition-colors hover:text-primary",
-        "text-muted-foreground",
-        isMounted && pathname === href && "text-primary font-semibold"
+        pathname === href ? "text-primary font-semibold" : "text-muted-foreground"
       )}
     >
       {label}
@@ -49,8 +49,8 @@ export function Header() {
     <Link
       href={href}
       className={cn(
-        "font-medium text-lg text-muted-foreground hover:text-primary",
-        isMounted && pathname === href && "text-primary font-semibold"
+        "font-medium text-lg hover:text-primary",
+        pathname === href ? "text-primary font-semibold" : "text-muted-foreground"
       )}
       onClick={() => setIsMobileMenuOpen(false)}
     >
@@ -61,7 +61,7 @@ export function Header() {
   return (
     <header className={cn(
         "sticky top-0 z-50 w-full border-b transition-colors duration-300",
-        isMounted && scrolled ? "border-border bg-card/80 backdrop-blur-sm" : "bg-card border-transparent"
+        scrolled ? "border-border bg-card/80 backdrop-blur-sm" : "bg-card border-transparent"
       )}>
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
