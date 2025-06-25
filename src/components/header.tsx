@@ -31,8 +31,8 @@ export function Header() {
     <Link
       href={href}
       className={cn(
-        "font-medium text-sm transition-colors hover:font-bold",
-        scrolled ? "text-foreground/70 hover:text-primary" : "text-background/80 hover:text-background",
+        "font-medium text-sm transition-colors hover:text-primary hover:font-bold",
+        scrolled ? "text-foreground" : "text-background/80",
         pathname === href && (scrolled ? "text-primary font-bold" : "text-background font-bold")
       )}
     >
@@ -56,7 +56,7 @@ export function Header() {
   return (
     <header className={cn(
         "sticky top-0 z-50 w-full border-b transition-colors duration-300",
-        scrolled ? "border-border/60 bg-background/90 backdrop-blur-lg" : "bg-transparent border-transparent"
+        scrolled ? "border-border/60 bg-secondary/95 backdrop-blur-lg" : "bg-transparent border-transparent"
       )}>
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
