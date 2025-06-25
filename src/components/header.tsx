@@ -32,8 +32,8 @@ export function Header() {
       href={href}
       className={cn(
         "font-medium text-sm transition-colors hover:text-primary hover:font-bold",
-        scrolled ? "text-foreground" : "text-background/80",
-        pathname === href && (scrolled ? "text-primary font-bold" : "text-background font-bold")
+        "text-foreground",
+        pathname === href && "text-primary font-bold"
       )}
     >
       {label}
@@ -63,7 +63,7 @@ export function Header() {
           <Wind className="h-7 w-7 text-primary" />
           <span className={cn(
             "font-bold font-heading text-xl transition-colors",
-            scrolled ? "text-foreground" : "text-background"
+            "text-foreground"
             )}>
             Sri Sai Enterprises
           </span>
@@ -82,7 +82,7 @@ export function Header() {
 
            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" className={cn(!scrolled && "text-background hover:bg-white/10 hover:text-background")}>
+              <Button variant="ghost" size="icon" className="text-foreground">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle Menu</span>
               </Button>
