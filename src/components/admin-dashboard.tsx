@@ -1,6 +1,8 @@
+
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useMemo, useEffect } from 'react';
 import {
   Card,
@@ -19,7 +21,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, ArrowUpDown, ShoppingBag, BarChart as BarChartIcon, Package, CheckCircle2 } from "lucide-react";
+import { ExternalLink, ArrowUpDown, ShoppingBag, BarChart as BarChartIcon, Package, CheckCircle2, PlusCircle } from "lucide-react";
 import {
   ChartContainer,
   ChartTooltip,
@@ -158,6 +160,9 @@ export function AdminDashboard() {
           <Skeleton className="h-[400px] xl:col-span-2" />
           <Skeleton className="h-[400px]" />
         </div>
+        <div className="mt-8">
+          <Skeleton className="h-[400px] w-full" />
+        </div>
       </div>
     );
   }
@@ -268,74 +273,122 @@ export function AdminDashboard() {
                         </CardContent>
                     </Card>
                 </div>
-
-                <div className="space-y-4 md:space-y-8 xl:col-span-1">
-                  <Card className="h-full flex flex-col">
-                      <CardHeader className="flex flex-row items-center justify-between">
-                          <div>
-                              <CardTitle>Recent Enquiries</CardTitle>
-                              <CardDescription>Your {sortedEnquiries.length} most recent enquiries.</CardDescription>
+                <Card className="h-full flex flex-col xl:col-span-1">
+                    <CardHeader className="flex flex-row items-center justify-between">
+                        <div>
+                            <CardTitle>Recent Enquiries</CardTitle>
+                            <CardDescription>Your {sortedEnquiries.length} most recent enquiries.</CardDescription>
+                        </div>
+                        <Button variant="outline" size="sm" onClick={toggleSortOrder}>
+                            <ArrowUpDown className="mr-2 h-4 w-4" />
+                            Sort
+                        </Button>
+                    </CardHeader>
+                    <CardContent className="flex-grow p-0">
+                          {sortedEnquiries.length > 0 ? (
+                          <div className="h-full overflow-y-auto">
+                              <div className="overflow-x-auto">
+                              <Table>
+                                  <TableHeader>
+                                      <TableRow>
+                                          <TableHead>Customer</TableHead>
+                                          <TableHead className="hidden sm:table-cell">Status</TableHead>
+                                          <TableHead className="text-right">Action</TableHead>
+                                      </TableRow>
+                                  </TableHeader>
+                                  <TableBody>
+                                      {sortedEnquiries.map((enquiry) => (
+                                      <TableRow key={enquiry.id}>
+                                          <TableCell>
+                                              <div className="font-medium">{enquiry.name}</div>
+                                              <div className="hidden text-sm text-muted-foreground md:inline truncate max-w-[150px]">{enquiry.projectDetails || 'No details'}</div>
+                                          </TableCell>
+                                          <TableCell className="hidden sm:table-cell"><StatusBadge status={enquiry.status} /></TableCell>
+                                          <TableCell className="text-right">
+                                              <Button asChild size="sm" variant="outline">
+                                                  <Link href={`/admin/enquiries/${enquiry.id}`}>Details <ExternalLink className="ml-2 h-3 w-3" /></Link>
+                                              </Button>
+                                          </TableCell>
+                                      </TableRow>
+                                      ))}
+                                  </TableBody>
+                              </Table>
+                              </div>
                           </div>
-                          <Button variant="outline" size="sm" onClick={toggleSortOrder}>
-                              <ArrowUpDown className="mr-2 h-4 w-4" />
-                              Sort
-                          </Button>
-                      </CardHeader>
-                      <CardContent className="flex-grow p-0">
-                           {sortedEnquiries.length > 0 ? (
-                            <div className="h-full overflow-y-auto">
-                               <div className="overflow-x-auto">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Customer</TableHead>
-                                            <TableHead className="hidden sm:table-cell">Status</TableHead>
-                                            <TableHead className="text-right">Action</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {sortedEnquiries.slice(0, 6).map((enquiry) => (
-                                        <TableRow key={enquiry.id}>
-                                            <TableCell>
-                                                <div className="font-medium">{enquiry.name}</div>
-                                                <div className="hidden text-sm text-muted-foreground md:inline truncate max-w-[150px]">{enquiry.projectDetails || 'No details'}</div>
-                                            </TableCell>
-                                            <TableCell className="hidden sm:table-cell"><StatusBadge status={enquiry.status} /></TableCell>
-                                            <TableCell className="text-right">
-                                                <Button asChild size="sm" variant="outline">
-                                                    <Link href={`/admin/enquiries/${enquiry.id}`}>Details <ExternalLink className="ml-2 h-3 w-3" /></Link>
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                               </div>
-                            </div>
-                           ) : (
-                                <div className="flex items-center justify-center h-full text-center text-muted-foreground p-8">
-                                    <p>No enquiries yet. <br /> New enquiries from the contact form will appear here.</p>
-                                </div>
-                           )}
-                      </CardContent>
-                  </Card>
-                   <Card>
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                          <CardTitle className="text-lg font-heading">Product Catalog</CardTitle>
-                          <ShoppingBag className="h-5 w-5 text-muted-foreground" />
-                      </CardHeader>
-                      <CardContent>
-                          <p className="text-sm text-muted-foreground mb-4">
-                            You currently have {products.length} products. Add, edit, or view products in your catalog.
-                          </p>
-                          <Button asChild className="w-full">
-                              <Link href="/admin/products">Manage Products</Link>
-                          </Button>
-                      </CardContent>
-                  </Card>
-                </div>
+                          ) : (
+                              <div className="flex items-center justify-center h-full text-center text-muted-foreground p-8">
+                                  <p>No enquiries yet. <br /> New enquiries from the contact form will appear here.</p>
+                              </div>
+                          )}
+                    </CardContent>
+                </Card>
             </div>
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle className="font-heading">Product Catalog</CardTitle>
+                    <CardDescription>
+                        You have {products.length} products in your catalog.
+                    </CardDescription>
+                  </div>
+                  <Button asChild size="sm">
+                    <Link href="/admin/products/new">
+                      <PlusCircle className="mr-2 h-4 w-4" /> Add New Product
+                    </Link>
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                    <div className="overflow-x-auto">
+                    <Table>
+                        <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[100px] hidden sm:table-cell">
+                            Image
+                            </TableHead>
+                            <TableHead>Name</TableHead>
+                            <TableHead className="hidden md:table-cell">Category</TableHead>
+                            <TableHead className="hidden lg:table-cell">
+                            Description
+                            </TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                        {products.map((product) => (
+                            <TableRow key={product.id}>
+                            <TableCell className="hidden sm:table-cell">
+                                <div className="w-16 h-16 relative rounded-md overflow-hidden bg-white border">
+                                <Image
+                                    alt={product.name}
+                                    className="object-contain p-1"
+                                    fill
+                                    src={product.imageUrl}
+                                    data-ai-hint={product.imageHint}
+                                />
+                                </div>
+                            </TableCell>
+                            <TableCell className="font-medium">{product.name}</TableCell>
+                            <TableCell className="hidden md:table-cell">
+                                <Badge variant="outline">{product.category}</Badge>
+                            </TableCell>
+                            <TableCell className="hidden lg:table-cell max-w-sm truncate">
+                                {product.description}
+                            </TableCell>
+                            <TableCell className="text-right">
+                                <Button size="sm" variant="ghost" disabled>
+                                Edit
+                                </Button>
+                            </TableCell>
+                            </TableRow>
+                        ))}
+                        </TableBody>
+                    </Table>
+                    </div>
+                </CardContent>
+            </Card>
         </main>
     </div>
   );
 }
+
+    
