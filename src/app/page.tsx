@@ -172,7 +172,7 @@ export default function Home() {
           </div>
           <Tabs defaultValue="All" className="w-full">
             <div className="flex justify-center mb-10">
-              <div className="w-full overflow-x-auto">
+              <div className="overflow-x-auto">
                   <TabsList className="inline-flex">
                     {categories.map((category) => (
                       <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
