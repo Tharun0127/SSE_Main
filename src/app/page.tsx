@@ -3,48 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
-import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap, Thermometer, Leaf } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ClientLogos } from "@/components/client-logos";
-
-const slides = [
-  {
-    title: "Experience Pure Comfort",
-    description: "Innovative HVAC solutions designed for your lifestyle. Stay cool, calm, and collected all year round.",
-    image: "https://placehold.co/1920x1080.png",
-    imageHint: "modern living room cool",
-    link: "/products",
-    linkLabel: "Explore Products"
-  },
-  {
-    title: "20 Years of Excellence",
-    description: "Learn about our journey and commitment to quality in the HVAC industry.",
-    image: "https://placehold.co/1920x1080.png",
-    imageHint: "serene bedroom minimalist",
-    link: "/about",
-    linkLabel: "About Us"
-  },
-  {
-    title: "Have a Question?",
-    description: "Our team is ready to assist you with product information, quotes, and support.",
-    image: "https://placehold.co/1920x1080.png",
-    imageHint: "green leaf technology",
-    link: "/contact",
-    linkLabel: "Send an Enquiry"
-  }
-];
 
 const features = [
   {
@@ -65,10 +32,6 @@ const features = [
 ];
 
 export default function Home() {
-  const plugin = React.useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true })
-  );
-
   const [isMounted, setIsMounted] = React.useState(false);
   React.useEffect(() => {
     setIsMounted(true);
@@ -79,60 +42,59 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <section className="w-full relative bg-background">
-        <Carousel
-          plugins={[plugin.current]}
-          className="w-full"
-          opts={{ loop: true }}
-        >
-          <CarouselContent className="-ml-0">
-            {slides.map((slide, index) => (
-              <CarouselItem key={index} className="pl-0">
-                <div className="min-h-[500px] md:min-h-[600px] lg:min-h-[700px] w-full relative flex items-center justify-center">
-                  <Image
-                    src={slide.image}
-                    alt={slide.title}
+      <section className="w-full bg-foreground text-background">
+        <div className="container grid md:grid-cols-2 gap-12 items-center py-20 md:py-32">
+          {/* Left side: Text content */}
+          <div className="flex flex-col items-start text-left">
+              {isMounted && <motion.h1 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.2 }}
+                  className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight"
+              >
+                  Experience Pure Comfort
+              </motion.h1>}
+              {isMounted && <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.4 }}
+                  className="max-w-xl text-background/80 md:text-lg mt-6"
+              >
+                  Innovative HVAC solutions designed for your lifestyle. Stay cool, calm, and collected all year round.
+              </motion.p>}
+              {isMounted && <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.6 }}
+                  className="mt-8"
+              >
+                  <Button asChild size="lg" variant="secondary" className="font-semibold text-lg">
+                      <Link href="/products">
+                          Explore Products
+                          <ArrowRight className="ml-2 h-5 w-5" />
+                      </Link>
+                  </Button>
+              </motion.div>}
+          </div>
+          {/* Right side: Image */}
+          <div className="flex justify-center">
+            {isMounted && <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="relative w-full max-w-md aspect-[4/3]"
+            >
+                <Image
+                    src="https://placehold.co/600x450.png"
+                    alt="Modern Air Cooling Unit"
                     fill
-                    className="object-cover"
-                    data-ai-hint={slide.imageHint}
-                    priority={index === 0}
-                  />
-                  <div className="absolute inset-0 bg-black/50" />
-                  <div className="relative text-center text-primary-foreground p-4">
-                      {isMounted && <motion.h1 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7, delay: 0.2 }}
-                        className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight drop-shadow-lg max-w-4xl"
-                      >
-                          {slide.title}
-                      </motion.h1>}
-                      {isMounted && <motion.p 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7, delay: 0.4 }}
-                        className="max-w-2xl text-primary-foreground/80 md:text-lg mt-6 mx-auto drop-shadow-md"
-                      >
-                          {slide.description}
-                      </motion.p>}
-                      {isMounted && <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7, delay: 0.6 }}
-                      >
-                        <Button asChild size="lg" className="mt-8 font-semibold text-lg">
-                          <Link href={slide.link}>
-                            {slide.linkLabel}
-                            <ArrowRight className="ml-2 h-5 w-5" />
-                          </Link>
-                        </Button>
-                      </motion.div>}
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+                    className="object-cover rounded-2xl shadow-2xl"
+                    data-ai-hint="modern air conditioner"
+                    priority
+                />
+            </motion.div>}
+          </div>
+        </div>
       </section>
 
       <section id="why-us" className="w-full py-12 md:py-20 bg-background">
