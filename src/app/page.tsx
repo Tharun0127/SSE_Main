@@ -26,19 +26,19 @@ const features = [
   {
     title: "Optimal Airflow",
     description: "Our products are engineered to deliver maximum airflow performance, keeping you comfortable.",
-    image: "https://placehold.co/600x450.png",
+    image: "https://placehold.co/450x600.png",
     imageHint: "air vent pattern"
   },
   {
     title: "Energy Efficient",
     description: "With high EER ratings and smart features, our units save you money while protecting the planet.",
-    image: "https://placehold.co/600x450.png",
+    image: "https://placehold.co/450x600.png",
     imageHint: "green leaf power"
   },
   {
     title: "Sleek, Modern Design",
     description: "Our products don't just feel good, they look good. Enhance your space with our stylish designs.",
-    image: "https://placehold.co/600x450.png",
+    image: "https://placehold.co/450x600.png",
     imageHint: "modern interior design"
   },
 ];
@@ -119,28 +119,21 @@ export default function Home() {
               We blend cutting-edge technology with sophisticated design to create HVAC products that elevate your comfort and your space.
             </p>
           </div>
-          <div className="space-y-12">
-            {features.map((feature, index) => (
-              <div key={feature.title} className="flex flex-col md:flex-row bg-card border rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl group">
-                <div className={`w-full md:w-1/2 flex flex-col justify-center p-8 lg:p-12 relative overflow-hidden ${index % 2 !== 0 ? 'md:order-last' : ''}`}>
-                  <span className={`absolute -top-4 text-[120px] font-black text-foreground/5 z-0 select-none ${index % 2 !== 0 ? '-left-4' : '-right-4'}`}>
-                    0{index + 1}
-                  </span>
-                  <div className="relative z-10">
-                    <h3 className="text-2xl lg:text-3xl font-bold font-heading mb-4 text-foreground">{feature.title}</h3>
-                    <p className="text-muted-foreground lg:text-lg">{feature.description}</p>
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature) => (
+              <Card key={feature.title} className="bg-card border text-center flex flex-col items-center p-6 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group">
+                <div className="relative w-full aspect-[3/4] mb-6 rounded-lg overflow-hidden">
+                    <Image
+                        src={feature.image}
+                        alt={feature.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        data-ai-hint={feature.imageHint}
+                    />
                 </div>
-                <div className="w-full md:w-1/2 aspect-video md:aspect-auto relative">
-                  <Image
-                    src={feature.image}
-                    alt={feature.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    data-ai-hint={feature.imageHint}
-                  />
-                </div>
-              </div>
+                <h3 className="text-2xl font-bold font-heading mb-3 text-foreground">{feature.title}</h3>
+                <p className="text-muted-foreground lg:text-base">{feature.description}</p>
+              </Card>
             ))}
           </div>
         </div>
