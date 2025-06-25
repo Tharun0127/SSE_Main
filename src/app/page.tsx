@@ -11,7 +11,6 @@ import { ArrowRight } from "lucide-react";
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ClientLogos } from "@/components/client-logos";
 import {
   Carousel,
   CarouselContent,
@@ -20,6 +19,19 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
+
+const LOGOS = [
+  { name: "LG", hint: "LG logo" },
+  { name: "Daikin", hint: "Daikin logo" },
+  { name: "Blue Star", hint: "Blue Star logo" },
+  { name: "Voltas", hint: "Voltas logo" },
+  { name: "Hitachi", hint: "Hitachi logo" },
+  { name: "Carrier", hint: "Carrier logo" },
+  { name: "Trane", hint: "Trane logo" },
+  { name: "Samsung", hint: "Samsung logo" },
+  { name: "Panasonic", hint: "Panasonic logo" },
+  { name: "Mitsubishi Electric", hint: "Mitsubishi Electric logo" },
+];
 
 const features = [
   {
@@ -107,10 +119,33 @@ export default function Home() {
         </div>
       </section>
 
-      <ClientLogos />
-
-      <section id="featured-products" className="w-full py-16 md:py-24 bg-secondary">
-        <div className="container">
+      <section className="w-full py-16 md:py-24 bg-secondary">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <p className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">
+              Trusted by industry leading companies
+            </p>
+          </div>
+          <div className="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_10%,_black_90%,transparent_100%)]">
+            <ul className="flex items-center justify-center animate-infinite-scroll">
+              {LOGOS.concat(LOGOS).map((logo, index) => (
+                <li key={index} className="mx-8 flex-shrink-0">
+                  <Image
+                    src={`https://placehold.co/120x40.png?text=${logo.name.replace(/\s/g, '+')}`}
+                    width={120}
+                    height={40}
+                    alt={`${logo.name} logo`}
+                    data-ai-hint={`${logo.name.toLowerCase()} logo`}
+                    className="object-contain"
+                    style={{ filter: 'grayscale(100%)', opacity: 0.6 }}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        
+        <div className="container pt-12 md:pt-16">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Featured Products</h2>
             <p className="mt-4 text-lg text-muted-foreground">
@@ -258,16 +293,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full py-16 md:py-24 bg-secondary">
+      <section className="w-full py-16 md:py-24 bg-foreground">
         <div className="container">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 text-center max-w-lg mx-auto">
-            <div>
-              <h3 className="text-4xl md:text-5xl font-extrabold text-primary font-heading">20+</h3>
-              <p className="mt-2 text-muted-foreground">Years of Experience</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            <div className="bg-card p-8 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg">
+              <h3 className="text-5xl md:text-6xl font-extrabold text-primary font-heading">20+</h3>
+              <p className="mt-2 text-card-foreground/80">Years of Experience</p>
             </div>
-            <div>
-              <h3 className="text-4xl md:text-5xl font-extrabold text-primary font-heading">100+</h3>
-              <p className="mt-2 text-muted-foreground">HVAC Dealers</p>
+            <div className="bg-card p-8 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg">
+              <h3 className="text-5xl md:text-6xl font-extrabold text-primary font-heading">100+</h3>
+              <p className="mt-2 text-card-foreground/80">HVAC Dealers</p>
             </div>
           </div>
         </div>
