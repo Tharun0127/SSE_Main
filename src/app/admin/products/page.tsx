@@ -32,7 +32,7 @@ export default function AdminProductsPage() {
   useEffect(() => {
     const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]');
     // Show newest products first
-    const combined = [...staticProducts, ...userProducts].sort((a,b) => b.id - a.id); 
+    const combined = [...userProducts.reverse(), ...staticProducts]; 
     setAllProducts(combined);
     setIsLoading(false);
   }, []);
@@ -78,7 +78,7 @@ export default function AdminProductsPage() {
           <CardHeader>
             <CardTitle className="font-heading">Product Catalog</CardTitle>
             <CardDescription>
-              A list of all products in your catalog.
+              A list of all products in your catalog. User-added products can be edited.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -119,10 +119,15 @@ export default function AdminProductsPage() {
                         {product.description}
                       </TableCell>
                       <TableCell className="text-right">
-                        {/* Placeholder for future actions */}
-                        <Button size="sm" variant="ghost" disabled>
-                          Edit
-                        </Button>
+                        {staticProducts.some((p) => p.id === product.id) ? (
+                          <Button size="sm" variant="ghost" disabled>
+                            Edit
+                          </Button>
+                        ) : (
+                          <Button asChild size="sm" variant="outline">
+                            <Link href={`/admin/products/edit/${product.id}`}>Edit</Link>
+                          </Button>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}

@@ -92,7 +92,7 @@ export function AdminDashboard() {
     setEnquiries(storedEnquiries);
     
     const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]');
-    const combinedProducts = [...staticProducts, ...userProducts];
+    const combinedProducts = [...userProducts.reverse(), ...staticProducts];
     setProducts(combinedProducts);
 
     setIsLoading(false);
@@ -379,9 +379,16 @@ export function AdminDashboard() {
                                 {product.description}
                             </TableCell>
                             <TableCell className="text-right">
-                                <Button size="sm" variant="ghost" disabled>
-                                Edit
-                                </Button>
+                                {staticProducts.some((p) => p.id === product.id) ? (
+                                    <Button size="sm" variant="ghost" disabled>
+                                      Edit
+                                    </Button>
+                                  ) : (
+                                   <Button asChild size="sm" variant="outline">
+                                      <Link href={`/admin/products/edit/${product.id}`}>Edit</Link>
+                                    </Button>
+                                  )
+                                }
                             </TableCell>
                             </TableRow>
                         ))}
@@ -394,5 +401,3 @@ export function AdminDashboard() {
     </div>
   );
 }
-
-    
