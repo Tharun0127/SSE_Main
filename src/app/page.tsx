@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
-import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ClientLogos } from "@/components/client-logos";
 import {
@@ -20,24 +19,25 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 const features = [
   {
     title: "Optimal Airflow",
     description: "Our products are engineered to deliver maximum airflow performance, keeping you comfortable.",
-    image: "https://placehold.co/450x600.png",
+    image: "https://placehold.co/600x450.png",
     imageHint: "air vent pattern"
   },
   {
     title: "Energy Efficient",
     description: "With high EER ratings and smart features, our units save you money while protecting the planet.",
-    image: "https://placehold.co/450x600.png",
+    image: "https://placehold.co/600x450.png",
     imageHint: "green leaf power"
   },
   {
     title: "Sleek, Modern Design",
     description: "Our products don't just feel good, they look good. Enhance your space with our stylish designs.",
-    image: "https://placehold.co/450x600.png",
+    image: "https://placehold.co/600x450.png",
     imageHint: "modern interior design"
   },
 ];
@@ -54,7 +54,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <section className="w-full bg-primary text-primary-foreground">
+      <section className="w-full bg-foreground text-primary-foreground">
         <div className="container grid md:grid-cols-2 gap-12 items-center py-20 md:py-32">
           <div className="flex flex-col items-start text-left">
               {isMounted && <motion.h1 
@@ -79,7 +79,7 @@ export default function Home() {
                   transition={{ duration: 0.7, delay: 0.6 }}
                   className="mt-8"
               >
-                  <Button asChild size="lg" className="font-semibold text-lg bg-white text-primary hover:bg-white/90">
+                  <Button asChild size="lg" variant="secondary" className="font-semibold text-lg hover:bg-white/90">
                       <Link href="/products">
                           Explore Products
                           <ArrowRight className="ml-2 h-5 w-5" />
@@ -109,29 +109,68 @@ export default function Home() {
 
       <section id="why-us" className="w-full py-16 md:py-24 bg-background">
         <div className="container">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Why Choose Sri Sai Enterprises?</h2>
             <p className="mt-4 text-lg text-muted-foreground">
               We blend cutting-edge technology with sophisticated design to create HVAC products that elevate your comfort and your space.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature) => (
-              <Card key={feature.title} className="bg-card border text-center flex flex-col items-center p-6 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group">
-                <div className="relative w-full aspect-[3/4] mb-6 rounded-lg overflow-hidden">
-                    <Image
-                        src={feature.image}
-                        alt={feature.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        data-ai-hint={feature.imageHint}
-                    />
+
+          {/* Desktop View: Alternating Layout */}
+          <div className="hidden md:flex flex-col gap-12">
+            {features.map((feature, index) => (
+              <div
+                key={feature.title}
+                className={cn(
+                  "flex items-center justify-between gap-12 lg:gap-20 p-8 rounded-2xl shadow-lg",
+                  index % 2 === 1 ? "flex-row-reverse" : "flex-row",
+                  ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
+                )}
+              >
+                <div className="w-full md:w-5/12">
+                  <h3 className="text-3xl font-bold font-heading mb-4 text-foreground">{feature.title}</h3>
+                  <p className="text-muted-foreground text-lg">{feature.description}</p>
                 </div>
-                <h3 className="text-2xl font-bold font-heading mb-3 text-foreground">{feature.title}</h3>
-                <p className="text-muted-foreground lg:text-base">{feature.description}</p>
-              </Card>
+                <div className="w-full md:w-6/12 relative aspect-[4/3] rounded-lg overflow-hidden">
+                  <Image
+                    src={feature.image}
+                    alt={feature.title}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={feature.imageHint}
+                  />
+                </div>
+              </div>
             ))}
           </div>
+
+          {/* Mobile View: Horizontal Scroll Carousel */}
+          <div className="md:hidden">
+              <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory no-scrollbar">
+                  {features.map((feature, index) => (
+                      <div
+                        key={feature.title}
+                        className={cn(
+                          "flex-shrink-0 w-[90%] snap-start p-6 rounded-2xl shadow-lg",
+                          ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
+                        )}
+                      >
+                          <div className="relative w-full aspect-video mb-4 rounded-lg overflow-hidden">
+                               <Image
+                                  src={feature.image}
+                                  alt={feature.title}
+                                  fill
+                                  className="object-cover"
+                                  data-ai-hint={feature.imageHint}
+                              />
+                          </div>
+                          <h3 className="text-xl font-bold font-heading mb-2 text-foreground">{feature.title}</h3>
+                          <p className="text-muted-foreground text-sm">{feature.description}</p>
+                      </div>
+                  ))}
+              </div>
+          </div>
+
         </div>
       </section>
 
@@ -145,7 +184,7 @@ export default function Home() {
           </div>
           <Tabs defaultValue="All" className="w-full">
             <div className="flex justify-center mb-10">
-              <div className="overflow-x-auto pb-2">
+              <div className="overflow-x-auto pb-2 no-scrollbar">
                   <TabsList className="inline-flex">
                     {categories.map((category) => (
                       <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
