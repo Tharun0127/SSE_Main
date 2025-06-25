@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import Autoplay from "embla-carousel-autoplay";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Zap, Thermometer, Leaf } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 import { Card } from "@/components/ui/card";
@@ -24,19 +24,22 @@ import {
 
 const features = [
   {
-    icon: Thermometer,
     title: "Optimal Airflow",
     description: "Our products are engineered to deliver maximum airflow performance, keeping you comfortable.",
+    image: "https://placehold.co/600x450.png",
+    imageHint: "air vent pattern"
   },
   {
-    icon: Zap,
     title: "Energy Efficient",
     description: "With high EER ratings and smart features, our units save you money while protecting the planet.",
+    image: "https://placehold.co/600x450.png",
+    imageHint: "green leaf power"
   },
   {
-    icon: Leaf,
     title: "Sleek, Modern Design",
     description: "Our products don't just feel good, they look good. Enhance your space with our stylish designs.",
+    image: "https://placehold.co/600x450.png",
+    imageHint: "modern interior design"
   },
 ];
 
@@ -110,54 +113,35 @@ export default function Home() {
 
       <section id="why-us" className="w-full py-16 md:py-24 bg-background">
         <div className="container">
-          <div className="text-center max-w-3xl mx-auto mb-12">
+          <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Why Choose Sri Sai Enterprises?</h2>
             <p className="mt-4 text-lg text-muted-foreground">
               We blend cutting-edge technology with sophisticated design to create HVAC products that elevate your comfort and your space.
             </p>
           </div>
-          {/* Desktop Grid */}
-          <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="space-y-12">
             {features.map((feature, index) => (
-              <Card key={index} className="text-center p-8 bg-card rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div className="flex justify-center mb-4">
-                  <div className="p-4 bg-primary/10 rounded-full">
-                    <feature.icon className="h-8 w-8 text-primary" />
+              <div key={feature.title} className="flex flex-col md:flex-row bg-card border rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl group">
+                <div className={`w-full md:w-1/2 flex flex-col justify-center p-8 lg:p-12 relative overflow-hidden ${index % 2 !== 0 ? 'md:order-last' : ''}`}>
+                  <span className={`absolute -top-4 text-[120px] font-black text-foreground/5 z-0 select-none ${index % 2 !== 0 ? '-left-4' : '-right-4'}`}>
+                    0{index + 1}
+                  </span>
+                  <div className="relative z-10">
+                    <h3 className="text-2xl lg:text-3xl font-bold font-heading mb-4 text-foreground">{feature.title}</h3>
+                    <p className="text-muted-foreground lg:text-lg">{feature.description}</p>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold font-heading mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
-              </Card>
+                <div className="w-full md:w-1/2 aspect-video md:aspect-auto relative">
+                  <Image
+                    src={feature.image}
+                    alt={feature.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    data-ai-hint={feature.imageHint}
+                  />
+                </div>
+              </div>
             ))}
-          </div>
-          {/* Mobile Carousel */}
-           <div className="md:hidden">
-            <Carousel
-              plugins={[plugin.current]}
-              className="w-full max-w-xs mx-auto"
-              onMouseEnter={plugin.current.stop}
-              onMouseLeave={plugin.current.reset}
-            >
-              <CarouselContent>
-                {features.map((feature, index) => (
-                  <CarouselItem key={index}>
-                    <div className="p-1 h-full">
-                       <Card className="text-center p-6 bg-card rounded-lg border h-full flex flex-col justify-center">
-                          <div className="flex justify-center mb-4">
-                            <div className="p-3 bg-primary/10 rounded-full">
-                              <feature.icon className="h-7 w-7 text-primary" />
-                            </div>
-                          </div>
-                          <h3 className="text-xl font-bold font-heading mb-2">{feature.title}</h3>
-                          <p className="text-muted-foreground text-sm">{feature.description}</p>
-                        </Card>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
           </div>
         </div>
       </section>
