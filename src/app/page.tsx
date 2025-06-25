@@ -55,13 +55,20 @@ const features = [
 ];
 
 export default function Home() {
-  const [allProducts, setAllProducts] = React.useState<Product[]>(staticProducts);
+  const [allProducts, setAllProducts] = React.useState<Product[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     const userProducts: Product[] = JSON.parse(localStorage.getItem('user-products') || '[]');
-    if (userProducts.length > 0) {
-      setAllProducts([...staticProducts, ...userProducts]);
-    }
+    
+    const productMap = new Map<number, Product>();
+    // Base order is static products
+    staticProducts.forEach(p => productMap.set(p.id, p));
+    // Overwrite with user products (edited or new)
+    userProducts.forEach(p => productMap.set(p.id, p));
+
+    setAllProducts(Array.from(productMap.values()));
+    setIsLoading(false);
   }, []);
 
   const categories = ['All', 'Grills', 'Diffusers', 'Dampers', 'Others'];

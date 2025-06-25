@@ -30,9 +30,11 @@ export default function AdminProductsPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]');
-    // Show newest products first
-    const combined = [...userProducts.reverse(), ...staticProducts]; 
+    const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]') as Product[];
+    const userProductIds = new Set(userProducts.map(p => p.id));
+    const uniqueStaticProducts = staticProducts.filter(p => !userProductIds.has(p.id));
+    // Show newest user products first, then the remaining static products
+    const combined = [...userProducts.reverse(), ...uniqueStaticProducts]; 
     setAllProducts(combined);
     setIsLoading(false);
   }, []);

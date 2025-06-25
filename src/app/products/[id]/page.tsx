@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useParams } from 'next/navigation';
@@ -21,8 +22,12 @@ export default function ProductDetailPage() {
   useEffect(() => {
     if (productId) {
       const userProducts: Product[] = JSON.parse(localStorage.getItem('user-products') || '[]');
-      const allProducts = [...staticProducts, ...userProducts];
-      const foundProduct = allProducts.find((p) => p.id === productId);
+      
+      const productMap = new Map<number, Product>();
+      staticProducts.forEach(p => productMap.set(p.id, p));
+      userProducts.forEach(p => productMap.set(p.id, p));
+      
+      const foundProduct = productMap.get(productId);
       setProduct(foundProduct);
       setIsLoading(false);
     }

@@ -91,8 +91,10 @@ export function AdminDashboard() {
     const storedEnquiries = JSON.parse(localStorage.getItem('enquiries') || '[]');
     setEnquiries(storedEnquiries);
     
-    const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]');
-    const combinedProducts = [...userProducts.reverse(), ...staticProducts];
+    const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]') as Product[];
+    const userProductIds = new Set(userProducts.map(p => p.id));
+    const uniqueStaticProducts = staticProducts.filter(p => !userProductIds.has(p.id));
+    const combinedProducts = [...userProducts.reverse(), ...uniqueStaticProducts];
     setProducts(combinedProducts);
 
     setIsLoading(false);

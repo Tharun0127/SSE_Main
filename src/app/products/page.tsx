@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Suspense, useState, useEffect } from 'react';
@@ -33,12 +34,19 @@ const ProductGridSkeleton = () => (
 function ProductsTabs() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category');
-  const [allProducts, setAllProducts] = useState<Product[]>(staticProducts);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]');
-    setAllProducts([...staticProducts, ...userProducts]);
+    const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]') as Product[];
+    
+    const productMap = new Map<number, Product>();
+    // Base order is static products
+    staticProducts.forEach(p => productMap.set(p.id, p));
+    // Overwrite with user products (edited or new)
+    userProducts.forEach(p => productMap.set(p.id, p));
+
+    setAllProducts(Array.from(productMap.values()));
     setIsLoading(false);
   }, []);
 
