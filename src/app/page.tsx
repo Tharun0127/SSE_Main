@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -236,6 +237,26 @@ export default function Home() {
           </Tabs>
         </div>
       </section>
+
+       <section id="consult-us" className="w-full py-12 md:py-20 bg-background">
+        <div className="container">
+          <div className="mx-auto max-w-4xl text-center bg-card p-8 md:p-12 rounded-2xl shadow-lg border">
+            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Have a Project in Mind?</h2>
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+              Whether you're an architect, builder, or homeowner, our team is ready to provide expert consultation and tailor-made HVAC solutions for your specific needs.
+            </p>
+            <div className="mt-8">
+              <Button asChild size="lg">
+                <Link href="/contact">
+                  Consult Us Now
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <ClientLogos />
     </div>
   );
