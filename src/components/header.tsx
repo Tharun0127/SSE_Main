@@ -21,6 +21,7 @@ export function Header() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // This effect runs only on the client, after the component has mounted.
     setMounted(true);
 
     const handleScroll = () => {
@@ -28,44 +29,37 @@ export function Header() {
     };
     
     window.addEventListener("scroll", handleScroll);
+    // Run on mount to check initial scroll position
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // On the server and for the initial client render, `mounted` is false,
+  // so the header will have a consistent, default appearance.
+  // The `scrolled` styles are only applied after mounting on the client.
   const headerClass = cn(
     "sticky top-0 z-50 w-full border-b transition-colors duration-300",
     mounted && scrolled
       ? "border-border bg-card/80 backdrop-blur-sm"
       : "bg-background border-transparent"
   );
+  
+  const getDesktopLinkClass = (href: string) => {
+    // Only apply active styles after mounting to avoid mismatch
+    if (!mounted) return "text-muted-foreground";
+    return pathname === href
+      ? "text-foreground font-semibold"
+      : "text-muted-foreground";
+  };
+  
+  const getMobileLinkClass = (href: string) => {
+    if (!mounted) return "text-muted-foreground";
+    return pathname === href 
+      ? "text-primary font-semibold" 
+      : "text-muted-foreground";
+  }
 
-  const DesktopNavLink = ({ href, label }: { href: string; label: string }) => (
-    <Link
-      href={href}
-      className={cn(
-        "font-medium text-sm transition-colors hover:text-primary",
-        mounted && pathname === href
-          ? "text-foreground font-semibold"
-          : "text-muted-foreground"
-      )}
-    >
-      {label}
-    </Link>
-  );
-
-  const MobileNavLink = ({ href, label }: { href: string; label: string }) => (
-    <Link
-      href={href}
-      className={cn(
-        "font-medium text-lg hover:text-primary",
-        mounted && pathname === href ? "text-primary font-semibold" : "text-muted-foreground"
-      )}
-      onClick={() => setIsMobileMenuOpen(false)}
-    >
-      {label}
-    </Link>
-  );
 
   return (
     <header className={headerClass}>
@@ -79,7 +73,16 @@ export function Header() {
         
         <nav className="hidden md:flex gap-x-6 items-center">
           {navLinks.map((link) => (
-            <DesktopNavLink key={link.href} {...link} />
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "font-medium text-sm transition-colors hover:text-primary",
+                getDesktopLinkClass(link.href)
+              )}
+            >
+              {link.label}
+            </Link>
           ))}
         </nav>
 
@@ -104,11 +107,21 @@ export function Header() {
               </div>
               <nav className="flex flex-col gap-y-6">
                 {navLinks.map((link) => (
-                  <MobileNavLink key={link.href} {...link} />
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      "font-medium text-lg hover:text-primary",
+                      getMobileLinkClass(link.href)
+                    )}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
                 ))}
               </nav>
                <Button asChild className="mt-8 w-full">
-                  <Link href="/contact">Contact Us</Link>
+                  <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
               </Button>
             </SheetContent>
           </Sheet>
