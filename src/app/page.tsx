@@ -65,8 +65,8 @@ export default function Home() {
   const featuredProducts = products.filter(p => p.featured);
 
   return (
-    <div className="flex flex-col">
-      <section className="w-full bg-foreground text-primary-foreground">
+    <div className="flex flex-col bg-background">
+      <section className="w-full bg-background text-foreground">
         <div className="container grid md:grid-cols-2 gap-12 items-center py-20 md:py-32">
           <div className="flex flex-col items-start text-left">
               {isMounted && <motion.h1 
@@ -81,7 +81,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4 }}
-                  className="max-w-xl text-primary-foreground/80 md:text-lg mt-6"
+                  className="max-w-xl text-muted-foreground md:text-lg mt-6"
               >
                   Innovative HVAC solutions designed for your lifestyle. Stay cool, calm, and collected all year round.
               </motion.p>}
@@ -91,7 +91,7 @@ export default function Home() {
                   transition={{ duration: 0.7, delay: 0.6 }}
                   className="mt-8"
               >
-                  <Button asChild size="lg" variant="secondary" className="font-semibold text-lg hover:bg-white/90">
+                  <Button asChild size="lg" className="font-semibold text-lg">
                       <Link href="/products">
                           Explore Products
                           <ArrowRight className="ml-2 h-5 w-5" />
@@ -119,8 +119,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full py-16 md:py-24 bg-secondary">
-        <div className="container mx-auto px-4 md:px-6">
+      <section className="w-full py-16 bg-secondary">
+        <div className="container">
           <div className="text-center mb-12">
             <p className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">
               Trusted by industry leading companies
@@ -143,67 +143,36 @@ export default function Home() {
               ))}
             </ul>
           </div>
-        </div>
         
-        <div className="container pt-12 md:pt-16">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Featured Products</h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Discover our top-rated and most popular products, handpicked for their quality and performance.
-            </p>
-          </div>
-          <Tabs defaultValue="All" className="w-full">
-            <div className="flex justify-center mb-10">
-              <div className="overflow-x-auto pb-2 no-scrollbar">
-                  <TabsList className="inline-flex">
-                    {categories.map((category) => (
-                      <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
-                    ))}
-                  </TabsList>
-              </div>
+          <div className="pt-16">
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Featured Products</h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Discover our top-rated and most popular products, handpicked for their quality and performance.
+              </p>
             </div>
+            <Tabs defaultValue="All" className="w-full">
+              <div className="flex justify-center mb-10">
+                <div className="overflow-x-auto pb-2 no-scrollbar">
+                    <TabsList className="inline-flex">
+                      {categories.map((category) => (
+                        <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
+                      ))}
+                    </TabsList>
+                </div>
+              </div>
 
-            <TabsContent value="All">
-               <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {featuredProducts.slice(0, 3).map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-               <div className="md:hidden">
-                <Carousel opts={{ align: "start" }} className="w-full">
-                  <CarouselContent className="-ml-4">
-                    {featuredProducts.slice(0, 3).map((product) => (
-                       <CarouselItem key={product.id} className="pl-4 basis-4/5 sm:basis-2/3">
-                          <ProductCard product={product} />
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                   <div className="flex justify-center mt-6">
-                    <CarouselPrevious className="static -translate-x-1" />
-                    <CarouselNext className="static translate-x-1" />
-                  </div>
-                </Carousel>
-              </div>
-              <div className="text-center mt-12">
-                <Button asChild size="lg" variant="outline">
-                  <Link href="/products">View All Products <ArrowRight className="ml-2"/></Link>
-                </Button>
-              </div>
-            </TabsContent>
-
-            {categories.filter(c => c !== 'All').map((category) => (
-              <TabsContent key={category} value={category}>
-                 <p className="text-center text-muted-foreground mb-8">Showing our top products for {category}.</p>
+              <TabsContent value="All">
                 <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {products.filter(p => p.category === category).slice(0, 3).map((product) => (
+                  {featuredProducts.slice(0, 3).map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
                 </div>
-                 <div className="md:hidden">
+                <div className="md:hidden">
                   <Carousel opts={{ align: "start" }} className="w-full">
                     <CarouselContent className="-ml-4">
-                      {products.filter(p => p.category === category).slice(0, 3).map((product) => (
-                         <CarouselItem key={product.id} className="pl-4 basis-4/5 sm:basis-2/3">
+                      {featuredProducts.slice(0, 3).map((product) => (
+                        <CarouselItem key={product.id} className="pl-4 basis-4/5 sm:basis-2/3">
                             <ProductCard product={product} />
                         </CarouselItem>
                       ))}
@@ -216,12 +185,43 @@ export default function Home() {
                 </div>
                 <div className="text-center mt-12">
                   <Button asChild size="lg" variant="outline">
-                    <Link href={`/products?category=${category}`}>View All {category} <ArrowRight className="ml-2"/></Link>
+                    <Link href="/products">View All Products <ArrowRight className="ml-2"/></Link>
                   </Button>
                 </div>
               </TabsContent>
-            ))}
-          </Tabs>
+
+              {categories.filter(c => c !== 'All').map((category) => (
+                <TabsContent key={category} value={category}>
+                  <p className="text-center text-muted-foreground mb-8">Showing our top products for {category}.</p>
+                  <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {products.filter(p => p.category === category).slice(0, 3).map((product) => (
+                      <ProductCard key={product.id} product={product} />
+                    ))}
+                  </div>
+                  <div className="md:hidden">
+                    <Carousel opts={{ align: "start" }} className="w-full">
+                      <CarouselContent className="-ml-4">
+                        {products.filter(p => p.category === category).slice(0, 3).map((product) => (
+                          <CarouselItem key={product.id} className="pl-4 basis-4/5 sm:basis-2/3">
+                              <ProductCard product={product} />
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <div className="flex justify-center mt-6">
+                        <CarouselPrevious className="static -translate-x-1" />
+                        <CarouselNext className="static translate-x-1" />
+                      </div>
+                    </Carousel>
+                  </div>
+                  <div className="text-center mt-12">
+                    <Button asChild size="lg" variant="outline">
+                      <Link href={`/products?category=${category}`}>View All {category} <ArrowRight className="ml-2"/></Link>
+                    </Button>
+                  </div>
+                </TabsContent>
+              ))}
+            </Tabs>
+          </div>
         </div>
       </section>
       
@@ -237,7 +237,7 @@ export default function Home() {
           <div className="md:hidden">
             <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory space-x-4 pb-4 no-scrollbar -mx-4 px-4">
               {features.map((feature, index) => (
-                 <div key={feature.title} className="snap-start flex-shrink-0 basis-4/5 sm:basis-2/3">
+                <div key={feature.title} className="snap-start flex-shrink-0 basis-4/5 sm:basis-2/3">
                     <div
                       className={cn(
                         "flex flex-col h-full p-6 rounded-2xl shadow-lg text-center",
@@ -258,7 +258,7 @@ export default function Home() {
                         <p className="text-muted-foreground text-sm">{feature.description}</p>
                       </div>
                     </div>
-                 </div>
+                </div>
               ))}
             </div>
           </div>
@@ -308,7 +308,7 @@ export default function Home() {
         </div>
       </section>
 
-       <section id="consult-us" className="w-full py-16 md:py-24 bg-background">
+      <section id="consult-us" className="w-full py-16 md:py-24 bg-background">
         <div className="container">
           <div className="mx-auto max-w-4xl text-center bg-card p-8 md:p-12 rounded-2xl shadow-lg border">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Have a Project in Mind?</h2>
