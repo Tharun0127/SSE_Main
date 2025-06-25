@@ -1,45 +1,46 @@
 import Image from "next/image";
 import Link from "next/link";
 import { type Product } from "@/lib/products";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <Card className="h-full flex flex-col min-h-[480px] overflow-hidden group bg-card text-card-foreground rounded-lg border hover:shadow-lg transition-shadow duration-300">
-      <CardContent className="p-0 flex flex-col flex-grow">
-        {/* Top Content: Text */}
-        <div className="p-6 pb-4">
-          <p className="text-sm text-muted-foreground mb-1">{product.category}</p>
-          <h3 className="font-heading text-2xl font-bold uppercase mb-2">
-            <Link href={`/products/${product.id}`} className="hover:underline">{product.name}</Link>
-          </h3>
-          <p className="text-muted-foreground text-sm">{product.description}</p>
-        </div>
-
-        {/* Middle Content: Image (takes up available space) */}
-        <div className="relative w-full flex-grow overflow-hidden bg-white flex items-center justify-center p-4">
-          <Link href={`/products/${product.id}`} className="relative w-full h-full">
-            <Image
-              src={product.imageUrl}
-              alt={product.name}
-              fill
-              className="object-contain transition-transform duration-500 group-hover:scale-105"
-              data-ai-hint={product.imageHint}
-            />
-          </Link>
-        </div>
-
-        {/* Bottom Content: Button */}
-        <div className="p-6 pt-4">
-          <Button asChild variant="secondary" className="w-full font-semibold">
-            <Link href={`/products/${product.id}`}>
-              View Details <ArrowRight className="ml-2 h-4 w-4" />
+    <Card className="relative min-h-[480px] w-full overflow-hidden rounded-lg group text-white shadow-lg">
+      {/* Background Image */}
+      <Link href={`/products/${product.id}`} className="absolute inset-0">
+        <Image
+          src={product.imageUrl}
+          alt={product.name}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          data-ai-hint={product.imageHint}
+        />
+      </Link>
+      
+      {/* Gradient Overlay for Text Readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+      
+      {/* Content Overlay */}
+      <div className="relative z-10 flex h-full flex-col p-6">
+        {/* Top Text */}
+        <div>
+          <h3 className="font-heading text-2xl font-bold uppercase">
+            <Link href={`/products/${product.id}`} className="hover:underline">
+              {product.name}
             </Link>
-          </Button>
+          </h3>
+          <p className="mt-1 text-sm text-white/90">{product.description}</p>
         </div>
-      </CardContent>
+        
+        {/* Bottom Content */}
+        <div className="mt-auto flex flex-col items-center text-center">
+           <Button asChild variant="secondary" className="w-full max-w-xs font-semibold">
+             <Link href={`/products/${product.id}`}>View Details</Link>
+           </Button>
+           <p className="mt-3 text-xs uppercase tracking-wider text-white/80">{product.category}</p>
+        </div>
+      </div>
     </Card>
   );
 }
