@@ -58,7 +58,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4 }}
-                  className="max-w-xl text-background/80 md:text-lg mt-6"
+                  className="max-w-xl text-background/90 md:text-lg mt-6"
               >
                   Innovative HVAC solutions designed for your lifestyle. Stay cool, calm, and collected all year round.
               </motion.p>}
