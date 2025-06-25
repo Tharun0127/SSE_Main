@@ -139,7 +139,7 @@ export function AdminDashboard() {
       { status: 'active', count: counts.active, fill: 'var(--color-active)' },
       { status: 'completed', count: counts.completed, fill: 'var(--color-completed)' },
       { status: 'cancelled', count: counts.cancelled, fill: 'var(--color-cancelled)' },
-    ];
+    ].filter(item => item.count > 0);
   }, [enquiries]);
 
   const toggleSortOrder = () => {
@@ -163,7 +163,7 @@ export function AdminDashboard() {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+    <div className="flex min-h-screen w-full flex-col bg-secondary">
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 <Card>
@@ -206,15 +206,21 @@ export function AdminDashboard() {
                         </CardHeader>
                         <CardContent className="pb-8">
                             <ChartContainer config={pieChartConfig} className="mx-auto aspect-square max-h-[250px]">
-                                <PieChart>
-                                    <ChartTooltip content={<ChartTooltipContent nameKey="count" hideLabel />} />
-                                    <Pie data={pieData} dataKey="count" nameKey="status" innerRadius={60}>
-                                      {pieData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.fill} />
-                                      ))}
-                                    </Pie>
-                                    <ChartLegend content={<ChartLegendContent nameKey="status" />} />
-                                </PieChart>
+                                {pieData.length > 0 ? (
+                                    <PieChart>
+                                        <ChartTooltip content={<ChartTooltipContent nameKey="count" hideLabel />} />
+                                        <Pie data={pieData} dataKey="count" nameKey="status" innerRadius={60}>
+                                        {pieData.map((entry) => (
+                                            <Cell key={`cell-${entry.status}`} fill={entry.fill} />
+                                        ))}
+                                        </Pie>
+                                        <ChartLegend content={<ChartLegendContent nameKey="status" />} />
+                                    </PieChart>
+                                ) : (
+                                    <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+                                        No data to display
+                                    </div>
+                                )}
                             </ChartContainer>
                         </CardContent>
                     </Card>
@@ -226,31 +232,37 @@ export function AdminDashboard() {
                         <CardContent>
                              <ChartContainer config={lineChartConfig} className="min-h-[250px] w-full">
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <LineChart
-                                        data={lineChartData}
-                                        margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
-                                    >
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis 
-                                            dataKey="date" 
-                                            tickFormatter={(str) => format(parseISO(str), "MMM d")}
-                                            stroke="#888888"
-                                            fontSize={12}
-                                        />
-                                        <YAxis allowDecimals={false} stroke="#888888" fontSize={12}/>
-                                        <ChartTooltip
-                                            cursor={{ fill: 'hsl(var(--muted))' }}
-                                            content={<ChartTooltipContent />}
-                                        />
-                                        <Line
-                                            type="monotone"
-                                            dataKey="enquiries"
-                                            stroke="hsl(var(--primary))"
-                                            strokeWidth={2}
-                                            dot={{ fill: "hsl(var(--primary))", r: 4 }}
-                                            activeDot={{ r: 8 }}
-                                        />
-                                    </LineChart>
+                                    {lineChartData.length > 0 ? (
+                                        <LineChart
+                                            data={lineChartData}
+                                            margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+                                        >
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis 
+                                                dataKey="date" 
+                                                tickFormatter={(str) => format(parseISO(str), "MMM d")}
+                                                stroke="#888888"
+                                                fontSize={12}
+                                            />
+                                            <YAxis allowDecimals={false} stroke="#888888" fontSize={12}/>
+                                            <ChartTooltip
+                                                cursor={{ fill: 'hsl(var(--muted))' }}
+                                                content={<ChartTooltipContent />}
+                                            />
+                                            <Line
+                                                type="monotone"
+                                                dataKey="enquiries"
+                                                stroke="hsl(var(--primary))"
+                                                strokeWidth={2}
+                                                dot={{ fill: "hsl(var(--primary))", r: 4 }}
+                                                activeDot={{ r: 8 }}
+                                            />
+                                        </LineChart>
+                                    ) : (
+                                        <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+                                            No data to display
+                                        </div>
+                                    )}
                                 </ResponsiveContainer>
                             </ChartContainer>
                         </CardContent>
@@ -269,34 +281,36 @@ export function AdminDashboard() {
                               Sort
                           </Button>
                       </CardHeader>
-                      <CardContent className="flex-grow overflow-hidden">
+                      <CardContent className="flex-grow p-0">
                            {sortedEnquiries.length > 0 ? (
                             <div className="h-full overflow-y-auto">
-                               <Table>
-                                  <TableHeader>
-                                      <TableRow>
-                                          <TableHead>Customer</TableHead>
-                                          <TableHead className="hidden sm:table-cell">Status</TableHead>
-                                          <TableHead className="text-right">Action</TableHead>
-                                      </TableRow>
-                                  </TableHeader>
-                                  <TableBody>
-                                      {sortedEnquiries.slice(0, 6).map((enquiry) => (
-                                      <TableRow key={enquiry.id}>
-                                          <TableCell>
-                                              <div className="font-medium">{enquiry.name}</div>
-                                              <div className="hidden text-sm text-muted-foreground md:inline truncate max-w-[150px]">{enquiry.projectDetails || 'No details'}</div>
-                                          </TableCell>
-                                          <TableCell className="hidden sm:table-cell"><StatusBadge status={enquiry.status} /></TableCell>
-                                          <TableCell className="text-right">
-                                              <Button asChild size="sm" variant="outline">
-                                                  <Link href={`/admin/enquiries/${enquiry.id}`}>Details <ExternalLink className="ml-2 h-3 w-3" /></Link>
-                                              </Button>
-                                          </TableCell>
-                                      </TableRow>
-                                      ))}
-                                  </TableBody>
-                              </Table>
+                               <div className="overflow-x-auto">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Customer</TableHead>
+                                            <TableHead className="hidden sm:table-cell">Status</TableHead>
+                                            <TableHead className="text-right">Action</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {sortedEnquiries.slice(0, 6).map((enquiry) => (
+                                        <TableRow key={enquiry.id}>
+                                            <TableCell>
+                                                <div className="font-medium">{enquiry.name}</div>
+                                                <div className="hidden text-sm text-muted-foreground md:inline truncate max-w-[150px]">{enquiry.projectDetails || 'No details'}</div>
+                                            </TableCell>
+                                            <TableCell className="hidden sm:table-cell"><StatusBadge status={enquiry.status} /></TableCell>
+                                            <TableCell className="text-right">
+                                                <Button asChild size="sm" variant="outline">
+                                                    <Link href={`/admin/enquiries/${enquiry.id}`}>Details <ExternalLink className="ml-2 h-3 w-3" /></Link>
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                               </div>
                             </div>
                            ) : (
                                 <div className="flex items-center justify-center h-full text-center text-muted-foreground p-8">

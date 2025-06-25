@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import { motion } from "framer-motion";
-import Autoplay from "embla-carousel-autoplay";
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
@@ -45,10 +44,7 @@ const features = [
 
 export default function Home() {
   const [isMounted, setIsMounted] = React.useState(false);
-  const plugin = React.useRef(
-    Autoplay({ delay: 4000, stopOnInteraction: true })
-  );
-
+  
   React.useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -58,14 +54,14 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <section className="w-full bg-foreground text-background">
+      <section className="w-full bg-primary text-primary-foreground">
         <div className="container grid md:grid-cols-2 gap-12 items-center py-20 md:py-32">
           <div className="flex flex-col items-start text-left">
               {isMounted && <motion.h1 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
-                  className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight text-white"
+                  className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight"
               >
                   Experience Pure Comfort
               </motion.h1>}
@@ -73,7 +69,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4 }}
-                  className="max-w-xl text-white/80 md:text-lg mt-6"
+                  className="max-w-xl text-primary-foreground/80 md:text-lg mt-6"
               >
                   Innovative HVAC solutions designed for your lifestyle. Stay cool, calm, and collected all year round.
               </motion.p>}
@@ -83,7 +79,7 @@ export default function Home() {
                   transition={{ duration: 0.7, delay: 0.6 }}
                   className="mt-8"
               >
-                  <Button asChild size="lg" className="font-semibold text-lg">
+                  <Button asChild size="lg" className="font-semibold text-lg bg-white text-primary hover:bg-white/90">
                       <Link href="/products">
                           Explore Products
                           <ArrowRight className="ml-2 h-5 w-5" />
@@ -139,7 +135,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="featured-products" className="w-full py-16 md:py-24 bg-muted/50">
+      <section id="featured-products" className="w-full py-16 md:py-24 bg-secondary">
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Featured Products</h2>

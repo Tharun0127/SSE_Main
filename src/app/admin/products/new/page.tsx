@@ -49,9 +49,10 @@ const formSchema = z.object({
   availableSizes: z.string().optional(),
   image: z
     .any()
-    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    .refine((files) => files?.[0], "Image is required.")
+    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
     .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       "Only .jpg, .jpeg, .png and .webp formats are supported."
     ),
 });
@@ -79,7 +80,7 @@ export default function NewProductPage() {
           ...values,
           // In a real app, you would upload the image and get a URL.
           // For now, we just log the file object.
-          imageUrl: `(Pretend URL for ${values.image.name})`, 
+          imageUrl: `(Pretend URL for ${values.image[0].name})`, 
         });
 
         toast({
@@ -94,7 +95,7 @@ export default function NewProductPage() {
   }
 
   return (
-    <div className="bg-muted/40 min-h-screen">
+    <div className="bg-secondary min-h-screen">
       <div className="container py-12 md:py-20 max-w-3xl mx-auto">
         <div className="mb-8">
           <Button asChild variant="outline" size="sm">
@@ -131,17 +132,18 @@ export default function NewProductPage() {
                 <FormField
                   control={form.control}
                   name="image"
-                  render={({ field }) => (
+                  render={({ field: { onChange, value, ...rest } }) => (
                     <FormItem>
                       <FormLabel>Product Image</FormLabel>
                       <FormControl>
                         <Input 
                           type="file" 
                           accept="image/*" 
+                           {...rest}
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
-                              field.onChange(file);
+                              onChange(e.target.files);
                               const previewUrl = URL.createObjectURL(file);
                               setImagePreview(previewUrl);
                             }
@@ -157,7 +159,7 @@ export default function NewProductPage() {
                 />
 
                 {imagePreview && (
-                  <div className="relative w-40 h-40 border rounded-md overflow-hidden">
+                  <div className="relative w-40 h-40 border rounded-md overflow-hidden bg-muted">
                     <Image src={imagePreview} alt="Image preview" fill className="object-cover" />
                   </div>
                 )}

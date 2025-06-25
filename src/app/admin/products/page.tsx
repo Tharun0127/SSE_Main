@@ -25,7 +25,7 @@ import { Badge } from '@/components/ui/badge';
 
 export default function AdminProductsPage() {
   return (
-    <div className="bg-muted/40 min-h-screen">
+    <div className="bg-secondary min-h-screen">
       <div className="container py-12 md:py-20">
         <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <Button asChild variant="outline" size="sm">
@@ -51,7 +51,7 @@ export default function AdminProductsPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[100px]">
+                    <TableHead className="w-[100px] hidden sm:table-cell">
                       Image
                     </TableHead>
                     <TableHead>Name</TableHead>
@@ -65,7 +65,7 @@ export default function AdminProductsPage() {
                 <TableBody>
                   {products.map((product) => (
                     <TableRow key={product.id}>
-                      <TableCell>
+                      <TableCell className="hidden sm:table-cell">
                         <div className="w-16 h-16 relative rounded-md overflow-hidden bg-white border">
                           <Image
                             alt={product.name}

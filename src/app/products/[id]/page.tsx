@@ -33,7 +33,7 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <div className="bg-muted/40">
+    <div className="bg-secondary">
         <div className="container py-16 md:py-24">
              <div className="mb-8">
                 <Button asChild variant="outline" size="sm">
@@ -42,13 +42,13 @@ export default function ProductDetailPage() {
                     </Link>
                 </Button>
             </div>
-            <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
-                <div className="relative aspect-video rounded-lg overflow-hidden border bg-white shadow-md">
+            <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
+                <div className="relative aspect-square rounded-lg overflow-hidden border bg-white shadow-md">
                     <Image
                         src={product.imageUrl}
                         alt={product.name}
                         fill
-                        className="object-contain p-4"
+                        className="object-contain p-8"
                         data-ai-hint={product.imageHint}
                         priority
                     />
@@ -56,7 +56,7 @@ export default function ProductDetailPage() {
 
                 <div className="space-y-6">
                     <div>
-                        <Badge variant="secondary" className="mb-2">{product.category}</Badge>
+                        <Badge variant="outline" className="mb-2">{product.category}</Badge>
                         <h1 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">{product.name}</h1>
                         <p className="mt-4 text-lg text-muted-foreground">{product.longDescription}</p>
                     </div>
@@ -69,8 +69,8 @@ export default function ProductDetailPage() {
                       </CardHeader>
                       <CardContent className="space-y-4">
                         {product.measurementUnit && (
-                          <div className="flex items-center gap-3">
-                            <Ruler className="h-5 w-5 text-primary" />
+                          <div className="flex items-center gap-4">
+                            <Ruler className="h-6 w-6 text-primary flex-shrink-0" />
                             <div>
                               <h3 className="font-semibold text-foreground">Measurement Unit</h3>
                               <p className="text-muted-foreground">{product.measurementUnit}</p>
@@ -78,13 +78,13 @@ export default function ProductDetailPage() {
                           </div>
                         )}
                         {product.availableSizes && product.availableSizes.length > 0 && (
-                          <div className="flex items-start gap-3">
-                            <Scaling className="h-5 w-5 text-primary mt-1" />
+                          <div className="flex items-start gap-4">
+                            <Scaling className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                             <div>
                                 <h3 className="font-semibold text-foreground">Available Sizes</h3>
                                 <div className="flex flex-wrap gap-2 mt-1">
                                     {product.availableSizes.map(size => (
-                                        <Badge key={size} variant="outline">{size}</Badge>
+                                        <Badge key={size} variant="secondary">{size}</Badge>
                                     ))}
                                 </div>
                             </div>

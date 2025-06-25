@@ -8,11 +8,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function ContactPage() {
   return (
     <div className="container py-16 md:py-24">
-      <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Contact Us</h1>
+      <div className="text-center mb-16">
+        <h1 className="text-4xl md:text-5xl font-extrabold font-heading text-foreground">Contact Us</h1>
         <p className="text-lg text-muted-foreground mt-4 max-w-2xl mx-auto">Have a question or need support? We'd love to hear from you.</p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 xl:gap-12 max-w-6xl mx-auto">
         <Card className="lg:col-span-3 bg-card border">
           <CardHeader>
             <CardTitle className="font-heading text-2xl">Send us a Message</CardTitle>
@@ -24,15 +24,14 @@ export default function ContactPage() {
             </Suspense>
           </CardContent>
         </Card>
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-8">
           <Card className="bg-card border">
             <CardHeader>
               <CardTitle className="font-heading text-2xl">Contact Information</CardTitle>
-              <CardDescription>Get in touch with us directly.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                <div className="flex items-start gap-4">
-                <div className="mt-1 flex-shrink-0 p-2 bg-primary/10 rounded-lg">
+                <div className="mt-1 flex-shrink-0 p-3 bg-primary/10 rounded-lg">
                   <Phone className="h-5 w-5 text-primary" />
                 </div>
                 <div>
@@ -41,7 +40,7 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="mt-1 flex-shrink-0 p-2 bg-primary/10 rounded-lg">
+                <div className="mt-1 flex-shrink-0 p-3 bg-primary/10 rounded-lg">
                   <Mail className="h-5 w-5 text-primary" />
                 </div>
                 <div>
@@ -50,7 +49,7 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="mt-1 flex-shrink-0 p-2 bg-primary/10 rounded-lg">
+                <div className="mt-1 flex-shrink-0 p-3 bg-primary/10 rounded-lg">
                   <MapPin className="h-5 w-5 text-primary" />
                 </div>
                 <div>
@@ -60,7 +59,7 @@ export default function ContactPage() {
               </div>
             </CardContent>
           </Card>
-          <div className="aspect-video relative rounded-lg overflow-hidden border">
+          <div className="aspect-video relative rounded-lg overflow-hidden border shadow-sm">
                 <Image
                   src="https://placehold.co/600x400.png"
                   alt="Map to Sri Sai Enterprises HQ"

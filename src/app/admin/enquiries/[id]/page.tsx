@@ -107,7 +107,7 @@ export default function EnquiryDetailsPage() {
 
   if (isLoading) {
     return (
-      <div className="bg-muted/40 min-h-screen">
+      <div className="bg-secondary min-h-screen">
         <div className="container py-12 md:py-20">
             <Skeleton className="h-8 w-40 mb-8" />
             <div className="grid gap-8 md:grid-cols-3">
@@ -141,7 +141,7 @@ export default function EnquiryDetailsPage() {
   }
 
   return (
-    <div className="bg-muted/40 min-h-screen">
+    <div className="bg-secondary min-h-screen">
       <div className="container py-12 md:py-20">
         <div className="mb-8">
           <Button asChild variant="outline" size="sm">

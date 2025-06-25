@@ -26,7 +26,7 @@ const teamMembers = [
 export default function AboutPage() {
   return (
     <div className="bg-background">
-      <section className="relative h-[400px] flex items-center justify-center text-center text-white">
+      <section className="relative h-[450px] flex items-center justify-center text-center text-white">
         <Image
           src="https://placehold.co/1920x600.png"
           alt="Our Team"
@@ -35,23 +35,23 @@ export default function AboutPage() {
           data-ai-hint="modern office building"
         />
         <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 p-4">
-          <h1 className="text-4xl md:text-5xl font-extrabold font-heading tracking-tight">About Sri Sai Enterprises</h1>
-          <p className="mt-4 max-w-2xl text-lg text-white/80">
+        <div className="relative z-10 p-4 max-w-4xl">
+          <h1 className="text-4xl md:text-6xl font-extrabold font-heading tracking-tight">About Sri Sai Enterprises</h1>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-white/80">
             Pioneering excellence in HVAC solutions since 2004.
           </p>
         </div>
       </section>
 
       <section className="container py-16 md:py-24">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
             <h2 className="text-3xl font-extrabold font-heading text-foreground mb-4">Our Story</h2>
-            <p className="text-muted-foreground mb-4">
-              Founded with a vision to revolutionize the HVAC industry, Sri Sai Enterprises has grown from a small workshop into a leading manufacturer of high-quality grilles, diffusers, and dampers. Our journey is one of innovation, commitment to quality, and a relentless pursuit of customer satisfaction.
+            <p className="text-muted-foreground text-lg mb-4">
+              Founded with a vision to revolutionize the HVAC industry, Sri Sai Enterprises has grown from a small workshop into a leading manufacturer of high-quality grilles, diffusers, and dampers.
             </p>
             <p className="text-muted-foreground">
-              We believe that the air you breathe should be managed with precision and reliability. That's why every product we create is engineered to the highest standards, ensuring optimal performance and durability.
+              Our journey is one of innovation, commitment to quality, and a relentless pursuit of customer satisfaction. We believe that the air you breathe should be managed with precision and reliability. That's why every product we create is engineered to the highest standards, ensuring optimal performance and durability.
             </p>
           </div>
           <div className="relative aspect-square rounded-lg overflow-hidden shadow-lg">
@@ -66,7 +66,7 @@ export default function AboutPage() {
         </div>
       </section>
       
-      <section className="bg-muted/50 py-16 md:py-24">
+      <section className="bg-secondary py-16 md:py-24">
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl font-extrabold font-heading text-foreground">Our Core Values</h2>

@@ -12,26 +12,39 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-foreground">
-      <div className="container py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="flex items-center gap-2 justify-center md:justify-start">
-              <Wind className="h-7 w-7 text-background" />
-              <span className="font-bold font-heading text-xl text-background">
-                Sri Sai Enterprises
-              </span>
+    <footer className="bg-primary text-primary-foreground">
+      <div className="container py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="flex flex-col items-start gap-2">
+               <Link href="/" className="flex items-center gap-2 mb-2">
+                 <Wind className="h-7 w-7 text-primary-foreground" />
+                 <span className="font-bold font-heading text-xl text-primary-foreground">
+                    Sri Sai Enterprises
+                 </span>
+               </Link>
+              <p className="text-sm text-primary-foreground/70">High-quality HVAC solutions for all your needs.</p>
             </div>
-
-            <nav className="flex justify-center md:justify-end gap-x-6">
+            <div className="lg:col-start-3">
+              <h3 className="font-semibold text-primary-foreground mb-4">Quick Links</h3>
+              <nav className="flex flex-col gap-2">
                  {navLinks.map((link) => (
-                    <Link key={link.href} href={link.href} className="text-sm font-medium text-background/80 hover:text-background transition-colors">
+                    <Link key={link.href} href={link.href} className="text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors w-fit">
                         {link.label}
                     </Link>
                 ))}
-            </nav>
+              </nav>
+            </div>
+            <div>
+               <h3 className="font-semibold text-primary-foreground mb-4">Contact</h3>
+               <div className="flex flex-col gap-2 text-sm text-primary-foreground/80">
+                 <a href="mailto:support@srisaiep.com" className="hover:text-primary-foreground transition-colors w-fit">support@srisaiep.com</a>
+                 <a href="tel:+1(800)555-0199" className="hover:text-primary-foreground transition-colors w-fit">+1 (800) 555-0199</a>
+                 <p>123 HVAC Way, Suite 100<br/>San Francisco, CA 94105</p>
+               </div>
+            </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-background/20 text-center">
-          <p className="text-sm text-background/70">
+        <div className="mt-8 pt-8 border-t border-primary-foreground/20 text-center">
+          <p className="text-sm text-primary-foreground/70">
             © {currentYear} Sri Sai Enterprises. All rights reserved.
           </p>
         </div>

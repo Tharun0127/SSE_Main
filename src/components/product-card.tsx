@@ -9,12 +9,12 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <Card className="h-full flex flex-col overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border">
        <Link href={`/products/${product.id}`} className="block overflow-hidden">
-        <CardHeader className="p-0 relative aspect-video">
+        <CardHeader className="p-0 relative aspect-video bg-secondary">
             <Image
               src={product.imageUrl}
               alt={product.name}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
               data-ai-hint={product.imageHint}
             />
           </CardHeader>
@@ -24,8 +24,8 @@ export function ProductCard({ product }: { product: Product }) {
         <Link href={`/products/${product.id}`} className="block">
             <CardTitle className="font-heading mb-2 text-xl group-hover:text-primary transition-colors">{product.name}</CardTitle>
         </Link>
-        <CardDescription className="text-sm flex-grow mb-4 text-muted-foreground">{product.description}</CardDescription>
-        <div className="flex justify-start items-center mt-auto pt-4 border-t">
+        <CardDescription className="text-sm flex-grow mb-6 text-muted-foreground">{product.description}</CardDescription>
+        <div className="mt-auto">
           <Button asChild variant="link" className="p-0 h-auto text-primary font-semibold">
             <Link href={`/products/${product.id}`}>
               View Details

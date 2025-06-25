@@ -16,9 +16,9 @@ const LOGOS = [
 
 export function ClientLogos() {
   return (
-    <section className="w-full py-16 md:py-24 bg-muted/40">
+    <section className="w-full py-16 md:py-24 bg-secondary">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-8">
+        <div className="text-center mb-12">
           <p className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">
             Trusted by industry leading companies
           </p>
@@ -37,7 +37,7 @@ export function ClientLogos() {
                   alt={`${logo.name} logo`}
                   data-ai-hint={`${logo.name.toLowerCase()} logo`}
                   className="object-contain"
-                  style={{ filter: 'grayscale(100%)', opacity: 0.7 }}
+                  style={{ filter: 'grayscale(100%)', opacity: 0.6 }}
                 />
               </li>
             ))}
