@@ -13,7 +13,7 @@ export default function ContactPage() {
         <p className="text-lg text-muted-foreground mt-4 max-w-2xl mx-auto">Have a question or need support? We'd love to hear from you.</p>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 xl:gap-12 max-w-6xl mx-auto">
-        <Card className="lg:col-span-3 bg-card border">
+        <Card className="lg:col-span-3 bg-card border transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
           <CardHeader>
             <CardTitle className="font-heading text-2xl">Send us a Message</CardTitle>
             <CardDescription>Fill out the form and our team will get back to you shortly.</CardDescription>
@@ -25,7 +25,7 @@ export default function ContactPage() {
           </CardContent>
         </Card>
         <div className="lg:col-span-2 space-y-8">
-          <Card className="bg-card border">
+          <Card className="bg-card border transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
             <CardHeader>
               <CardTitle className="font-heading text-2xl">Contact Information</CardTitle>
             </CardHeader>

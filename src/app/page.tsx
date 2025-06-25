@@ -242,7 +242,7 @@ export default function Home() {
               <div
                 key={feature.title}
                 className={cn(
-                  "flex rounded-2xl shadow-lg p-6 space-y-6 text-center",
+                  "flex rounded-2xl shadow-lg p-6 space-y-6 text-center transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1",
                   index % 2 === 1 ? "flex-col-reverse space-y-reverse" : "flex-col",
                   ["bg-card", "bg-secondary", "bg-card"][index % 3]
                 )}
@@ -284,7 +284,7 @@ export default function Home() {
 
       <section id="consult-us" className="w-full py-16 md:py-24 bg-background">
         <div className="container">
-          <div className="mx-auto max-w-4xl text-center bg-card p-8 md:p-12 rounded-2xl shadow-lg border">
+          <div className="mx-auto max-w-4xl text-center bg-card p-8 md:p-12 rounded-2xl shadow-lg border transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading">Have a Project in Mind?</h2>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
               Whether you're an architect, builder, or homeowner, our team is ready to provide expert consultation and tailor-made HVAC solutions for your specific needs.

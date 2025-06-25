@@ -93,7 +93,7 @@ export default function ProductDetailPage() {
 
                     <Separator />
                     
-                    <Card>
+                    <Card className="transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                       <CardHeader>
                         <CardTitle className="text-xl font-heading">Product Specifications</CardTitle>
                       </CardHeader>

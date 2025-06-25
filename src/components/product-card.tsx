@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <Card className="relative min-h-[480px] w-full overflow-hidden rounded-lg group text-primary-foreground shadow-lg">
+    <Card className="relative min-h-[480px] w-full overflow-hidden rounded-lg group text-primary-foreground shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
       {/* Background Image */}
       <Link href={`/products/${product.id}`} className="absolute inset-0">
         <Image

@@ -75,7 +75,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="text-center p-8 bg-card border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <Card className="text-center p-8 bg-card border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:scale-105">
               <div className="flex justify-center mb-4">
                 <div className="p-4 bg-primary/10 rounded-full">
                   <Target className="h-8 w-8 text-primary" />
@@ -84,7 +84,7 @@ export default function AboutPage() {
               <h3 className="text-xl font-bold font-heading mb-2">Quality First</h3>
               <p className="text-muted-foreground">We never compromise on quality. Our products are built to last, using only the best materials and manufacturing processes.</p>
             </Card>
-            <Card className="text-center p-8 bg-card border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <Card className="text-center p-8 bg-card border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:scale-105">
               <div className="flex justify-center mb-4">
                 <div className="p-4 bg-primary/10 rounded-full">
                   <Users className="h-8 w-8 text-primary" />
@@ -93,7 +93,7 @@ export default function AboutPage() {
               <h3 className="text-xl font-bold font-heading mb-2">Customer Focus</h3>
               <p className="text-muted-foreground">Our customers are at the heart of everything we do. We strive to exceed expectations with every interaction.</p>
             </Card>
-            <Card className="text-center p-8 bg-card border transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <Card className="text-center p-8 bg-card border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:scale-105">
               <div className="flex justify-center mb-4">
                 <div className="p-4 bg-primary/10 rounded-full">
                   <BarChart className="h-8 w-8 text-primary" />
@@ -115,7 +115,7 @@ export default function AboutPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {teamMembers.map((member) => (
-            <Card key={member.name} className="text-center overflow-hidden group">
+            <Card key={member.name} className="text-center overflow-hidden group transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
               <div className="aspect-square relative">
                 <Image
                   src={member.image}
