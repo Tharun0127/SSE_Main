@@ -18,6 +18,11 @@ export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,7 +38,7 @@ export function Header() {
       className={cn(
         "font-medium text-sm transition-colors hover:text-primary",
         "text-muted-foreground",
-        pathname === href && "text-primary font-semibold"
+        isMounted && pathname === href && "text-primary font-semibold"
       )}
     >
       {label}
@@ -45,7 +50,7 @@ export function Header() {
       href={href}
       className={cn(
         "font-medium text-lg text-muted-foreground hover:text-primary",
-        pathname === href && "text-primary font-semibold"
+        isMounted && pathname === href && "text-primary font-semibold"
       )}
       onClick={() => setIsMobileMenuOpen(false)}
     >
@@ -56,15 +61,12 @@ export function Header() {
   return (
     <header className={cn(
         "sticky top-0 z-50 w-full border-b transition-colors duration-300",
-        scrolled ? "border-border bg-background/95 backdrop-blur-lg" : "bg-background border-transparent"
+        isMounted && scrolled ? "border-border bg-card/80 backdrop-blur-sm" : "bg-card border-transparent"
       )}>
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Wind className="h-7 w-7 text-primary" />
-          <span className={cn(
-            "font-bold font-heading text-xl transition-colors",
-            "text-foreground"
-            )}>
+          <span className="font-bold font-heading text-xl text-foreground">
             Sri Sai Enterprises
           </span>
         </Link>
@@ -76,7 +78,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-           <Button asChild className="hidden sm:flex" size="sm">
+           <Button asChild className="hidden sm:flex" size="sm" variant="secondary">
               <Link href="/contact">Contact Us</Link>
            </Button>
 
@@ -87,7 +89,7 @@ export function Header() {
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[300px]">
+            <SheetContent side="left" className="w-[300px] bg-card">
               <div className="flex items-center gap-2 mb-8">
                 <Wind className="h-7 w-7 text-primary" />
                 <span className="font-bold font-heading text-xl">
@@ -99,6 +101,9 @@ export function Header() {
                   <MobileNavLink key={link.href} {...link} />
                 ))}
               </nav>
+               <Button asChild className="mt-8 w-full" variant="secondary">
+                  <Link href="/contact">Contact Us</Link>
+              </Button>
             </SheetContent>
           </Sheet>
         </div>
