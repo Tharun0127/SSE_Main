@@ -144,12 +144,11 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Mobile View: Horizontal Scroll Carousel */}
-          <div className="md:hidden">
-            <Carousel opts={{ align: "start" }} className="w-full">
-              <CarouselContent className="-ml-4">
-                {features.map((feature, index) => (
-                  <CarouselItem key={feature.title} className="pl-4 basis-4/5 sm:basis-2/3">
+          {/* Mobile View: Horizontal Snap-Scroll */}
+           <div className="md:hidden">
+            <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory space-x-4 pb-4 no-scrollbar -mx-4 px-4">
+              {features.map((feature, index) => (
+                 <div key={feature.title} className="snap-start flex-shrink-0 basis-4/5 sm:basis-2/3">
                     <div
                       className={cn(
                         "flex flex-col h-full p-6 rounded-2xl shadow-lg text-center",
@@ -170,14 +169,9 @@ export default function Home() {
                         <p className="text-muted-foreground text-sm">{feature.description}</p>
                       </div>
                     </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <div className="flex justify-center mt-6">
-                  <CarouselPrevious className="static -translate-x-1" />
-                  <CarouselNext className="static translate-x-1" />
-              </div>
-            </Carousel>
+                 </div>
+              ))}
+            </div>
           </div>
 
         </div>
