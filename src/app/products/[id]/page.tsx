@@ -73,7 +73,7 @@ export default function ProductDetailPage() {
                 </Button>
             </div>
             <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
-                <div className="relative aspect-square rounded-lg overflow-hidden border bg-white shadow-md">
+                <div className="relative aspect-square rounded-lg overflow-hidden border bg-background shadow-md">
                     <Image
                         src={product.imageUrl}
                         alt={product.name}

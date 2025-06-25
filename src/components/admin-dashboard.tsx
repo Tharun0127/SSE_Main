@@ -251,10 +251,9 @@ export function AdminDashboard() {
                                             <XAxis 
                                                 dataKey="date" 
                                                 tickFormatter={(str) => format(parseISO(str), "MMM d")}
-                                                stroke="#888888"
                                                 fontSize={12}
                                             />
-                                            <YAxis allowDecimals={false} stroke="#888888" fontSize={12}/>
+                                            <YAxis allowDecimals={false} fontSize={12}/>
                                             <ChartTooltip
                                                 cursor={{ fill: 'hsl(var(--muted))' }}
                                                 content={<ChartTooltipContent />}
@@ -362,7 +361,7 @@ export function AdminDashboard() {
                         {products.map((product) => (
                             <TableRow key={product.id}>
                             <TableCell className="hidden sm:table-cell">
-                                <div className="w-16 h-16 relative rounded-md overflow-hidden bg-white border">
+                                <div className="w-16 h-16 relative rounded-md overflow-hidden bg-background border">
                                 <Image
                                     alt={product.name}
                                     className="object-contain p-1"

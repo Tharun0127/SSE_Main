@@ -101,7 +101,7 @@ export default function AdminProductsPage() {
                   {allProducts.map((product) => (
                     <TableRow key={product.id}>
                       <TableCell className="hidden sm:table-cell">
-                        <div className="w-16 h-16 relative rounded-md overflow-hidden bg-white border">
+                        <div className="w-16 h-16 relative rounded-md overflow-hidden bg-background border">
                           <Image
                             alt={product.name}
                             className="object-contain p-1"
