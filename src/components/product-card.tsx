@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <Card className="h-full flex flex-col overflow-hidden group bg-card text-card-foreground rounded-lg border hover:shadow-lg transition-shadow duration-300">
+    <Card className="h-full flex flex-col min-h-[480px] overflow-hidden group bg-card text-card-foreground rounded-lg border hover:shadow-lg transition-shadow duration-300">
       <CardContent className="p-0 flex flex-col flex-grow">
         {/* Top Content: Text */}
         <div className="p-6 pb-4">
