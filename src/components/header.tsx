@@ -18,27 +18,33 @@ export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
-
-    // Set initial state on mount
-    handleScroll();
-    // Add scroll listener
     window.addEventListener("scroll", handleScroll);
-
-    // Cleanup listener on unmount
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const headerClass = cn(
+    "sticky top-0 z-50 w-full border-b transition-colors duration-300",
+    mounted && scrolled
+      ? "border-border bg-card/80 backdrop-blur-sm"
+      : "bg-card border-transparent"
+  );
 
   const DesktopNavLink = ({ href, label }: { href: string; label: string }) => (
     <Link
       href={href}
       className={cn(
         "font-medium text-sm transition-colors hover:text-primary",
-        pathname === href ? "text-primary font-semibold" : "text-muted-foreground"
+        mounted && pathname === href
+          ? "text-primary font-semibold"
+          : "text-muted-foreground"
       )}
     >
       {label}
@@ -59,10 +65,7 @@ export function Header() {
   );
 
   return (
-    <header className={cn(
-        "sticky top-0 z-50 w-full border-b transition-colors duration-300",
-        scrolled ? "border-border bg-card/80 backdrop-blur-sm" : "bg-card border-transparent"
-      )}>
+    <header className={headerClass}>
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Wind className="h-7 w-7 text-primary" />

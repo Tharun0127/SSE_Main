@@ -55,12 +55,6 @@ const features = [
 ];
 
 export default function Home() {
-  const [isMounted, setIsMounted] = React.useState(false);
-  
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  
   const categories = ['All', 'Grills', 'Diffusers', 'Dampers', 'Others'];
   const featuredProducts = products.filter(p => p.featured);
 
@@ -69,23 +63,23 @@ export default function Home() {
       <section className="w-full bg-background text-foreground">
         <div className="container grid md:grid-cols-2 gap-12 items-center py-20 md:py-32">
           <div className="flex flex-col items-start text-left">
-              {isMounted && <motion.h1 
+              <motion.h1 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
                   className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight"
               >
                   Experience Pure Comfort
-              </motion.h1>}
-              {isMounted && <motion.p 
+              </motion.h1>
+              <motion.p 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4 }}
                   className="max-w-xl text-muted-foreground md:text-lg mt-6"
               >
                   Innovative HVAC solutions designed for your lifestyle. Stay cool, calm, and collected all year round.
-              </motion.p>}
-              {isMounted && <motion.div
+              </motion.p>
+              <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.6 }}
@@ -97,10 +91,10 @@ export default function Home() {
                           <ArrowRight className="ml-2 h-5 w-5" />
                       </Link>
                   </Button>
-              </motion.div>}
+              </motion.div>
           </div>
           <div className="flex justify-center">
-            {isMounted && <motion.div
+            <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.7, delay: 0.2 }}
@@ -114,7 +108,7 @@ export default function Home() {
                     data-ai-hint="modern air conditioner"
                     priority
                 />
-            </motion.div>}
+            </motion.div>
           </div>
         </div>
       </section>

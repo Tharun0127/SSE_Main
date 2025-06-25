@@ -34,7 +34,7 @@ export default function AboutPage() {
           className="object-cover"
           data-ai-hint="modern office building"
         />
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-foreground/70" />
         <div className="relative z-10 p-4 max-w-4xl">
           <h1 className="text-4xl md:text-6xl font-extrabold font-heading tracking-tight">About Sri Sai Enterprises</h1>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-white/80">
