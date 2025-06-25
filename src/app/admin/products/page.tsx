@@ -78,7 +78,7 @@ export default function AdminProductsPage() {
           <CardHeader>
             <CardTitle className="font-heading">Product Catalog</CardTitle>
             <CardDescription>
-              A list of all products in your catalog. User-added products can be edited.
+              A list of all products in your catalog. All products can be edited.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -119,15 +119,9 @@ export default function AdminProductsPage() {
                         {product.description}
                       </TableCell>
                       <TableCell className="text-right">
-                        {staticProducts.some((p) => p.id === product.id) ? (
-                          <Button size="sm" variant="ghost" disabled>
-                            Edit
-                          </Button>
-                        ) : (
-                          <Button asChild size="sm" variant="outline">
-                            <Link href={`/admin/products/edit/${product.id}`}>Edit</Link>
-                          </Button>
-                        )}
+                        <Button asChild size="sm" variant="outline">
+                          <Link href={`/admin/products/edit/${product.id}`}>Edit</Link>
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}

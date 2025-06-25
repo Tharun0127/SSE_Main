@@ -8,7 +8,7 @@ import { useState, useTransition, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import { type Product } from '@/lib/products';
+import { type Product, products as staticProducts } from '@/lib/products';
 
 import {
   Card,
@@ -96,8 +96,12 @@ export default function EditProductPage() {
 
   useEffect(() => {
     if (productId) {
-      const existingProducts: Product[] = JSON.parse(localStorage.getItem('user-products') || '[]');
-      const productToEdit = existingProducts.find(p => p.id === productId);
+      const userProducts: Product[] = JSON.parse(localStorage.getItem('user-products') || '[]');
+      let productToEdit = userProducts.find(p => p.id === productId);
+
+      if (!productToEdit) {
+        productToEdit = staticProducts.find(p => p.id === productId);
+      }
 
       if (productToEdit) {
         setProduct(productToEdit);
@@ -123,6 +127,7 @@ export default function EditProductPage() {
 
     const updatedProduct: Product = {
       ...product,
+      id: productId, // Ensure ID is preserved
       name: values.name,
       category: values.category,
       description: values.description,
@@ -134,8 +139,19 @@ export default function EditProductPage() {
     };
 
     try {
-      const existingProducts = JSON.parse(localStorage.getItem('user-products') || '[]');
-      const updatedProducts = existingProducts.map((p: Product) => p.id === productId ? updatedProduct : p);
+      const existingProducts: Product[] = JSON.parse(localStorage.getItem('user-products') || '[]');
+      const productIndex = existingProducts.findIndex(p => p.id === productId);
+
+      let updatedProducts;
+      if (productIndex > -1) {
+        // Product exists in user-products, so update it in place.
+        updatedProducts = [...existingProducts];
+        updatedProducts[productIndex] = updatedProduct;
+      } else {
+        // Product is a static product, so add the edited version to user-products.
+        updatedProducts = [...existingProducts, updatedProduct];
+      }
+      
       localStorage.setItem('user-products', JSON.stringify(updatedProducts));
 
       toast({
