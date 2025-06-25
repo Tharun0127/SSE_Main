@@ -57,7 +57,7 @@ export default function ProductDetailPage() {
                 <div className="space-y-6">
                     <div>
                         <Badge variant="outline" className="mb-2">{product.category}</Badge>
-                        <h1 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">{product.name}</h1>
+                        <h1 className="text-3xl md:text-4xl font-extrabold font-heading">{product.name}</h1>
                         <p className="mt-4 text-lg text-muted-foreground">{product.longDescription}</p>
                     </div>
 

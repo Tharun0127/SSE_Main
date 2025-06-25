@@ -46,7 +46,7 @@ export default function AboutPage() {
       <section className="container py-16 md:py-24">
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
-            <h2 className="text-3xl font-extrabold font-heading text-foreground mb-4">Our Story</h2>
+            <h2 className="text-3xl font-extrabold font-heading mb-4">Our Story</h2>
             <p className="text-muted-foreground text-lg mb-4">
               Founded with a vision to revolutionize the HVAC industry, Sri Sai Enterprises has grown from a small workshop into a leading manufacturer of high-quality grilles, diffusers, and dampers.
             </p>
@@ -69,7 +69,7 @@ export default function AboutPage() {
       <section className="bg-secondary py-16 md:py-24">
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl font-extrabold font-heading text-foreground">Our Core Values</h2>
+            <h2 className="text-3xl font-extrabold font-heading">Our Core Values</h2>
             <p className="mt-4 text-lg text-muted-foreground">
               The principles that guide our work and define our company culture.
             </p>
@@ -108,7 +108,7 @@ export default function AboutPage() {
 
       <section className="container py-16 md:py-24">
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="text-3xl font-extrabold font-heading text-foreground">Meet Our Leadership</h2>
+          <h2 className="text-3xl font-extrabold font-heading">Meet Our Leadership</h2>
            <p className="mt-4 text-lg text-muted-foreground">
               The passionate individuals driving our company forward.
             </p>
@@ -125,7 +125,7 @@ export default function AboutPage() {
                   data-ai-hint={member.hint}
                 />
               </div>
-              <CardContent className="p-6">
+              <CardContent className="p-6 bg-card">
                 <CardTitle className="text-xl font-heading">{member.name}</CardTitle>
                 <p className="text-primary">{member.role}</p>
               </CardContent>

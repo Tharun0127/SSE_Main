@@ -91,7 +91,7 @@ export default function Home() {
                   transition={{ duration: 0.7, delay: 0.6 }}
                   className="mt-8"
               >
-                  <Button asChild size="lg" className="font-semibold text-lg">
+                  <Button asChild size="lg">
                       <Link href="/products">
                           Explore Products
                           <ArrowRight className="ml-2 h-5 w-5" />
@@ -110,7 +110,7 @@ export default function Home() {
                     src="https://placehold.co/600x450.png"
                     alt="Modern Air Cooling Unit"
                     fill
-                    className="object-cover rounded-2xl shadow-2xl"
+                    className="object-cover rounded-2xl shadow-2xl bg-accent"
                     data-ai-hint="modern air conditioner"
                     priority
                 />
@@ -146,7 +146,7 @@ export default function Home() {
         
           <div className="pt-16">
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Featured Products</h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold font-heading">Featured Products</h2>
               <p className="mt-4 text-lg text-muted-foreground">
                 Discover our top-rated and most popular products, handpicked for their quality and performance.
               </p>
@@ -228,49 +228,20 @@ export default function Home() {
       <section id="why-us" className="w-full py-16 md:py-24 bg-background">
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20">
-            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Why Choose Sri Sai Enterprises?</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold font-heading">Why Choose Sri Sai Enterprises?</h2>
             <p className="mt-4 text-lg text-muted-foreground">
               We blend cutting-edge technology with sophisticated design to create HVAC products that elevate your comfort and your space.
             </p>
           </div>
-
-          <div className="md:hidden">
-            <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory space-x-4 pb-4 no-scrollbar -mx-4 px-4">
-              {features.map((feature, index) => (
-                <div key={feature.title} className="snap-start flex-shrink-0 basis-4/5 sm:basis-2/3">
-                    <div
-                      className={cn(
-                        "flex flex-col h-full p-6 rounded-2xl shadow-lg text-center",
-                        ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
-                      )}
-                    >
-                      <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
-                        <Image
-                          src={feature.image}
-                          alt={feature.title}
-                          fill
-                          className="object-cover"
-                          data-ai-hint={feature.imageHint}
-                        />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold font-heading mb-2 text-foreground">{feature.title}</h3>
-                        <p className="text-muted-foreground text-sm">{feature.description}</p>
-                      </div>
-                    </div>
-                </div>
-              ))}
-            </div>
-          </div>
           
-          <div className="hidden md:grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div
                 key={feature.title}
                 className={cn(
                   "flex rounded-2xl shadow-lg p-6 space-y-6 text-center",
                   index % 2 === 1 ? "flex-col-reverse space-y-reverse" : "flex-col",
-                  ["bg-primary/5", "bg-secondary", "bg-primary/5"][index % 3]
+                  ["bg-card", "bg-secondary", "bg-card"][index % 3]
                 )}
               >
                 <div className="relative w-full aspect-square rounded-lg overflow-hidden">
@@ -283,7 +254,7 @@ export default function Home() {
                   />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold font-heading mb-3 text-foreground">{feature.title}</h3>
+                  <h3 className="text-2xl font-bold font-heading mb-3">{feature.title}</h3>
                   <p className="text-muted-foreground">{feature.description}</p>
                 </div>
               </div>
@@ -293,16 +264,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full py-16 md:py-24 bg-foreground">
+      <section className="w-full py-16 md:py-24 bg-primary">
         <div className="container">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            <div className="bg-card p-8 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg">
-              <h3 className="text-5xl md:text-6xl font-extrabold text-primary font-heading">20+</h3>
-              <p className="mt-2 text-card-foreground/80">Years of Experience</p>
+            <div className="bg-primary/80 backdrop-blur-sm p-8 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg text-primary-foreground border border-primary-foreground/20">
+              <h3 className="text-5xl md:text-6xl font-extrabold font-heading">20+</h3>
+              <p className="mt-2 text-primary-foreground/80">Years of Experience</p>
             </div>
-            <div className="bg-card p-8 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg">
-              <h3 className="text-5xl md:text-6xl font-extrabold text-primary font-heading">100+</h3>
-              <p className="mt-2 text-card-foreground/80">HVAC Dealers</p>
+            <div className="bg-primary/80 backdrop-blur-sm p-8 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg text-primary-foreground border border-primary-foreground/20">
+              <h3 className="text-5xl md:text-6xl font-extrabold font-heading">100+</h3>
+              <p className="mt-2 text-primary-foreground/80">HVAC Dealers</p>
             </div>
           </div>
         </div>
@@ -311,7 +282,7 @@ export default function Home() {
       <section id="consult-us" className="w-full py-16 md:py-24 bg-background">
         <div className="container">
           <div className="mx-auto max-w-4xl text-center bg-card p-8 md:p-12 rounded-2xl shadow-lg border">
-            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-foreground">Have a Project in Mind?</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold font-heading">Have a Project in Mind?</h2>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
               Whether you're an architect, builder, or homeowner, our team is ready to provide expert consultation and tailor-made HVAC solutions for your specific needs.
             </p>

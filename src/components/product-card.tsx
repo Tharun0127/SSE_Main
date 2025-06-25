@@ -7,17 +7,17 @@ import { Wind } from "lucide-react";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <Card className="h-full flex flex-col overflow-hidden group bg-foreground text-background rounded-2xl border-4 border-background shadow-lg hover:border-primary transition-colors duration-300">
+    <Card className="h-full flex flex-col overflow-hidden group bg-card text-card-foreground rounded-2xl border shadow-lg hover:border-primary transition-colors duration-300">
       <CardContent className="p-6 flex flex-col flex-grow">
         
         <div className="flex justify-between items-start mb-2 flex-shrink-0">
           <CardTitle className="font-heading uppercase text-xl md:text-2xl font-extrabold tracking-tight max-w-[85%]">
             {product.name}
           </CardTitle>
-          <Wind className="h-6 w-6 text-background/80 flex-shrink-0" />
+          <Wind className="h-6 w-6 text-muted-foreground/80 flex-shrink-0" />
         </div>
 
-        <CardDescription className="text-sm text-background/70 mb-4 flex-shrink-0">
+        <CardDescription className="text-sm text-muted-foreground mb-4 flex-shrink-0">
           {product.description}
         </CardDescription>
         
@@ -34,7 +34,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
         
         <div className="mt-auto flex-shrink-0 pt-4">
-          <Button asChild size="lg" className="w-full bg-background text-foreground hover:bg-background/90 font-bold">
+          <Button asChild size="lg" className="w-full font-bold" variant="outline">
             <Link href={`/products/${product.id}`}>
               View Details
             </Link>

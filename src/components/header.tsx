@@ -32,7 +32,7 @@ export function Header() {
       href={href}
       className={cn(
         "font-medium text-sm transition-colors hover:text-primary",
-        "text-foreground",
+        "text-muted-foreground",
         pathname === href && "text-primary font-semibold"
       )}
     >
@@ -44,7 +44,7 @@ export function Header() {
     <Link
       href={href}
       className={cn(
-        "font-medium text-lg text-foreground/70 hover:text-primary",
+        "font-medium text-lg text-muted-foreground hover:text-primary",
         pathname === href && "text-primary font-semibold"
       )}
       onClick={() => setIsMobileMenuOpen(false)}
@@ -56,7 +56,7 @@ export function Header() {
   return (
     <header className={cn(
         "sticky top-0 z-50 w-full border-b transition-colors duration-300",
-        scrolled ? "border-border bg-background/95 backdrop-blur-lg" : "bg-background/80 backdrop-blur-lg border-transparent"
+        scrolled ? "border-border bg-background/95 backdrop-blur-lg" : "bg-background border-transparent"
       )}>
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
