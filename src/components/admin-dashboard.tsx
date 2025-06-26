@@ -36,6 +36,7 @@ import { Pie, PieChart, Cell, Line, LineChart, XAxis, YAxis, CartesianGrid, Resp
 import { format, parseISO } from 'date-fns';
 import { products as staticProducts, type Product } from '@/lib/products';
 import { Skeleton } from '@/components/ui/skeleton';
+import { LogoUploader } from './logo-uploader';
 
 type Enquiry = { 
   id: string; // Firestore document ID
@@ -342,6 +343,11 @@ export function AdminDashboard() {
                     </CardContent>
                 </Card>
             </div>
+            
+            <div className="grid gap-4 md:gap-8 md:grid-cols-2">
+                <LogoUploader />
+            </div>
+
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
                   <div>

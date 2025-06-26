@@ -1,5 +1,10 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -10,6 +15,23 @@ const navLinks = [
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const [logoUrl, setLogoUrl] = useState("/sse+logo.png");
+
+  useEffect(() => {
+    const fetchLogo = async () => {
+      try {
+        const docRef = doc(db, 'settings', 'main');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists() && docSnap.data().logoUrl) {
+          setLogoUrl(docSnap.data().logoUrl);
+        }
+      } catch (error) {
+        console.error("Failed to fetch logo, using default.", error);
+      }
+    };
+
+    fetchLogo();
+  }, []);
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -18,7 +40,7 @@ export function Footer() {
             <div className="flex flex-col items-start gap-2">
                <Link href="/" className="flex items-center gap-2 mb-2">
                  <Image
-                    src="/sse+logo.png"
+                    src={logoUrl}
                     alt="Sri Sai Enterprises Logo"
                     width={40}
                     height={40}

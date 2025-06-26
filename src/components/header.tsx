@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -20,6 +22,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [logoUrl, setLogoUrl] = useState("/sse+logo.png"); // Default logo
 
   useEffect(() => {
     // This effect runs only on the client, after the component has mounted.
@@ -30,15 +33,25 @@ export function Header() {
     };
     
     window.addEventListener("scroll", handleScroll);
-    // Run on mount to check initial scroll position
     handleScroll();
+
+    const fetchLogo = async () => {
+      try {
+        const docRef = doc(db, 'settings', 'main');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists() && docSnap.data().logoUrl) {
+          setLogoUrl(docSnap.data().logoUrl);
+        }
+      } catch (error) {
+        console.error("Failed to fetch logo, using default.", error);
+      }
+    };
+
+    fetchLogo();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // On the server and for the initial client render, `mounted` is false,
-  // so the header will have a consistent, default appearance.
-  // The `scrolled` styles are only applied after mounting on the client.
   const headerClass = cn(
     "sticky top-0 z-50 w-full border-b transition-colors duration-300",
     mounted && scrolled
@@ -67,10 +80,11 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/sse+logo.png"
+            src={logoUrl}
             alt="Sri Sai Enterprises Logo"
             width={40}
             height={40}
+            priority
           />
           <span className="font-bold font-heading text-xl text-foreground">
             Sri Sai Enterprises
@@ -107,7 +121,7 @@ export function Header() {
             <SheetContent side="left" className="w-[300px] bg-card">
               <div className="flex items-center gap-2 mb-8">
                  <Image
-                    src="/sse+logo.png"
+                    src={logoUrl}
                     alt="Sri Sai Enterprises Logo"
                     width={40}
                     height={40}
