@@ -26,14 +26,14 @@ import { Loader2, Upload } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Skeleton } from './ui/skeleton';
 
-const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_FILE_SIZE = 250 * 1024; // 250KB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/svg+xml"];
 
 const formSchema = z.object({
   logo: z
     .any()
     .refine((files) => files?.[0], "A logo image is required.")
-    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max image size is 2MB.`)
+    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max image size is 250KB.`)
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       "Only .jpg, .jpeg, .png, .webp and .svg formats are supported."
@@ -161,7 +161,7 @@ export function LogoUploader() {
                         />
                     </FormControl>
                     <FormDescription>
-                        Recommended size: 200x50 pixels. Max 2MB.
+                        Recommended size: 200x50 pixels. Max 250KB.
                     </FormDescription>
                     <FormMessage />
                     </FormItem>
