@@ -19,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Upload } from 'lucide-react';
@@ -129,7 +130,7 @@ export function LogoUploader() {
         </CardHeader>
         <CardContent>
             <div className="mb-6">
-                <FormLabel>Current Logo</FormLabel>
+                <Label>Current Logo</Label>
                 {imagePreview && (
                     <div className="mt-2 relative w-48 h-24 p-2 border rounded-md bg-muted">
                     <Image src={imagePreview} alt="Current site logo" fill className="object-contain" />
