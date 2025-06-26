@@ -21,16 +21,16 @@ import {
 import { cn } from "@/lib/utils";
 
 const LOGOS = [
-  { name: "LG", hint: "LG logo" },
-  { name: "Daikin", hint: "Daikin logo" },
-  { name: "Blue Star", hint: "Blue Star logo" },
-  { name: "Voltas", hint: "Voltas logo" },
-  { name: "Hitachi", hint: "Hitachi logo" },
-  { name: "Carrier", hint: "Carrier logo" },
-  { name: "Trane", hint: "Trane logo" },
-  { name: "Samsung", hint: "Samsung logo" },
-  { name: "Panasonic", hint: "Panasonic logo" },
-  { name: "Mitsubishi Electric", hint: "Mitsubishi Electric logo" },
+  { name: "LG", imageUrl: "https://kreafolk.com/cdn/shop/articles/lg-logo-design-history-and-evolution-kreafolk_03aeb70a-1702-4330-a3d7-91c344688e97.jpg?v=1717725016&width=2048", hint: "LG logo" },
+  { name: "Daikin", imageUrl: "https://logos-world.net/wp-content/uploads/2023/01/Daikin-Logo-1963.png", hint: "Daikin logo" },
+  { name: "Blue Star", imageUrl: "https://consumer.bluestarindia.com/cdn/shop/files/Untitled_design_-_2024-09-19T165059.397.png?v=1726744919", hint: "Blue Star logo" },
+  { name: "Voltas", imageUrl: "https://cdn.i.haymarketmedia.asia/?n=campaign-india%2Fcontent%2F20160517214624452404_Voltas_logo_460.gif&h=630&w=1200&q=75&v=20250320&c=1", hint: "Voltas logo" },
+  { name: "Hitachi", imageUrl: "https://1000logos.net/wp-content/uploads/2018/01/Hitachi-logo.jpg", hint: "Hitachi logo" },
+  { name: "Carrier", imageUrl: "https://1000logos.net/wp-content/uploads/2020/09/Carrier-Logo.png", hint: "Carrier logo" },
+  { name: "Trane", imageUrl: "https://1000logos.net/wp-content/uploads/2021/05/Trane-logo.png", hint: "Trane logo" },
+  { name: "Samsung", imageUrl: "https://1000logos.net/wp-content/uploads/2016/10/Samsung-logo.png", hint: "Samsung logo" },
+  { name: "Panasonic", imageUrl: "https://1000logos.net/wp-content/uploads/2017/05/Panasonic-logo.png", hint: "Panasonic logo" },
+  { name: "Mitsubishi Electric", imageUrl: "https://1000logos.net/wp-content/uploads/2021/05/Mitsubishi-Electric-logo.png", hint: "Mitsubishi Electric logo" },
 ];
 
 const features = [
@@ -141,7 +141,7 @@ export default function Home() {
               {LOGOS.concat(LOGOS).map((logo, index) => (
                 <li key={index} className="mx-8 flex-shrink-0">
                   <Image
-                    src={`https://placehold.co/120x40.png?text=${logo.name.replace(/\s/g, '+')}`}
+                    src={logo.imageUrl}
                     width={120}
                     height={40}
                     alt={`${logo.name} logo`}
