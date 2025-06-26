@@ -9,6 +9,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { type Product, products as staticProducts } from '@/lib/products';
+import { db, storage } from '@/lib/firebase';
+import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
 import {
   Card,
@@ -95,39 +98,51 @@ export default function EditProductPage() {
   });
 
   useEffect(() => {
-    if (productId) {
-      const userProducts: Product[] = JSON.parse(localStorage.getItem('user-products') || '[]');
-      let productToEdit = userProducts.find(p => p.id === productId);
+    const fetchProduct = async () => {
+      if (productId) {
+        try {
+          const docRef = doc(db, 'products', String(productId));
+          const docSnap = await getDoc(docRef);
+          let productToEdit: Product | undefined;
 
-      if (!productToEdit) {
-        productToEdit = staticProducts.find(p => p.id === productId);
-      }
+          if (docSnap.exists()) {
+            productToEdit = docSnap.data() as Product;
+          } else {
+            productToEdit = staticProducts.find(p => p.id === productId);
+          }
 
-      if (productToEdit) {
-        setProduct(productToEdit);
-        form.reset({
-          ...productToEdit,
-          availableSizes: productToEdit.availableSizes?.join(', '),
-        });
-        setImagePreview(productToEdit.imageUrl);
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Product not found",
-          description: "This product could not be found in your catalog.",
-        });
-        router.replace('/admin/products');
+          if (productToEdit) {
+            setProduct(productToEdit);
+            form.reset({
+              ...productToEdit,
+              availableSizes: productToEdit.availableSizes?.join(', '),
+            });
+            setImagePreview(productToEdit.imageUrl);
+          } else {
+            toast({
+              variant: "destructive",
+              title: "Product not found",
+              description: "This product could not be found.",
+            });
+            router.replace('/admin/products');
+          }
+        } catch (error) {
+          console.error("Error fetching product:", error);
+           toast({ variant: "destructive", title: "Error", description: "Failed to load product data." });
+        } finally {
+          setIsLoading(false);
+        }
       }
-      setIsLoading(false);
-    }
+    };
+    fetchProduct();
   }, [productId, router, form, toast]);
 
-  const updateProductInStorage = (imageUrl: string, values: z.infer<typeof formSchema>) => {
+  const updateProductInFirebase = async (imageUrl: string, values: z.infer<typeof formSchema>) => {
     if (!product) return;
 
     const updatedProduct: Product = {
       ...product,
-      id: productId, // Ensure ID is preserved
+      id: productId,
       name: values.name,
       category: values.category,
       description: values.description,
@@ -139,20 +154,8 @@ export default function EditProductPage() {
     };
 
     try {
-      const existingProducts: Product[] = JSON.parse(localStorage.getItem('user-products') || '[]');
-      const productIndex = existingProducts.findIndex(p => p.id === productId);
-
-      let updatedProducts;
-      if (productIndex > -1) {
-        // Product exists in user-products, so update it in place.
-        updatedProducts = [...existingProducts];
-        updatedProducts[productIndex] = updatedProduct;
-      } else {
-        // Product is a static product, so add the edited version to user-products.
-        updatedProducts = [...existingProducts, updatedProduct];
-      }
-      
-      localStorage.setItem('user-products', JSON.stringify(updatedProducts));
+      const docRef = doc(db, 'products', String(productId));
+      await setDoc(docRef, updatedProduct, { merge: true });
 
       toast({
         title: 'Product Updated!',
@@ -170,35 +173,47 @@ export default function EditProductPage() {
     }
   };
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    startTransition(() => {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    startTransition(async () => {
       const newImageFile = values.image?.[0];
 
       if (newImageFile) {
-        const reader = new FileReader();
-        reader.readAsDataURL(newImageFile);
-        reader.onloadend = () => {
-          updateProductInStorage(reader.result as string, values);
-        };
-        reader.onerror = () => {
-          toast({ variant: "destructive", title: "Image Error", description: "Could not process the new image." });
-        };
+        try {
+          const imageRef = ref(storage, `products/${productId}_${newImageFile.name}`);
+          const snapshot = await uploadBytes(imageRef, newImageFile);
+          const newImageUrl = await getDownloadURL(snapshot.ref);
+          await updateProductInFirebase(newImageUrl, values);
+        } catch (error) {
+           console.error("Image upload failed:", error);
+           toast({ variant: "destructive", title: "Image Error", description: "Could not upload the new image." });
+        }
       } else {
-        updateProductInStorage(product!.imageUrl, values);
+        await updateProductInFirebase(product!.imageUrl, values);
       }
     });
   }
 
   const handleDelete = () => {
-    startTransition(() => {
+    startTransition(async () => {
+      if (!product) return;
       try {
-        const existingProducts: Product[] = JSON.parse(localStorage.getItem('user-products') || '[]');
-        const updatedProducts = existingProducts.filter(p => p.id !== productId);
-        localStorage.setItem('user-products', JSON.stringify(updatedProducts));
+        // Delete Firestore document
+        await deleteDoc(doc(db, "products", String(productId)));
 
+        // Delete image from Cloud Storage if it's a Firebase URL
+        if (product.imageUrl.includes('firebasestorage.googleapis.com')) {
+          try {
+            const imageRef = ref(storage, product.imageUrl);
+            await deleteObject(imageRef);
+          } catch (storageError) {
+             // Log error but don't block deletion if image not found (e.g., already deleted)
+             console.warn("Could not delete image from storage:", storageError);
+          }
+        }
+        
         toast({
           title: 'Product Deleted',
-          description: 'The product has been removed from your catalog.',
+          description: 'The product has been removed.',
         });
         router.push('/admin/products');
       } catch (error) {
@@ -413,7 +428,7 @@ export default function EditProductPage() {
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
                       This action cannot be undone. This will permanently delete the
-                      product &quot;{product?.name}&quot; from your catalog.
+                      product &quot;{product?.name}&quot; from the database.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>

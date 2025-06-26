@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Wind, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -65,7 +66,12 @@ export function Header() {
     <header className={headerClass}>
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <Wind className="h-7 w-7 text-primary" />
+          <Image
+            src="/sse+logo.png"
+            alt="Sri Sai Enterprises Logo"
+            width={40}
+            height={40}
+          />
           <span className="font-bold font-heading text-xl text-foreground">
             Sri Sai Enterprises
           </span>
@@ -100,7 +106,12 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] bg-card">
               <div className="flex items-center gap-2 mb-8">
-                <Wind className="h-7 w-7 text-primary" />
+                 <Image
+                    src="/sse+logo.png"
+                    alt="Sri Sai Enterprises Logo"
+                    width={40}
+                    height={40}
+                  />
                 <span className="font-bold font-heading text-xl">
                   Sri Sai Enterprises
                 </span>

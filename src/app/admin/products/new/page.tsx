@@ -9,6 +9,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { type Product } from '@/lib/products';
+import { db, storage } from '@/lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import {
   Card,
@@ -76,24 +79,21 @@ export default function NewProductPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    startTransition(() => {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    startTransition(async () => {
       const file = values.image[0];
       if (!file) {
-        toast({
-          variant: "destructive",
-          title: "Submission Failed",
-          description: "An image is required.",
-        });
+        toast({ variant: "destructive", title: "Image is required." });
         return;
       }
       
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        const imageUrl = reader.result as string;
-
+      try {
         const newProductId = Date.now();
+        const imageRef = ref(storage, `products/${newProductId}_${file.name}`);
+        
+        // Upload image to Cloud Storage
+        const snapshot = await uploadBytes(imageRef, file);
+        const imageUrl = await getDownloadURL(snapshot.ref);
 
         const newProduct: Product = {
           id: newProductId,
@@ -108,35 +108,23 @@ export default function NewProductPage() {
           measurementUnit: values.measurementUnit,
           availableSizes: values.availableSizes ? values.availableSizes.split(',').map(s => s.trim()) : [],
         };
+        
+        // Save product data to Firestore, using the new ID as the document ID
+        await setDoc(doc(db, "products", String(newProductId)), newProduct);
 
-        try {
-          const existingProducts = JSON.parse(localStorage.getItem('user-products') || '[]');
-          const updatedProducts = [...existingProducts, newProduct];
-          localStorage.setItem('user-products', JSON.stringify(updatedProducts));
+        toast({
+          title: 'Product Added!',
+          description: 'Your new product has been saved to the database.',
+        });
 
-          toast({
-            title: 'Product Added!',
-            description: 'Your new product has been saved.',
-          });
+        router.push('/admin/products');
 
-          form.reset();
-          setImagePreview(null);
-          router.push('/admin/products');
-
-        } catch (error) {
-          console.error("Failed to save product:", error);
-          toast({
-            variant: "destructive",
-            title: "Submission Failed",
-            description: "Could not save your product. Please try again later.",
-          });
-        }
-      };
-      reader.onerror = () => {
+      } catch (error) {
+        console.error("Failed to save product:", error);
         toast({
           variant: "destructive",
-          title: "Image Error",
-          description: "Could not process the image file.",
+          title: "Submission Failed",
+          description: "Could not save your product. Please try again.",
         });
       }
     });

@@ -24,19 +24,36 @@ import { ArrowLeft, PlusCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useState, useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { db } from '@/lib/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 export default function AdminProductsPage() {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]') as Product[];
-    const userProductIds = new Set(userProducts.map(p => p.id));
-    const uniqueStaticProducts = staticProducts.filter(p => !userProductIds.has(p.id));
-    // Show newest user products first, then the remaining static products
-    const combined = [...userProducts.reverse(), ...uniqueStaticProducts]; 
-    setAllProducts(combined);
-    setIsLoading(false);
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const productMap = new Map<number, Product>();
+        staticProducts.forEach(p => productMap.set(p.id, p));
+
+        const querySnapshot = await getDocs(collection(db, "products"));
+        querySnapshot.forEach((doc) => {
+          const firestoreProduct = doc.data() as Product;
+          productMap.set(firestoreProduct.id, firestoreProduct);
+        });
+
+        const combined = Array.from(productMap.values()).sort((a, b) => b.id - a.id);
+        setAllProducts(combined);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   if (isLoading) {

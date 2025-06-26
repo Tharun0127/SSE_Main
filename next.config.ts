@@ -36,6 +36,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'kreafolk.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+      },
     ],
   },
 };

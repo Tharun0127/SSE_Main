@@ -4,6 +4,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useMemo, useEffect } from 'react';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import {
   Card,
   CardContent,
@@ -36,7 +38,7 @@ import { products as staticProducts, type Product } from '@/lib/products';
 import { Skeleton } from '@/components/ui/skeleton';
 
 type Enquiry = { 
-  id: string;
+  id: string; // Firestore document ID
   name: string;
   email: string;
   phone?: string;
@@ -88,29 +90,40 @@ export function AdminDashboard() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   useEffect(() => {
-    const storedEnquiries = JSON.parse(localStorage.getItem('enquiries') || '[]');
-    setEnquiries(storedEnquiries);
-    
-    const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]') as Product[];
-    const userProductIds = new Set(userProducts.map(p => p.id));
-    const uniqueStaticProducts = staticProducts.filter(p => !userProductIds.has(p.id));
-    const combinedProducts = [...userProducts.reverse(), ...uniqueStaticProducts];
-    setProducts(combinedProducts);
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        // Fetch enquiries
+        const enquiriesQuery = query(collection(db, "enquiries"), orderBy("date", sortOrder));
+        const enquirySnapshot = await getDocs(enquiriesQuery);
+        const fetchedEnquiries = enquirySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Enquiry[];
+        setEnquiries(fetchedEnquiries);
 
-    setIsLoading(false);
-  }, []);
+        // Fetch products
+        const productMap = new Map<number, Product>();
+        staticProducts.forEach(p => productMap.set(p.id, p));
+
+        const productSnapshot = await getDocs(collection(db, "products"));
+        productSnapshot.forEach((doc) => {
+          const firestoreProduct = doc.data() as Product;
+          productMap.set(firestoreProduct.id, firestoreProduct);
+        });
+        
+        const combinedProducts = Array.from(productMap.values()).sort((a,b) => b.id - a.id);
+        setProducts(combinedProducts);
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, [sortOrder]);
   
   const totalEnquiries = enquiries.length;
   const inProduction = enquiries.filter(e => e.status === 'In Production').length;
   const completedEnquiries = enquiries.filter(e => e.status === 'Completed').length;
-
-  const sortedEnquiries = useMemo(() => {
-    return [...enquiries].sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return sortOrder === 'asc' ? dateA - dateB : dateB - a.date.localeCompare(b.date);
-    });
-  }, [sortOrder, enquiries]);
 
   const lineChartData = useMemo(() => {
     const enquiriesByDate = enquiries.reduce((acc, enquiry) => {
@@ -283,7 +296,7 @@ export function AdminDashboard() {
                     <CardHeader className="flex flex-row items-center justify-between">
                         <div>
                             <CardTitle>Recent Enquiries</CardTitle>
-                            <CardDescription>Your {sortedEnquiries.length} most recent enquiries.</CardDescription>
+                            <CardDescription>Your {enquiries.length} most recent enquiries.</CardDescription>
                         </div>
                         <Button variant="outline" size="sm" onClick={toggleSortOrder}>
                             <ArrowUpDown className="mr-2 h-4 w-4" />
@@ -291,7 +304,7 @@ export function AdminDashboard() {
                         </Button>
                     </CardHeader>
                     <CardContent className="flex-grow p-0">
-                          {sortedEnquiries.length > 0 ? (
+                          {enquiries.length > 0 ? (
                           <div className="h-full overflow-y-auto">
                               <div className="overflow-x-auto">
                               <Table>
@@ -303,7 +316,7 @@ export function AdminDashboard() {
                                       </TableRow>
                                   </TableHeader>
                                   <TableBody>
-                                      {sortedEnquiries.map((enquiry) => (
+                                      {enquiries.map((enquiry) => (
                                       <TableRow key={enquiry.id}>
                                           <TableCell>
                                               <div className="font-medium">{enquiry.name}</div>

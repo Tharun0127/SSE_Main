@@ -3,7 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -46,39 +48,31 @@ export function ContactForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    startTransition(() => {
-      // Simulate network request
-      setTimeout(() => {
-        try {
-          const existingEnquiries = JSON.parse(localStorage.getItem('enquiries') || '[]');
-          
-          const newEnquiry = {
-            ...values,
-            id: `ENQ-${String(Date.now()).slice(-4)}-${String(Math.random()).slice(2, 6)}`, // Unique ID
-            date: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
-            status: 'New' as const,
-          };
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    startTransition(async () => {
+      try {
+        await addDoc(collection(db, "enquiries"), {
+          ...values,
+          date: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
+          timestamp: serverTimestamp(), // For server-side sorting
+          status: 'New' as const,
+        });
 
-          const updatedEnquiries = [...existingEnquiries, newEnquiry];
-          localStorage.setItem('enquiries', JSON.stringify(updatedEnquiries));
+        toast({
+          title: "Message Sent!",
+          description: "Thanks for contacting us. We'll be in touch soon.",
+        });
+        
+        form.reset();
 
-          toast({
-            title: "Message Sent!",
-            description: "Thanks for contacting Sri Sai Enterprises. We'll be in touch soon.",
-          });
-          
-          form.reset({ name: "", email: "", phone: "", projectDetails: "", message: "" });
-
-        } catch (error) {
-          console.error("Failed to save enquiry:", error);
-          toast({
-            variant: "destructive",
-            title: "Submission Failed",
-            description: "Could not save your enquiry. Please try again later.",
-          });
-        }
-      }, 1000);
+      } catch (error) {
+        console.error("Failed to save enquiry:", error);
+        toast({
+          variant: "destructive",
+          title: "Submission Failed",
+          description: "Could not save your enquiry. Please try again later.",
+        });
+      }
     });
   }
 

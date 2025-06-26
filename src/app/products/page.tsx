@@ -7,6 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { products as staticProducts, type Product } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { db } from '@/lib/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 const ProductGrid = ({ products }: { products: Product[] }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
@@ -38,16 +40,27 @@ function ProductsTabs() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const userProducts = JSON.parse(localStorage.getItem('user-products') || '[]') as Product[];
-    
-    const productMap = new Map<number, Product>();
-    // Base order is static products
-    staticProducts.forEach(p => productMap.set(p.id, p));
-    // Overwrite with user products (edited or new)
-    userProducts.forEach(p => productMap.set(p.id, p));
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const productMap = new Map<number, Product>();
+        staticProducts.forEach(p => productMap.set(p.id, p));
 
-    setAllProducts(Array.from(productMap.values()));
-    setIsLoading(false);
+        const querySnapshot = await getDocs(collection(db, "products"));
+        querySnapshot.forEach((doc) => {
+          const firestoreProduct = doc.data() as Product;
+          productMap.set(firestoreProduct.id, firestoreProduct);
+        });
+
+        setAllProducts(Array.from(productMap.values()));
+      } catch (error) {
+        console.error("Error fetching products, falling back to static data:", error);
+        setAllProducts(staticProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
   }, []);
 
   const categories = Array.from(new Set(allProducts.map(p => p.category)));

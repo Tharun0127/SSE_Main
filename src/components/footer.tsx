@@ -1,4 +1,4 @@
-import { Wind } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const navLinks = [
@@ -17,7 +17,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="flex flex-col items-start gap-2">
                <Link href="/" className="flex items-center gap-2 mb-2">
-                 <Wind className="h-7 w-7 text-primary-foreground" />
+                 <Image
+                    src="/sse+logo.png"
+                    alt="Sri Sai Enterprises Logo"
+                    width={40}
+                    height={40}
+                    className="filter invert"
+                  />
                  <span className="font-bold font-heading text-xl text-primary-foreground">
                     Sri Sai Enterprises
                  </span>

@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { doc, getDoc, updateDoc, type DocumentData } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import {
   Card,
   CardContent,
@@ -38,6 +40,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useToast } from '@/hooks/use-toast';
 
 type EnquiryStatus = "New" | "Contacted" | "Quote Sent" | "In Production" | "Completed" | "Cancelled";
 
@@ -73,34 +76,52 @@ const StatusBadge = ({ status }: { status: EnquiryStatus }) => {
 
 export default function EnquiryDetailsPage() {
   const params = useParams();
+  const router = useRouter();
+  const { toast } = useToast();
+  const enquiryId = params.id as string;
+
   const [enquiry, setEnquiry] = useState<Enquiry | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [allEnquiries, setAllEnquiries] = useState<Enquiry[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<EnquiryStatus | undefined>(undefined);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    if (params.id) {
-      const storedEnquiries = JSON.parse(localStorage.getItem('enquiries') || '[]') as Enquiry[];
-      const foundEnquiry = storedEnquiries.find((e) => e.id === params.id);
-      
-      setAllEnquiries(storedEnquiries);
-      setEnquiry(foundEnquiry || null);
+    if (enquiryId) {
+      const fetchEnquiry = async () => {
+        try {
+          const docRef = doc(db, 'enquiries', enquiryId);
+          const docSnap = await getDoc(docRef);
 
-      if (foundEnquiry) {
-        setSelectedStatus(foundEnquiry.status);
-      }
-      setIsLoading(false);
+          if (docSnap.exists()) {
+            const data = { id: docSnap.id, ...docSnap.data() } as Enquiry;
+            setEnquiry(data);
+            setSelectedStatus(data.status);
+          } else {
+             toast({ variant: 'destructive', title: 'Error', description: 'Enquiry not found.' });
+             router.replace('/admin');
+          }
+        } catch (error) {
+          console.error("Error fetching enquiry:", error);
+          toast({ variant: 'destructive', title: 'Error', description: 'Failed to fetch enquiry data.' });
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchEnquiry();
     }
-  }, [params.id]);
+  }, [enquiryId, router, toast]);
 
-  const handleStatusUpdate = () => {
+  const handleStatusUpdate = async () => {
     if (selectedStatus && enquiry) {
-      const updatedEnquiries = allEnquiries.map(e => 
-        e.id === enquiry.id ? { ...e, status: selectedStatus } : e
-      );
-      localStorage.setItem('enquiries', JSON.stringify(updatedEnquiries));
-      setEnquiry({ ...enquiry, status: selectedStatus });
+      try {
+        const docRef = doc(db, 'enquiries', enquiry.id);
+        await updateDoc(docRef, { status: selectedStatus });
+        setEnquiry({ ...enquiry, status: selectedStatus });
+        toast({ title: 'Success', description: 'Enquiry status has been updated.' });
+      } catch (error) {
+        console.error("Error updating status:", error);
+        toast({ variant: 'destructive', title: 'Error', description: 'Failed to update status.' });
+      }
     }
     setIsDialogOpen(false);
   };

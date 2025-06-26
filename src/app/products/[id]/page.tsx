@@ -12,6 +12,8 @@ import { ArrowLeft, Scaling, Ruler } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { useState, useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -20,17 +22,31 @@ export default function ProductDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (productId) {
-      const userProducts: Product[] = JSON.parse(localStorage.getItem('user-products') || '[]');
-      
-      const productMap = new Map<number, Product>();
-      staticProducts.forEach(p => productMap.set(p.id, p));
-      userProducts.forEach(p => productMap.set(p.id, p));
-      
-      const foundProduct = productMap.get(productId);
-      setProduct(foundProduct);
-      setIsLoading(false);
-    }
+    const fetchProduct = async () => {
+      if (productId) {
+        setIsLoading(true);
+        try {
+          const docRef = doc(db, 'products', String(productId));
+          const docSnap = await getDoc(docRef);
+          let foundProduct: Product | undefined;
+          
+          if (docSnap.exists()) {
+            foundProduct = docSnap.data() as Product;
+          } else {
+            foundProduct = staticProducts.find(p => p.id === productId);
+          }
+          setProduct(foundProduct);
+        } catch (error) {
+          console.error("Error fetching product:", error);
+          // Fallback to static product on error
+          setProduct(staticProducts.find(p => p.id === productId));
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+    
+    fetchProduct();
   }, [productId]);
 
   if (isLoading) {
