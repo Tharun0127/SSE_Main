@@ -23,13 +23,6 @@ const initialTeamMembers = [
     hint: 'professional portrait woman',
     firestoreField: 'teamMemberImage2',
   },
-  {
-    name: 'Michael Rodriguez',
-    role: 'Lead Designer',
-    image: 'https://placehold.co/400x400.png',
-    hint: 'professional portrait designer',
-    firestoreField: 'teamMemberImage3',
-  },
 ];
 
 export default function AboutPage() {
@@ -151,24 +144,26 @@ export default function AboutPage() {
               The passionate individuals driving our company forward.
             </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {teamMembers.map((member) => (
-            <Card key={member.name} className="text-center overflow-hidden group transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-              <div className="aspect-square relative">
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  data-ai-hint={member.hint}
-                />
-              </div>
-              <CardContent className="p-6 bg-card">
-                <CardTitle className="text-xl font-heading">{member.name}</CardTitle>
-                <p className="text-primary">{member.role}</p>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            {teamMembers.map((member) => (
+                <Card key={member.name} className="text-center overflow-hidden group transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                <div className="aspect-square relative">
+                    <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    data-ai-hint={member.hint}
+                    />
+                </div>
+                <CardContent className="p-6 bg-card">
+                    <CardTitle className="text-xl font-heading">{member.name}</CardTitle>
+                    <p className="text-primary">{member.role}</p>
+                </CardContent>
+                </Card>
+            ))}
+            </div>
         </div>
       </section>
     </div>

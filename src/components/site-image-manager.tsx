@@ -165,7 +165,6 @@ export function SiteImageManager() {
         { section: "About Page", title: "About Page 'Our Story' Image", description: "Image next to the story text. (Max 1MB)", firestoreField: "aboutStoryImageUrl", storagePath: "site", maxSizeKB: 1024, aspectRatio: 'aspect-square' as const },
         { section: "About Page", title: "Team Member Image #1", description: "Photo of the first team member. (Max 512KB)", firestoreField: "teamMemberImage1", storagePath: "team", maxSizeKB: 512, aspectRatio: 'aspect-square' as const },
         { section: "About Page", title: "Team Member Image #2", description: "Photo of the second team member. (Max 512KB)", firestoreField: "teamMemberImage2", storagePath: "team", maxSizeKB: 512, aspectRatio: 'aspect-square' as const },
-        { section: "About Page", title: "Team Member Image #3", description: "Photo of the third team member. (Max 512KB)", firestoreField: "teamMemberImage3", storagePath: "team", maxSizeKB: 512, aspectRatio: 'aspect-square' as const },
     ];
     
     const sections = uploaderProps.reduce((acc, props) => {
@@ -198,4 +197,3 @@ export function SiteImageManager() {
         </Accordion>
     );
 }
-
