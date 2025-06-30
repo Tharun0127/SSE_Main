@@ -23,12 +23,42 @@ import {
 import { cn } from "@/lib/utils";
 
 const LOGOS = [
-  { name: "Blue Star", imageUrl: "https://consumer.bluestarindia.com/cdn/shop/files/Untitled_design_-_2024-09-19T165059.397.png?v=1726744919", hint: "Blue Star logo" },
-  { name: "Daikin", imageUrl: "https://logos-world.net/wp-content/uploads/2023/01/Daikin-Logo-1963.png", hint: "Daikin logo" },
-  { name: "Hitachi", imageUrl: "https://1000logos.net/wp-content/uploads/2018/01/Hitachi-logo.jpg", hint: "Hitachi logo" },
-  { name: "Voltas", imageUrl: "https://cdn.i.haymarketmedia.asia/?n=campaign-india%2Fcontent%2F20160517214624452404_Voltas_logo_460.gif&h=630&w=1200&q=75&v=20250320&c=1", hint: "Voltas logo" },
-  { name: "Trane", imageUrl: "/trane.png", hint: "Trane logo" },
-  { name: "LG", imageUrl: "https://kreafolk.com/cdn/shop/articles/lg-logo-design-history-and-evolution-kreafolk_03aeb70a-1702-4330-a3d7-91c344688e97.jpg?v=1717725016&width=2048", hint: "LG logo" },
+  {
+    name: "Blue Star",
+    imageUrl:
+      "https://firebasestorage.googleapis.com/v0/b/srisaienterprises-892b9.firebasestorage.app/o/Trusted%20Companies%2Fblue-star-limited-logo-vector-removebg-preview.png?alt=media&token=98c9ebee-9477-4242-9e6e-0ee0d020900e",
+    hint: "Blue Star logo",
+  },
+  {
+    name: "MitsuBishi",
+    imageUrl:
+      "https://firebasestorage.googleapis.com/v0/b/srisaienterprises-892b9.firebasestorage.app/o/Trusted%20Companies%2Fnav-logo-black.svg?alt=media&token=56881520-54d1-4b0f-a755-09ebdb9c2434",
+    hint: "Mistubishi logo",
+  },
+  {
+    name: "Daikin",
+    imageUrl:
+      "https://logos-world.net/wp-content/uploads/2023/01/Daikin-Logo-1963.png",
+    hint: "Daikin logo",
+  },
+  {
+    name: "Hitachi",
+    imageUrl:
+      "https://firebasestorage.googleapis.com/v0/b/srisaienterprises-892b9.firebasestorage.app/o/Trusted%20Companies%2FHitachi-logo-Photoroom.png?alt=media&token=12722c41-48c2-4942-a0ae-3fec1b8d5c76",
+    hint: "Hitachi logo",
+  },
+  {
+    name: "Voltas",
+    imageUrl:
+      "https://firebasestorage.googleapis.com/v0/b/srisaienterprises-892b9.firebasestorage.app/o/Trusted%20Companies%2F08122024-image6-equitymaster-removebg-preview.png?alt=media&token=12a03c83-628e-444b-aa4a-2af25801870a",
+    hint: "Voltas logo",
+  },
+  {
+    name: "LG",
+    imageUrl:
+      "https://firebasestorage.googleapis.com/v0/b/srisaienterprises-892b9.firebasestorage.app/o/Trusted%20Companies%2Flogo-lg-100-44.svg?alt=media&token=5a7690e3-57b2-41fa-8237-194c0776d9a9",
+    hint: "LG logo",
+  },
 ];
 
 const features = [
@@ -282,16 +312,33 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full py-16 md:py-24 bg-primary">
+      <section className="w-full py-16 md:py-24 bg-primary text-primary-foreground">
         <div className="container">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            <div className="bg-primary/80 backdrop-blur-sm p-8 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg text-primary-foreground border border-primary-foreground/20">
-              <h3 className="text-5xl md:text-6xl font-extrabold font-heading">20+</h3>
-              <p className="mt-2 text-primary-foreground/80">Years of Experience</p>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold font-heading">
+              Delivering Results That Matter
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            <div className="bg-primary/80 backdrop-blur-sm p-6 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg border border-primary-foreground/20">
+              <div className="text-4xl mb-2">🛠️</div>
+              <h3 className="text-2xl font-bold font-heading">20+</h3>
+              <p className="mt-1 text-primary-foreground/80 text-sm">Years of HVAC Manufacturing Experience</p>
             </div>
-            <div className="bg-primary/80 backdrop-blur-sm p-8 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg text-primary-foreground border border-primary-foreground/20">
-              <h3 className="text-5xl md:text-6xl font-extrabold font-heading">100+</h3>
-              <p className="mt-2 text-primary-foreground/80">HVAC Dealers</p>
+            <div className="bg-primary/80 backdrop-blur-sm p-6 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg border border-primary-foreground/20">
+              <div className="text-4xl mb-2">🤝</div>
+              <h3 className="text-2xl font-bold font-heading">200+</h3>
+              <p className="mt-1 text-primary-foreground/80 text-sm">Clients Across India</p>
+            </div>
+            <div className="bg-primary/80 backdrop-blur-sm p-6 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg border border-primary-foreground/20">
+              <div className="text-4xl mb-2">🌐</div>
+              <h3 className="text-2xl font-bold font-heading">15+</h3>
+              <p className="mt-1 text-primary-foreground/80 text-sm">Sectors Served with Custom Solutions</p>
+            </div>
+            <div className="bg-primary/80 backdrop-blur-sm p-6 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg border border-primary-foreground/20">
+              <div className="text-4xl mb-2">📦</div>
+              <h3 className="text-2xl font-bold font-heading">10,000+</h3>
+              <p className="mt-1 text-primary-foreground/80 text-sm">Units Manufactured Annually</p>
             </div>
           </div>
         </div>
