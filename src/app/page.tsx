@@ -62,31 +62,36 @@ const LOGOS = [
   },
 ];
 
-const features = [
+const initialFeatures = [
   {
     title: "Proven Expertise",
     description: "With over 20 years of industry experience, we deliver dependable products and seamless project execution you can count on.",
     image: "https://placehold.co/600x450.png",
-    imageHint: "gears handshake"
+    imageHint: "gears handshake",
+    firestoreField: "whyChooseUsImage1"
   },
   {
     title: "Tailored Manufacturing",
     description: "Our products are custom-engineered to meet your site-specific airflow requirements with precision and flexibility.",
     image: "https://placehold.co/600x450.png",
-    imageHint: "blueprint ruler"
+    imageHint: "blueprint ruler",
+    firestoreField: "whyChooseUsImage2"
   },
   {
     title: "Industry Versatility",
     description: "Be it corporate spaces, cleanrooms, or infrastructure like metro stations — our ventilation solutions are designed for performance across diverse environments.",
     image: "https://placehold.co/600x450.png",
-    imageHint: "cityscape factory"
+    imageHint: "cityscape factory",
+    firestoreField: "whyChooseUsImage3"
   },
 ];
 
 export default function Home() {
   const [allProducts, setAllProducts] = React.useState<Product[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [heroImageUrl, setHeroImageUrl] = React.useState("https://placehold.co/600x450.png");
+  const [heroImageUrl, setHeroImageUrl] = React.useState("https://placehold.co/1200x800.png");
+  const [features, setFeatures] = React.useState(initialFeatures);
+
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -104,11 +109,16 @@ export default function Home() {
         
         setAllProducts(Array.from(productMap.values()));
 
-        // Fetch hero image
+        // Fetch content
         const contentDocRef = doc(db, 'settings', 'content');
         const contentDocSnap = await getDoc(contentDocRef);
-        if (contentDocSnap.exists() && contentDocSnap.data().heroImageUrl) {
-            setHeroImageUrl(contentDocSnap.data().heroImageUrl);
+        if (contentDocSnap.exists()) {
+            const data = contentDocSnap.data();
+            setHeroImageUrl(data.heroImageUrl || "https://placehold.co/1200x800.png");
+            setFeatures(prevFeatures => prevFeatures.map(feature => ({
+                ...feature,
+                image: data[feature.firestoreField] || feature.image
+            })));
         }
 
       } catch (error) {

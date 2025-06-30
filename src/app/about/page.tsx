@@ -1,38 +1,76 @@
+
+'use client';
+
 import Image from 'next/image';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Target, Users, BarChart } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
-const teamMembers = [
+const initialTeamMembers = [
   {
     name: 'John Carter',
     role: 'CEO & Founder',
     image: 'https://placehold.co/400x400.png',
     hint: 'professional portrait man',
+    firestoreField: 'teamMemberImage1',
   },
   {
     name: 'Sophie Chen',
     role: 'Head of Engineering',
     image: 'https://placehold.co/400x400.png',
     hint: 'professional portrait woman',
+    firestoreField: 'teamMemberImage2',
   },
   {
     name: 'Michael Rodriguez',
     role: 'Lead Designer',
     image: 'https://placehold.co/400x400.png',
     hint: 'professional portrait designer',
+    firestoreField: 'teamMemberImage3',
   },
 ];
 
 export default function AboutPage() {
+  const [bannerImageUrl, setBannerImageUrl] = useState('https://placehold.co/1920x600.png');
+  const [storyImageUrl, setStoryImageUrl] = useState('https://placehold.co/600x600.png');
+  const [teamMembers, setTeamMembers] = useState(initialTeamMembers);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const docRef = doc(db, 'settings', 'content');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setBannerImageUrl(data.aboutBannerImageUrl || 'https://placehold.co/1920x600.png');
+          setStoryImageUrl(data.aboutStoryImageUrl || 'https://placehold.co/600x600.png');
+          setTeamMembers(prevMembers => prevMembers.map(member => ({
+            ...member,
+            image: data[member.firestoreField] || member.image,
+          })));
+        }
+      } catch (error) {
+        console.error("Error fetching about page content:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchContent();
+  }, []);
+
   return (
     <div className="bg-background">
       <section className="relative h-[450px] flex items-center justify-center text-center text-primary-foreground">
         <Image
-          src="https://placehold.co/1920x600.png"
+          src={bannerImageUrl}
           alt="Our Team"
           fill
           className="object-cover"
           data-ai-hint="modern office building"
+          priority
         />
         <div className="absolute inset-0 bg-foreground/80" />
         <div className="relative z-10 p-4 max-w-4xl">
@@ -56,7 +94,7 @@ export default function AboutPage() {
           </div>
           <div className="relative aspect-square rounded-lg overflow-hidden shadow-lg">
              <Image
-                src="https://placehold.co/600x600.png"
+                src={storyImageUrl}
                 alt="Sri Sai Enterprises Factory"
                 fill
                 className="object-cover"

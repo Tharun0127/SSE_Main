@@ -45,7 +45,7 @@ export function Header() {
 
     const fetchLogo = async () => {
       try {
-        const docRef = doc(db, 'settings', 'main');
+        const docRef = doc(db, 'settings', 'content');
         const docSnap = await getDoc(docRef);
         if (docSnap.exists() && docSnap.data().logoUrl) {
           setLogoUrl(docSnap.data().logoUrl);
