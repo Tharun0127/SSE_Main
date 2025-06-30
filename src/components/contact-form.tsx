@@ -6,6 +6,7 @@ import { z } from "zod";
 import { useTransition } from "react";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { sendEnquiryEmail } from "@/app/actions/send-enquiry";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -57,6 +58,9 @@ export function ContactForm() {
           timestamp: serverTimestamp(), // For server-side sorting
           status: 'New' as const,
         });
+
+        // Send email notification in the background
+        sendEnquiryEmail(values);
 
         toast({
           title: "Message Sent!",

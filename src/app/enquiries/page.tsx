@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
+import { sendEnquiryEmail } from '@/app/actions/send-enquiry';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -88,6 +89,15 @@ export default function EnquiriesPage() {
                     date: new Date().toISOString().split('T')[0],
                     timestamp: serverTimestamp(),
                     status: 'New' as const,
+                });
+
+                 // Send email notification in the background
+                sendEnquiryEmail({
+                    name: values.name,
+                    email: values.email,
+                    phone: values.phone,
+                    message: values.message,
+                    projectDetails,
                 });
                 
                 toast({
