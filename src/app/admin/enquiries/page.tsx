@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import { Skeleton } from '@/components/ui/skeleton';
+import { AdminStatsCards } from '@/components/admin-stats-cards';
 
 type Enquiry = { 
   id: string; // Firestore document ID
@@ -55,78 +56,84 @@ export default function EnquiriesPage() {
     
       if (isLoading) {
         return (
-            <Card>
-                <CardHeader>
-                  <Skeleton className="h-8 w-40" />
-                  <Skeleton className="h-4 w-64 mt-2" />
-                </CardHeader>
-                <CardContent>
-                  <Skeleton className="h-80 w-full" />
-                </CardContent>
-            </Card>
+            <div className="flex flex-col gap-4 md:gap-8">
+              <AdminStatsCards />
+              <Card>
+                  <CardHeader>
+                    <Skeleton className="h-8 w-40" />
+                    <Skeleton className="h-4 w-64 mt-2" />
+                  </CardHeader>
+                  <CardContent>
+                    <Skeleton className="h-80 w-full" />
+                  </CardContent>
+              </Card>
+            </div>
         );
       }
 
       return (
-        <Card>
-            <CardHeader>
-                <CardTitle>All Enquiries</CardTitle>
-                <CardDescription>A list of all customer enquiries received.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <div className="md:hidden space-y-4">
-                  {enquiries.map((enquiry) => (
-                    <Card key={enquiry.id} className="p-4">
-                      <div className="flex justify-between items-start">
-                        <div className="flex-grow pr-4">
-                          <div className="font-medium">{enquiry.name}</div>
-                          <div className="text-sm text-muted-foreground truncate">{enquiry.email}</div>
-                        </div>
-                        <Button asChild size="sm" variant="outline" className="flex-shrink-0">
-                          <Link href={`/admin/enquiries/${enquiry.id}`}>Details</Link>
-                        </Button>
+        <div className="flex flex-col gap-4 md:gap-8">
+            <AdminStatsCards />
+            <Card>
+                <CardHeader>
+                    <CardTitle>All Enquiries</CardTitle>
+                    <CardDescription>A list of all customer enquiries received.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="md:hidden space-y-4">
+                      {enquiries.map((enquiry) => (
+                        <Card key={enquiry.id} className="p-4">
+                          <div className="flex justify-between items-start">
+                            <div className="flex-grow pr-4">
+                              <div className="font-medium">{enquiry.name}</div>
+                              <div className="text-sm text-muted-foreground truncate">{enquiry.email}</div>
+                            </div>
+                            <Button asChild size="sm" variant="outline" className="flex-shrink-0">
+                              <Link href={`/admin/enquiries/${enquiry.id}`}>Details</Link>
+                            </Button>
+                          </div>
+                          <div className="mt-3 pt-3 border-t flex items-center justify-between text-sm">
+                              <StatusBadge status={enquiry.status} />
+                              <span className="text-muted-foreground">{new Date(enquiry.date).toLocaleDateString()}</span>
+                          </div>
+                        </Card>
+                      ))}
+                    </div>
+                    <div className="hidden md:block">
+                      <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Customer</TableHead>
+                                <TableHead>Email</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Received</TableHead>
+                                <TableHead className="text-right">Action</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {enquiries.map((enquiry) => (
+                            <TableRow key={enquiry.id}>
+                                <TableCell className="font-medium">{enquiry.name}</TableCell>
+                                <TableCell className="text-muted-foreground">{enquiry.email}</TableCell>
+                                <TableCell><StatusBadge status={enquiry.status} /></TableCell>
+                                <TableCell className="text-muted-foreground">{new Date(enquiry.date).toLocaleDateString()}</TableCell>
+                                <TableCell className="text-right">
+                                    <Button asChild size="sm" variant="outline">
+                                        <Link href={`/admin/enquiries/${enquiry.id}`}>View Details <ExternalLink className="ml-2 h-3 w-3" /></Link>
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                     {enquiries.length === 0 && (
+                      <div className="text-center py-12 text-muted-foreground">
+                        <p>No enquiries found.</p>
                       </div>
-                      <div className="mt-3 pt-3 border-t flex items-center justify-between text-sm">
-                          <StatusBadge status={enquiry.status} />
-                          <span className="text-muted-foreground">{new Date(enquiry.date).toLocaleDateString()}</span>
-                      </div>
-                    </Card>
-                  ))}
-                </div>
-                <div className="hidden md:block">
-                  <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Customer</TableHead>
-                            <TableHead>Email</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Received</TableHead>
-                            <TableHead className="text-right">Action</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {enquiries.map((enquiry) => (
-                        <TableRow key={enquiry.id}>
-                            <TableCell className="font-medium">{enquiry.name}</TableCell>
-                            <TableCell className="text-muted-foreground">{enquiry.email}</TableCell>
-                            <TableCell><StatusBadge status={enquiry.status} /></TableCell>
-                            <TableCell className="text-muted-foreground">{new Date(enquiry.date).toLocaleDateString()}</TableCell>
-                            <TableCell className="text-right">
-                                <Button asChild size="sm" variant="outline">
-                                    <Link href={`/admin/enquiries/${enquiry.id}`}>View Details <ExternalLink className="ml-2 h-3 w-3" /></Link>
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                        ))}
-                    </TableBody>
-                  </Table>
-                </div>
-                 {enquiries.length === 0 && (
-                  <div className="text-center py-12 text-muted-foreground">
-                    <p>No enquiries found.</p>
-                  </div>
-                )}
-            </CardContent>
-        </Card>
+                    )}
+                </CardContent>
+            </Card>
+        </div>
       );
 }

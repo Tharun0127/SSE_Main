@@ -3,7 +3,6 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, type ReactNode } from 'react';
 import { AdminNav } from '@/components/admin-nav';
-import { AdminStatsCards } from '@/components/admin-stats-cards';
 import { Skeleton } from '@/components/ui/skeleton';
 
 function AdminLoadingScreen() {
@@ -60,12 +59,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
   return (
      <div className="flex min-h-screen w-full flex-col bg-muted/40">
-        <header className="sticky top-0 z-30 flex flex-col border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <AdminNav />
-            <div className="py-4">
-              <AdminStatsCards />
-            </div>
-        </header>
+        <AdminNav />
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
             {children}
         </main>
