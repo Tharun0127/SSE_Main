@@ -145,7 +145,7 @@ export default function ProductDetailPage() {
                     </Card>
 
                     <Button asChild size="lg" className="w-full">
-                       <Link href="/contact">
+                       <Link href={`/enquire/${product.id}`}>
                             Enquire Now
                         </Link>
                     </Button>

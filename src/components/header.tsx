@@ -1,8 +1,9 @@
+
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
+import { Menu, ShoppingBag } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -10,6 +11,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { type ProductEnquiry } from "@/app/enquire/[id]/page";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -23,6 +25,12 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [logoUrl, setLogoUrl] = useState("/sse+logo.png"); // Default logo
+  const [enquiryCount, setEnquiryCount] = useState(0);
+
+  const updateEnquiryCount = () => {
+    const enquiries: ProductEnquiry[] = JSON.parse(localStorage.getItem('product-enquiries') || '[]');
+    setEnquiryCount(enquiries.length);
+  };
 
   useEffect(() => {
     // This effect runs only on the client, after the component has mounted.
@@ -48,8 +56,14 @@ export function Header() {
     };
 
     fetchLogo();
+    updateEnquiryCount();
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('storage', updateEnquiryCount);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('storage', updateEnquiryCount);
+    }
   }, []);
 
   const headerClass = cn(
@@ -107,6 +121,17 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <Button asChild variant="ghost" size="sm" className="hidden sm:flex relative">
+              <Link href="/enquiries">
+                <ShoppingBag className="mr-2" />
+                Enquiries
+                {mounted && enquiryCount > 0 && (
+                  <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">
+                    {enquiryCount}
+                  </span>
+                )}
+              </Link>
+            </Button>
            <Button asChild className="hidden sm:flex" size="sm">
               <Link href="/contact">Contact Us</Link>
            </Button>
@@ -144,6 +169,22 @@ export function Header() {
                     {link.label}
                   </Link>
                 ))}
+                <Link
+                  href="/enquiries"
+                  className={cn(
+                    "font-medium text-lg hover:text-primary flex items-center",
+                    getMobileLinkClass("/enquiries")
+                  )}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <ShoppingBag className="mr-2" />
+                  My Enquiries
+                    {mounted && enquiryCount > 0 && (
+                    <span className="ml-2 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm">
+                      {enquiryCount}
+                    </span>
+                  )}
+                </Link>
               </nav>
                <Button asChild className="mt-8 w-full">
                   <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
