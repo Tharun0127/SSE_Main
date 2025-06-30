@@ -5,6 +5,8 @@ import EnquiryAlertEmail from '@/emails/enquiry-alert';
 import EnquiryConfirmationEmail from '@/emails/enquiry-confirmation';
 import type { EnquiryPayload } from '@/app/actions/types';
 import * as React from 'react';
+import { db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 // NOTE: This will only work in a deployed environment where RESEND_API_KEY is set.
 // You must get an API key from https://resend.com and set it as an environment secret.
@@ -21,6 +23,10 @@ export const sendEnquiryEmail = async (payload: EnquiryPayload) => {
   }
   
   try {
+    // Fetch dynamic admin email from Firestore
+    const contentSnap = await getDoc(doc(db, 'settings', 'content'));
+    const adminEmailAddress = contentSnap.data()?.contactEmail || 'trk0653705@gmail.com';
+
     // Promise.all to send both emails concurrently for better performance
     const [adminEmail, userEmail] = await Promise.all([
       // 1. Email to Admin
@@ -28,7 +34,7 @@ export const sendEnquiryEmail = async (payload: EnquiryPayload) => {
         // IMPORTANT: The "from" address must be a domain you have verified with Resend.
         // Using "onboarding@resend.dev" is for testing purposes only and will not work long-term.
         from: 'Enquiry <onboarding@resend.dev>',
-        to: ['trk0653705@gmail.com'],
+        to: [adminEmailAddress],
         subject: `New Website Enquiry from ${payload.name}`,
         react: EnquiryAlertEmail(payload) as React.ReactElement,
       }),

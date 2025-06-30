@@ -1,11 +1,31 @@
 'use client';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 export function WhatsAppWidget() {
+    const [whatsappNumber, setWhatsappNumber] = useState('918686198748');
+
+    useEffect(() => {
+        const fetchNumber = async () => {
+            try {
+                const docRef = doc(db, 'settings', 'content');
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists() && docSnap.data().whatsappNumber) {
+                    setWhatsappNumber(docSnap.data().whatsappNumber);
+                }
+            } catch (error) {
+                console.error("Failed to fetch whatsapp number, using default.", error);
+            }
+        };
+        fetchNumber();
+    }, []);
+
     return (
         <Link
-            href="https://wa.me/919849726724"
+            href={`https://wa.me/${whatsappNumber}`}
             target="_blank"
             rel="noopener noreferrer"
             className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-110"

@@ -15,25 +15,42 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
+interface ContactInfo {
+  email: string;
+  phone1: string;
+  phone2: string;
+}
+
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const [logoUrl, setLogoUrl] = useState("/sse+logo.png");
   const pathname = usePathname();
+  const [contactInfo, setContactInfo] = useState<ContactInfo>({
+    email: 'trk0653705@gmail.com',
+    phone1: '+91 98497 26724',
+    phone2: '+91 97048 68999',
+  });
 
   useEffect(() => {
-    const fetchLogo = async () => {
+    const fetchContent = async () => {
       try {
         const docRef = doc(db, 'settings', 'content');
         const docSnap = await getDoc(docRef);
-        if (docSnap.exists() && docSnap.data().logoUrl) {
-          setLogoUrl(docSnap.data().logoUrl);
+        if (docSnap.exists()) {
+           const data = docSnap.data();
+           if (data.logoUrl) setLogoUrl(data.logoUrl);
+           setContactInfo({
+             email: data.contactEmail || 'trk0653705@gmail.com',
+             phone1: data.contactPhone1 || '+91 98497 26724',
+             phone2: data.contactPhone2 || '+91 97048 68999',
+           });
         }
       } catch (error) {
-        console.error("Failed to fetch logo, using default.", error);
+        console.error("Failed to fetch footer content, using defaults.", error);
       }
     };
 
-    fetchLogo();
+    fetchContent();
   }, []);
 
   if (pathname.startsWith('/admin')) {
@@ -80,17 +97,17 @@ export function Footer() {
             <div>
                <h3 className="font-semibold tracking-wider uppercase text-primary-foreground/80 mb-4">Contact Us</h3>
                <div className="flex flex-col gap-3 text-sm text-primary-foreground/80">
-                 <a href="mailto:trk0653705@gmail.com" className="flex items-center gap-3 hover:text-primary-foreground transition-colors w-fit">
+                 <a href={`mailto:${contactInfo.email}`} className="flex items-center gap-3 hover:text-primary-foreground transition-colors w-fit">
                     <Mail className="h-4 w-4 flex-shrink-0" />
-                    <span>trk0653705@gmail.com</span>
+                    <span>{contactInfo.email}</span>
                  </a>
-                 <a href="tel:+919849726724" className="flex items-center gap-3 hover:text-primary-foreground transition-colors w-fit">
+                 <a href={`tel:${contactInfo.phone1}`} className="flex items-center gap-3 hover:text-primary-foreground transition-colors w-fit">
                     <Phone className="h-4 w-4 flex-shrink-0" />
-                    <span>+91 98497 26724</span>
+                    <span>{contactInfo.phone1}</span>
                  </a>
-                 <a href="tel:+919704868999" className="flex items-center gap-3 hover:text-primary-foreground transition-colors w-fit">
+                 <a href={`tel:${contactInfo.phone2}`} className="flex items-center gap-3 hover:text-primary-foreground transition-colors w-fit">
                     <Phone className="h-4 w-4 flex-shrink-0" />
-                    <span>+91 97048 68999</span>
+                    <span>{contactInfo.phone2}</span>
                  </a>
                  <div className="flex items-start gap-3">
                     <MapPin className="h-4 w-4 mt-1 flex-shrink-0" />

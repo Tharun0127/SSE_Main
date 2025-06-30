@@ -1,11 +1,57 @@
+'use client';
+
 import { ContactForm } from '@/components/contact-form';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Phone, Mail, MapPin } from 'lucide-react';
-import Image from 'next/image';
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+
+interface ContactInfo {
+  email: string;
+  phone1: string;
+  phone2: string;
+}
 
 export default function ContactPage() {
+  const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const docRef = doc(db, 'settings', 'content');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setContactInfo({
+            email: data.contactEmail || 'trk0653705@gmail.com',
+            phone1: data.contactPhone1 || '+91 98497 26724',
+            phone2: data.contactPhone2 || '+91 97048 68999',
+          });
+        } else {
+           setContactInfo({
+            email: 'trk0653705@gmail.com',
+            phone1: '+91 98497 26724',
+            phone2: '+91 97048 68999',
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching contact page content:", error);
+         setContactInfo({
+            email: 'trk0653705@gmail.com',
+            phone1: '+91 98497 26724',
+            phone2: '+91 97048 68999',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchContent();
+  }, []);
+
+
   return (
     <div className="container py-16 md:py-24">
       <div className="text-center mb-16">
@@ -30,34 +76,44 @@ export default function ContactPage() {
               <CardTitle className="font-heading text-2xl">Contact Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-               <div className="flex items-start gap-4">
-                <div className="mt-1 flex-shrink-0 p-3 bg-primary/10 rounded-lg">
-                  <Phone className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Phone</h3>
-                  <a href="tel:+919849726724" className="text-muted-foreground hover:text-primary transition-colors block">+91 98497 26724</a>
-                  <a href="tel:+919704868999" className="text-muted-foreground hover:text-primary transition-colors block">+91 97048 68999</a>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="mt-1 flex-shrink-0 p-3 bg-primary/10 rounded-lg">
-                  <Mail className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Email</h3>
-                  <a href="mailto:trk0653705@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">trk0653705@gmail.com</a>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="mt-1 flex-shrink-0 p-3 bg-primary/10 rounded-lg">
-                  <MapPin className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Address</h3>
-                  <p className="text-muted-foreground">Plot NO: 119, C.I.E, Gandhi Nagar,<br/>Balanagar, Hyderabad - 500 037</p>
-                </div>
-              </div>
+                {isLoading || !contactInfo ? (
+                    <div className="space-y-4">
+                        <Skeleton className="h-12 w-full" />
+                        <Skeleton className="h-12 w-full" />
+                        <Skeleton className="h-12 w-full" />
+                    </div>
+                ) : (
+                    <>
+                       <div className="flex items-start gap-4">
+                        <div className="mt-1 flex-shrink-0 p-3 bg-primary/10 rounded-lg">
+                          <Phone className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-foreground">Phone</h3>
+                          <a href={`tel:${contactInfo.phone1}`} className="text-muted-foreground hover:text-primary transition-colors block">{contactInfo.phone1}</a>
+                          <a href={`tel:${contactInfo.phone2}`} className="text-muted-foreground hover:text-primary transition-colors block">{contactInfo.phone2}</a>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-4">
+                        <div className="mt-1 flex-shrink-0 p-3 bg-primary/10 rounded-lg">
+                          <Mail className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-foreground">Email</h3>
+                          <a href={`mailto:${contactInfo.email}`} className="text-muted-foreground hover:text-primary transition-colors">{contactInfo.email}</a>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-4">
+                        <div className="mt-1 flex-shrink-0 p-3 bg-primary/10 rounded-lg">
+                          <MapPin className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-foreground">Address</h3>
+                          <p className="text-muted-foreground">Plot NO: 119, C.I.E, Gandhi Nagar,<br/>Balanagar, Hyderabad - 500 037</p>
+                        </div>
+                      </div>
+                    </>
+                )}
             </CardContent>
           </Card>
           <div className="aspect-video relative rounded-lg overflow-hidden border shadow-sm">
