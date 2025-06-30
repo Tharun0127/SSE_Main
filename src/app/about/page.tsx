@@ -69,7 +69,7 @@ export default function AboutPage() {
         <div className="relative z-10 p-4 max-w-4xl">
           <h1 className="text-4xl md:text-6xl font-extrabold font-heading tracking-tight text-primary-foreground">About Sri Sai Enterprises</h1>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-primary-foreground/90">
-            Pioneering excellence in HVAC solutions since 2004.
+            Pioneering excellence in HVAC solutions since 2003.
           </p>
         </div>
       </section>
@@ -78,12 +78,17 @@ export default function AboutPage() {
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
             <h2 className="text-3xl font-extrabold font-heading mb-4">Our Story</h2>
-            <p className="text-muted-foreground text-lg mb-4">
-              Founded with a vision to revolutionize the HVAC industry, Sri Sai Enterprises has grown from a small workshop into a leading manufacturer of high-quality grilles, diffusers, and dampers.
-            </p>
-            <p className="text-muted-foreground">
-              Our journey is one of innovation, commitment to quality, and a relentless pursuit of customer satisfaction. We believe that the air you breathe should be managed with precision and reliability. That's why every product we create is engineered to the highest standards, ensuring optimal performance and durability.
-            </p>
+             <div className="space-y-4 text-muted-foreground">
+                <p className="text-lg">
+                    Sri Sai Enterprises was established in 2003, with our sister concern Sri Sai Air System following in 2006. Since our inception, we have become a leading manufacturer of air distribution products, providing innovative ventilation solutions for residential, non-residential, industrial, and infrastructure applications.
+                </p>
+                <p>
+                    We have deep expertise in crafting solutions for a diverse range of sectors, including Pharmaceutical, IT, Biotech, Hospitals, Life Sciences, Function Halls, Hotels, and Commercial Buildings. Our customers value our ability to deliver complex, made-to-specification products with short lead times, recognizing that any delay can be costly for complex construction projects.
+                </p>
+                <p>
+                   The Sri Sai group goes to market with one of the strongest and most widely recognized brand portfolios in the air distribution industry. Our brands have a long and respected history, known for quality and reliability.
+                </p>
+            </div>
           </div>
           <div className="relative aspect-square rounded-lg overflow-hidden shadow-lg">
              <Image
