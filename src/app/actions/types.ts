@@ -5,3 +5,14 @@ export type EnquiryPayload = {
   message?: string;
   projectDetails?: string;
 };
+
+export type ProductEnquiry = {
+  productId: number;
+  productName: string;
+  productImage: string;
+  unit: 'SFT' | 'Each Piece';
+  quantity: number;
+  displayValue: string;
+  measurement?: string;
+  description?: string;
+};

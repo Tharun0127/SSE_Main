@@ -34,7 +34,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import type { ProductEnquiry } from '@/app/enquiries/page';
+import type { ProductEnquiry } from '@/app/actions/types';
 
 interface EnquiryModalProps {
   product: Product;

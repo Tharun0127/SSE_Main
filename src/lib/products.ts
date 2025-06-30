@@ -4,7 +4,6 @@ export interface Product {
   category: 'Grills' | 'Diffusers' | 'Dampers' | 'Others';
   description: string;
   longDescription: string;
-  price: string;
   imageUrl: string;
   imageHint: string;
   featured: boolean;
@@ -19,7 +18,6 @@ export const products: Product[] = [
     category: "Grills",
     description: "Sleek and efficient for continuous airflow.",
     longDescription: "Our Linear Bar Grilles are designed for both supply and return air applications. The fixed blades provide a stable and consistent airflow pattern, perfect for modern architectural designs that require clean, unobtrusive lines.",
-    price: "Request a Quote",
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "linear bar grille",
     featured: true,
@@ -32,7 +30,6 @@ export const products: Product[] = [
     category: "Diffusers",
     description: "Control airflow direction and volume with ease.",
     longDescription: "This high-performance Adjustable Air Diffuser allows for precise control over air distribution. Its multi-louver design enables you to direct airflow exactly where it's needed, maximizing comfort and system efficiency.",
-    price: "Request a Quote",
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "air diffuser vent",
     featured: true,
@@ -45,7 +42,6 @@ export const products: Product[] = [
     category: "Dampers",
     description: "Essential for safety and automated airflow control.",
     longDescription: "The Motorized Fire Damper is a critical safety component in any HVAC system. It automatically closes in the event of a fire to prevent the spread of smoke and flames, and can be integrated with building automation systems for daily airflow control.",
-    price: "Request a Quote",
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "industrial fire damper",
     featured: true,
@@ -58,7 +54,6 @@ export const products: Product[] = [
     category: "Grills",
     description: "Classic design for optimal ceiling air distribution.",
     longDescription: "The Circular Ceiling Grille offers a timeless design with excellent performance. It provides a 360-degree air diffusion pattern, making it ideal for open spaces requiring even and comfortable air circulation.",
-    price: "Request a Quote",
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "round ceiling grille",
     featured: false,
@@ -71,7 +66,6 @@ export const products: Product[] = [
     category: "Diffusers",
     description: "Maximizes air coverage in commercial spaces.",
     longDescription: "Engineered for performance, the 4-Way Ceiling Diffuser delivers a uniform air supply in four directions. This reduces drafts and ensures a consistent temperature throughout the room, making it perfect for offices and retail environments.",
-    price: "Request a Quote",
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "square ceiling diffuser",
     featured: false,
@@ -84,7 +78,6 @@ export const products: Product[] = [
     category: "Dampers",
     description: "Precision balancing for HVAC duct systems.",
     longDescription: "Our Volume Control Dampers allow for precise adjustment of airflow in ductwork. The opposed blade design ensures better control and less noise, enabling technicians to balance the HVAC system for optimal performance and comfort.",
-    price: "Request a Quote",
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "ductwork volume damper",
     featured: false,
@@ -97,7 +90,6 @@ export const products: Product[] = [
     category: "Others",
     description: "Durable exterior louvre for ventilation and protection.",
     longDescription: "This Weatherproof Louvre is designed to allow air intake and exhaust while preventing water, dirt, and debris from entering the building. Constructed from high-grade aluminum, it offers long-lasting performance in all weather conditions.",
-    price: "Request a Quote",
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "outdoor ventilation louvre",
     featured: false,
@@ -110,7 +102,6 @@ export const products: Product[] = [
     category: "Grills",
     description: "Built for high-traffic areas and heavy loads.",
     longDescription: "Our Heavy-Duty Floor Grille is constructed from reinforced steel, making it ideal for industrial environments, warehouses, and data centers where durability is paramount. It supports significant weight while ensuring optimal airflow.",
-    price: "Request a Quote",
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "industrial floor grille",
     featured: false,
@@ -123,7 +114,6 @@ export const products: Product[] = [
     category: "Diffusers",
     description: "Provides a gentle, low-velocity air pattern.",
     longDescription: "The Perforated Ceiling Diffuser is designed for spaces requiring quiet, draft-free air distribution, such as recording studios, libraries, and hospital rooms. Its perforated face delivers a diffused, low-velocity airflow for maximum comfort.",
-    price: "Request a Quote",
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "perforated diffuser panel",
     featured: false,
@@ -136,7 +126,6 @@ export const products: Product[] = [
     category: "Dampers",
     description: "Prevents reverse airflow in duct systems.",
     longDescription: "This Backdraft Damper uses gravity-operated blades to automatically prevent unwanted air from flowing back into the system when the fan is off. It's an essential component for maintaining pressure and efficiency in exhaust systems.",
-    price: "Request a Quote",
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "duct backdraft damper",
     featured: false,
@@ -149,7 +138,6 @@ export const products: Product[] = [
     category: "Others",
     description: "Provides easy access to ductwork components.",
     longDescription: "Our insulated Duct Access Door allows for convenient inspection and maintenance of dampers, filters, and other components within your HVAC system. The hinged design and cam-lock system ensure a tight seal and easy operation.",
-    price: "Request a Quote",
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "duct access panel",
     featured: false,
@@ -162,7 +150,6 @@ export const products: Product[] = [
     category: "Others",
     description: "Isolates vibration and noise between equipment.",
     longDescription: "The Flexible Duct Connector is used to connect HVAC equipment to ductwork, absorbing vibrations and noise to create a quieter system. It's made from durable, fire-resistant fabric for long-lasting performance.",
-    price: "Request a Quote",
     imageUrl: "https://placehold.co/600x400.png",
     imageHint: "flexible duct connector",
     featured: false,

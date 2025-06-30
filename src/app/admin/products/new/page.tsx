@@ -101,7 +101,6 @@ export default function NewProductPage() {
           category: values.category,
           description: values.description,
           longDescription: values.longDescription,
-          price: "Request a Quote", // Default value
           imageUrl: imageUrl,
           imageHint: values.name.toLowerCase().replace(/\s/g, ' '),
           featured: false, // New products are not featured by default

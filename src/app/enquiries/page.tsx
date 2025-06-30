@@ -17,17 +17,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ShoppingBag, Trash2, Send, Loader2 } from 'lucide-react';
-
-export type ProductEnquiry = {
-  productId: number;
-  productName: string;
-  productImage: string;
-  unit: 'SFT' | 'Each Piece';
-  quantity: number;
-  displayValue: string;
-  measurement?: string;
-  description?: string;
-};
+import type { ProductEnquiry } from '@/app/actions/types';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),

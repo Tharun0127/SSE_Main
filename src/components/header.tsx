@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { type ProductEnquiry } from "@/app/enquiries/page";
+import type { ProductEnquiry } from "@/app/actions/types";
 
 const navLinks = [
   { href: "/", label: "Home" },
