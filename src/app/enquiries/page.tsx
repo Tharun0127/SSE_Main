@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useTransition } from 'react';
@@ -10,13 +9,24 @@ import { z } from 'zod';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
-import { type ProductEnquiry } from '../enquire/[id]/page';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ShoppingBag, Trash2, Send, Loader2 } from 'lucide-react';
+
+export type ProductEnquiry = {
+  productId: number;
+  productName: string;
+  productImage: string;
+  unit: 'SFT' | 'Each Piece';
+  quantity: number;
+  displayValue: string;
+  measurement?: string;
+  description?: string;
+};
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -57,11 +67,16 @@ export default function EnquiriesPage() {
     
     async function onSubmit(values: z.infer<typeof formSchema>) {
         startTransition(async () => {
-            const projectDetails = enquiries.map(item => 
-`Product: ${item.productName} (ID: ${item.productId})
-Measurements: ${item.measurements}
-Quantity: ${item.quantity}`
-            ).join('\n\n---\n\n');
+            const projectDetails = enquiries.map(item => {
+                let details = `Product: ${item.productName} (ID: ${item.productId})\nQuantity: ${item.displayValue}`;
+                if (item.measurement) {
+                    details += `\nMeasurements: ${item.measurement}`;
+                }
+                if (item.description) {
+                    details += `\nDescription: ${item.description}`;
+                }
+                return details;
+            }).join('\n\n---\n\n');
 
             try {
                 await addDoc(collection(db, "enquiries"), {
@@ -97,7 +112,7 @@ Quantity: ${item.quantity}`
     }
 
     if (!isClient) {
-        return null; // or a loading skeleton
+        return null;
     }
     
     return (
@@ -131,8 +146,9 @@ Quantity: ${item.quantity}`
                                             </div>
                                             <div className="flex-grow">
                                                 <h3 className="font-bold text-foreground">{item.productName}</h3>
-                                                <p className="text-sm text-muted-foreground mt-1"><strong>Measurements:</strong> {item.measurements}</p>
-                                                <p className="text-sm text-muted-foreground"><strong>Quantity:</strong> {item.quantity}</p>
+                                                <p className="text-sm font-semibold text-primary mt-1">{item.displayValue}</p>
+                                                {item.measurement && <p className="text-sm text-muted-foreground mt-1"><strong>Measurements:</strong> {item.measurement}</p>}
+                                                {item.description && <p className="text-sm text-muted-foreground mt-1"><strong>Notes:</strong> {item.description}</p>}
                                             </div>
                                             <Button variant="ghost" size="icon" onClick={() => handleRemoveItem(item.productId)}>
                                                 <Trash2 className="h-4 w-4" />

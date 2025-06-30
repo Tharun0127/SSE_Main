@@ -14,12 +14,14 @@ import { useState, useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { EnquiryModal } from '@/components/enquiry-modal';
 
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = parseInt(params.id as string, 10);
   const [product, setProduct] = useState<Product | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
+  const [isEnquiryModalOpen, setIsEnquiryModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -84,74 +86,79 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <div className="bg-secondary">
-        <div className="container py-16 md:py-24">
-             <div className="mb-8">
-                <Button asChild variant="outline" size="sm">
-                    <Link href="/products">
-                    <ArrowLeft className="mr-2 h-4 w-4" /> Back to All Products
-                    </Link>
-                </Button>
-            </div>
-            <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
-                <div className="relative aspect-square rounded-lg overflow-hidden border bg-background shadow-md">
-                    <Image
-                        src={product.imageUrl}
-                        alt={product.name}
-                        fill
-                        className="object-contain p-8"
-                        data-ai-hint={product.imageHint}
-                        priority
-                    />
-                </div>
-
-                <div className="space-y-6">
-                    <div>
-                        <Badge variant="outline" className="mb-2">{product.category}</Badge>
-                        <h1 className="text-3xl md:text-4xl font-extrabold font-heading">{product.name}</h1>
-                        <p className="mt-4 text-lg text-muted-foreground">{product.longDescription}</p>
-                    </div>
-
-                    <Separator />
-                    
-                    <Card className="transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-                      <CardHeader>
-                        <CardTitle className="text-xl font-heading">Product Specifications</CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        {product.measurementUnit && (
-                          <div className="flex items-center gap-4">
-                            <Ruler className="h-6 w-6 text-primary flex-shrink-0" />
-                            <div>
-                              <h3 className="font-semibold text-foreground">Measurement Unit</h3>
-                              <p className="text-muted-foreground">{product.measurementUnit}</p>
-                            </div>
-                          </div>
-                        )}
-                        {product.availableSizes && product.availableSizes.length > 0 && (
-                          <div className="flex items-start gap-4">
-                            <Scaling className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-                            <div>
-                                <h3 className="font-semibold text-foreground">Available Sizes</h3>
-                                <div className="flex flex-wrap gap-2 mt-1">
-                                    {product.availableSizes.map(size => (
-                                        <Badge key={size} variant="secondary">{size}</Badge>
-                                    ))}
-                                </div>
-                            </div>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-
-                    <Button asChild size="lg" className="w-full">
-                       <Link href={`/enquire/${product.id}`}>
-                            Enquire Now
+    <>
+        <div className="bg-secondary">
+            <div className="container py-16 md:py-24">
+                <div className="mb-8">
+                    <Button asChild variant="outline" size="sm">
+                        <Link href="/products">
+                        <ArrowLeft className="mr-2 h-4 w-4" /> Back to All Products
                         </Link>
                     </Button>
                 </div>
+                <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
+                    <div className="relative aspect-square rounded-lg overflow-hidden border bg-background shadow-md">
+                        <Image
+                            src={product.imageUrl}
+                            alt={product.name}
+                            fill
+                            className="object-contain p-8"
+                            data-ai-hint={product.imageHint}
+                            priority
+                        />
+                    </div>
+
+                    <div className="space-y-6">
+                        <div>
+                            <Badge variant="outline" className="mb-2">{product.category}</Badge>
+                            <h1 className="text-3xl md:text-4xl font-extrabold font-heading">{product.name}</h1>
+                            <p className="mt-4 text-lg text-muted-foreground">{product.longDescription}</p>
+                        </div>
+
+                        <Separator />
+                        
+                        <Card className="transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
+                        <CardHeader>
+                            <CardTitle className="text-xl font-heading">Product Specifications</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            {product.measurementUnit && (
+                            <div className="flex items-center gap-4">
+                                <Ruler className="h-6 w-6 text-primary flex-shrink-0" />
+                                <div>
+                                <h3 className="font-semibold text-foreground">Measurement Unit</h3>
+                                <p className="text-muted-foreground">{product.measurementUnit}</p>
+                                </div>
+                            </div>
+                            )}
+                            {product.availableSizes && product.availableSizes.length > 0 && (
+                            <div className="flex items-start gap-4">
+                                <Scaling className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                                <div>
+                                    <h3 className="font-semibold text-foreground">Available Sizes</h3>
+                                    <div className="flex flex-wrap gap-2 mt-1">
+                                        {product.availableSizes.map(size => (
+                                            <Badge key={size} variant="secondary">{size}</Badge>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                            )}
+                        </CardContent>
+                        </Card>
+
+                        <Button size="lg" className="w-full" onClick={() => setIsEnquiryModalOpen(true)}>
+                                Enquire Now
+                        </Button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+        <EnquiryModal 
+            product={product} 
+            isOpen={isEnquiryModalOpen} 
+            onOpenChange={setIsEnquiryModalOpen}
+        />
+    </>
   );
 }
