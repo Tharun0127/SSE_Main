@@ -312,33 +312,33 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full py-16 md:py-24 bg-primary text-primary-foreground">
+      <section className="w-full py-16 md:py-24 bg-primary">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold font-heading">
+            <h2 className="text-3xl md:text-4xl font-extrabold font-heading text-primary-foreground">
               Delivering Results That Matter
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            <div className="bg-primary/80 backdrop-blur-sm p-6 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg border border-primary-foreground/20">
+            <div className="bg-secondary p-6 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-xl">
               <div className="text-4xl mb-2">🛠️</div>
-              <h3 className="text-2xl font-bold font-heading">20+</h3>
-              <p className="mt-1 text-primary-foreground/80 text-sm">Years of HVAC Manufacturing Experience</p>
+              <h3 className="text-2xl font-bold font-heading text-primary">20+</h3>
+              <p className="mt-1 text-muted-foreground text-sm">Years of HVAC Manufacturing Experience</p>
             </div>
-            <div className="bg-primary/80 backdrop-blur-sm p-6 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg border border-primary-foreground/20">
+            <div className="bg-secondary p-6 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-xl">
               <div className="text-4xl mb-2">🤝</div>
-              <h3 className="text-2xl font-bold font-heading">200+</h3>
-              <p className="mt-1 text-primary-foreground/80 text-sm">Clients Across India</p>
+              <h3 className="text-2xl font-bold font-heading text-primary">200+</h3>
+              <p className="mt-1 text-muted-foreground text-sm">Clients Across India</p>
             </div>
-            <div className="bg-primary/80 backdrop-blur-sm p-6 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg border border-primary-foreground/20">
+            <div className="bg-secondary p-6 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-xl">
               <div className="text-4xl mb-2">🌐</div>
-              <h3 className="text-2xl font-bold font-heading">15+</h3>
-              <p className="mt-1 text-primary-foreground/80 text-sm">Sectors Served with Custom Solutions</p>
+              <h3 className="text-2xl font-bold font-heading text-primary">15+</h3>
+              <p className="mt-1 text-muted-foreground text-sm">Sectors Served with Custom Solutions</p>
             </div>
-            <div className="bg-primary/80 backdrop-blur-sm p-6 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg border border-primary-foreground/20">
+            <div className="bg-secondary p-6 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-xl">
               <div className="text-4xl mb-2">📦</div>
-              <h3 className="text-2xl font-bold font-heading">10,000+</h3>
-              <p className="mt-1 text-primary-foreground/80 text-sm">Units Manufactured Annually</p>
+              <h3 className="text-2xl font-bold font-heading text-primary">10,000+</h3>
+              <p className="mt-1 text-muted-foreground text-sm">Units Manufactured Annually</p>
             </div>
           </div>
         </div>
