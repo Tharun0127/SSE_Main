@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from "next/image";
@@ -34,18 +35,20 @@ export function ProductCard({ product }: { product: Product }) {
             <p className="mt-1 text-sm text-primary-foreground/90">{product.description}</p>
           </div>
           
-          <div className="mt-auto flex flex-col items-center text-center space-y-3">
-             <Button asChild variant="secondary" className="w-full max-w-xs font-semibold">
-               <Link href={`/products/${product.id}`}>View Details</Link>
-             </Button>
-             <Button 
-                variant="outline" 
-                className="w-full max-w-xs font-semibold bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
-                onClick={() => setIsEnquiryModalOpen(true)}
-             >
-                Enquire Now
-            </Button>
-             <p className="!mt-4 text-xs uppercase tracking-wider text-primary-foreground/80">{product.category}</p>
+          <div className="mt-auto flex flex-col items-center text-center gap-4">
+             <div className="flex flex-row gap-3">
+                <Button asChild variant="secondary" className="font-semibold">
+                <Link href={`/products/${product.id}`}>View Details</Link>
+                </Button>
+                <Button 
+                    variant="outline" 
+                    className="font-semibold bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+                    onClick={() => setIsEnquiryModalOpen(true)}
+                >
+                    Enquire Now
+                </Button>
+             </div>
+             <p className="text-xs uppercase tracking-wider text-primary-foreground/80">{product.category}</p>
           </div>
         </div>
       </Card>
