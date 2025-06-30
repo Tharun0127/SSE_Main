@@ -63,22 +63,22 @@ const LOGOS = [
 
 const features = [
   {
-    title: "Optimal Airflow",
-    description: "Our products are engineered to deliver maximum airflow performance, keeping you comfortable.",
+    title: "Proven Expertise",
+    description: "With over 20 years of industry experience, we deliver dependable products and seamless project execution you can count on.",
     image: "https://placehold.co/600x450.png",
-    imageHint: "air vent pattern"
+    imageHint: "gears handshake"
   },
   {
-    title: "Energy Efficient",
-    description: "With high EER ratings and smart features, our units save you money while protecting the planet.",
+    title: "Tailored Manufacturing",
+    description: "Our products are custom-engineered to meet your site-specific airflow requirements with precision and flexibility.",
     image: "https://placehold.co/600x450.png",
-    imageHint: "green leaf power"
+    imageHint: "blueprint ruler"
   },
   {
-    title: "Sleek, Modern Design",
-    description: "Our products don't just feel good, they look good. Enhance your space with our stylish designs.",
+    title: "Industry Versatility",
+    description: "Be it corporate spaces, cleanrooms, or infrastructure like metro stations — our ventilation solutions are designed for performance across diverse environments.",
     image: "https://placehold.co/600x450.png",
-    imageHint: "modern interior design"
+    imageHint: "cityscape factory"
   },
 ];
 
@@ -116,23 +116,23 @@ export default function Home() {
   return (
     <div className="flex flex-col bg-background">
       <section className="w-full bg-background text-foreground">
-        <div className="container grid md:grid-cols-2 gap-12 items-center py-20 md:py-32">
-          <div className="flex flex-col items-start text-left">
+        <div className="container flex flex-col items-center text-center py-20 md:py-32">
+          <div className="flex flex-col items-center text-center max-w-3xl">
               <motion.h1 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
                   className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight"
               >
-                  Experience Pure Comfort
+                  Engineered Airflow, Trusted Ventilation Partner
               </motion.h1>
               <motion.p 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4 }}
-                  className="max-w-xl text-muted-foreground md:text-lg mt-6"
+                  className="max-w-2xl text-muted-foreground md:text-lg mt-6"
               >
-                  Innovative HVAC solutions designed for your lifestyle. Stay cool, calm, and collected all year round.
+                  Delivering high-performance air distribution solutions for the Pharma, IT, and Infrastructure sectors since 2003.
               </motion.p>
               <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -142,29 +142,27 @@ export default function Home() {
               >
                   <Button asChild size="lg">
                       <Link href="/products">
-                          Explore Products
+                          Explore Our Products
                           <ArrowRight className="ml-2 h-5 w-5" />
                       </Link>
                   </Button>
               </motion.div>
           </div>
-          <div className="flex justify-center">
-            <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, delay: 0.2 }}
-                className="relative w-full max-w-md aspect-[4/3]"
-            >
-                <Image
-                    src="https://placehold.co/600x450.png"
-                    alt="Modern Air Cooling Unit"
-                    fill
-                    className="object-cover rounded-2xl shadow-2xl bg-accent"
-                    data-ai-hint="modern air conditioner"
-                    priority
-                />
-            </motion.div>
-          </div>
+          <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="relative w-full max-w-2xl aspect-[4/3] mt-12"
+          >
+              <Image
+                  src="https://placehold.co/600x450.png"
+                  alt="Modern Air Cooling Unit"
+                  fill
+                  className="object-cover rounded-2xl shadow-2xl bg-accent"
+                  data-ai-hint="modern air conditioner"
+                  priority
+              />
+          </motion.div>
         </div>
       </section>
 
@@ -347,9 +345,9 @@ export default function Home() {
       <section id="consult-us" className="w-full py-16 md:py-24 bg-background">
         <div className="container">
           <div className="mx-auto max-w-4xl text-center bg-card p-8 md:p-12 rounded-2xl shadow-lg border transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-            <h2 className="text-3xl md:text-4xl font-extrabold font-heading">Need HVAC Products to Elevate Your Project?</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold font-heading">Looking for HVAC Products That Power Your Vision?</h2>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-              Whether you're an architect, builder, or homeowner, our team is ready to provide tailor-made HVAC solutions. Submit your requirements, and we will contact you directly to discuss your project's needs in detail.
+              Whether you're an architect, builder, or homeowner, we’re here to craft customized HVAC solutions that bring your projects to life. Share your requirements — and our team will connect with you directly to provide expert guidance tailored to your needs.
             </p>
             <div className="mt-8">
               <Button asChild size="lg">

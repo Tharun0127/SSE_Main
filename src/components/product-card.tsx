@@ -14,41 +14,35 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <>
-      <Card className="relative min-h-[480px] w-full overflow-hidden rounded-lg group text-primary-foreground shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-        <div className="absolute inset-0">
+      <Card className="flex h-full flex-col overflow-hidden rounded-lg shadow-md transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
+        <Link href={`/products/${product.id}`} className="block relative aspect-video w-full">
           <Image
             src={product.imageUrl}
             alt={product.name}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
             data-ai-hint={product.imageHint}
           />
-        </div>
+        </Link>
         
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-transparent" />
-        
-        <div className="relative z-10 flex h-full flex-col p-6">
-          <div>
-            <h3 className="font-heading text-2xl font-bold uppercase">
-                {product.name}
-            </h3>
-            <p className="mt-1 text-sm text-primary-foreground/90">{product.description}</p>
-          </div>
+        <div className="flex flex-1 flex-col border-t p-6">
+          <p className="text-sm font-semibold uppercase tracking-wider text-primary">{product.category}</p>
+          <h3 className="mt-2 font-heading text-2xl font-bold text-foreground">
+              {product.name}
+          </h3>
+          <p className="mt-3 flex-1 text-sm text-muted-foreground">{product.description}</p>
           
-          <div className="mt-auto flex flex-col items-center text-center gap-4">
-             <div className="flex flex-row gap-3">
-                <Button asChild variant="secondary" className="font-semibold">
-                <Link href={`/products/${product.id}`}>View Details</Link>
-                </Button>
-                <Button 
-                    variant="outline" 
-                    className="font-semibold bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
-                    onClick={() => setIsEnquiryModalOpen(true)}
-                >
-                    Enquire Now
-                </Button>
-             </div>
-             <p className="text-xs uppercase tracking-wider text-primary-foreground/80">{product.category}</p>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <Button asChild variant="default" className="w-full font-semibold">
+              <Link href={`/products/${product.id}`}>View Details</Link>
+            </Button>
+            <Button 
+                variant="outline" 
+                className="w-full font-semibold"
+                onClick={() => setIsEnquiryModalOpen(true)}
+            >
+                Enquire Now
+            </Button>
           </div>
         </div>
       </Card>
