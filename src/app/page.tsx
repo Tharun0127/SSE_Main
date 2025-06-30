@@ -7,9 +7,10 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import useEmblaCarousel from 'embla-carousel-react';
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MoveHorizontal } from "lucide-react";
 import { products as staticProducts, type Product } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -109,6 +110,45 @@ export default function Home() {
     };
     fetchProducts();
   }, []);
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: 'center',
+    containScroll: 'trimSnaps',
+  });
+  
+  const [tweenValues, setTweenValues] = React.useState<number[]>([]);
+
+  const onScroll = React.useCallback(() => {
+    if (!emblaApi) return;
+    const engine = emblaApi.internalEngine();
+    const scrollProgress = emblaApi.scrollProgress();
+
+    const styles = emblaApi.scrollSnapList().map((scrollSnap, index) => {
+      if (!emblaApi.slidesInView().includes(index)) return 0;
+      let diffToTarget = scrollSnap - scrollProgress;
+
+      if (engine.options.loop) {
+        engine.slideLooper.loopPoints.forEach((loopItem) => {
+          const target = loopItem.target();
+          if (index === loopItem.index && target !== 0) {
+            const sign = Math.sign(target);
+            if (sign === -1) diffToTarget = scrollSnap - (1 + scrollProgress);
+            if (sign === 1) diffToTarget = scrollSnap + (1 - scrollProgress);
+          }
+        });
+      }
+      return 1 - Math.abs(diffToTarget * 1.5);
+    });
+    setTweenValues(styles);
+  }, [emblaApi, setTweenValues]);
+
+  React.useEffect(() => {
+    if (!emblaApi) return;
+    onScroll();
+    emblaApi.on('scroll', onScroll);
+    emblaApi.on('reInit', onScroll);
+  }, [emblaApi, onScroll]);
 
   const categories = ['All', 'Grills', 'Diffusers', 'Dampers', 'Others'];
   const featuredProducts = allProducts.filter(p => p.featured);
@@ -273,21 +313,21 @@ export default function Home() {
         </div>
       </section>
       
-      <section id="why-us" className="w-full py-16 md:py-24 bg-background">
+      <section id="why-us" className="w-full py-16 md:py-24 bg-background overflow-hidden">
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20">
             <h2 className="text-3xl md:text-4xl font-extrabold font-heading">Why Choose Sri Sai Enterprises?</h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              We blend cutting-edge technology with sophisticated design to create HVAC products that elevate your comfort and your space.
+              We combine advanced technology with elegant design to deliver HVAC products that enhance both your comfort and your environment.
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="hidden md:grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div
                 key={feature.title}
                 className={cn(
-                  "flex rounded-2xl shadow-lg p-6 space-y-6 text-center transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1",
+                  "flex flex-col rounded-2xl shadow-lg p-6 space-y-6 text-center",
                   index % 2 === 1 ? "flex-col-reverse space-y-reverse" : "flex-col",
                   ["bg-card", "bg-secondary", "bg-card"][index % 3]
                 )}
@@ -309,6 +349,51 @@ export default function Home() {
             ))}
           </div>
 
+          <div className="md:hidden">
+              <div className="overflow-hidden -mx-4" ref={emblaRef}>
+                  <div className="flex">
+                      {features.map((feature, index) => (
+                          <div
+                              className="flex-shrink-0 flex-grow-0 basis-[85%] sm:basis-3/5 px-4"
+                              key={feature.title}
+                          >
+                               <div
+                                  style={{
+                                    ...(tweenValues.length && {
+                                        filter: `blur(${Math.max(0, 4 - 4 * tweenValues[index])}px)`,
+                                        transform: `scale(${0.92 + 0.08 * tweenValues[index]})`,
+                                        opacity: Math.max(0.5, tweenValues[index])
+                                    })
+                                  }}
+                                  className={cn(
+                                    "flex flex-col rounded-2xl shadow-lg p-6 space-y-6 text-center transition-opacity",
+                                    index % 2 === 1 ? "flex-col-reverse space-y-reverse" : "flex-col",
+                                    ["bg-card", "bg-secondary", "bg-card"][index % 3]
+                                  )}
+                                >
+                                  <div className="relative w-full aspect-square rounded-lg overflow-hidden">
+                                    <Image
+                                      src={feature.image}
+                                      alt={feature.title}
+                                      fill
+                                      className="object-cover"
+                                      data-ai-hint={feature.imageHint}
+                                    />
+                                  </div>
+                                  <div>
+                                    <h3 className="text-2xl font-bold font-heading mb-3">{feature.title}</h3>
+                                    <p className="text-muted-foreground">{feature.description}</p>
+                                  </div>
+                                </div>
+                          </div>
+                      ))}
+                  </div>
+              </div>
+              <p className="mt-6 text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
+                  <MoveHorizontal className="h-4 w-4" />
+                  Drag to Scroll
+              </p>
+          </div>
         </div>
       </section>
 
