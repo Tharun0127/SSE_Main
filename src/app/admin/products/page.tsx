@@ -101,25 +101,46 @@ export default function AdminProductsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
+            {/* Mobile View: Card List */}
+            <div className="md:hidden space-y-4">
+              {allProducts.map((product) => (
+                <Card key={product.id} className="flex items-center gap-4 p-3">
+                  <div className="relative w-16 h-16 rounded-md overflow-hidden bg-background border flex-shrink-0">
+                    <Image
+                      alt={product.name}
+                      className="object-contain p-1"
+                      fill
+                      src={product.imageUrl}
+                      data-ai-hint={product.imageHint}
+                    />
+                  </div>
+                  <div className="flex-grow">
+                    <div className="font-medium">{product.name}</div>
+                    <Badge variant="outline">{product.category}</Badge>
+                  </div>
+                  <Button asChild size="sm" variant="outline" className="flex-shrink-0">
+                    <Link href={`/admin/products/edit/${product.id}`}>Edit</Link>
+                  </Button>
+                </Card>
+              ))}
+            </div>
+
+            {/* Desktop View: Table */}
+            <div className="hidden md:block overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[100px] hidden sm:table-cell">
-                      Image
-                    </TableHead>
+                    <TableHead className="w-[100px]">Image</TableHead>
                     <TableHead>Name</TableHead>
-                    <TableHead className="hidden md:table-cell">Category</TableHead>
-                    <TableHead className="hidden lg:table-cell">
-                      Description
-                    </TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Description</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {allProducts.map((product) => (
                     <TableRow key={product.id}>
-                      <TableCell className="hidden sm:table-cell">
+                      <TableCell>
                         <div className="w-16 h-16 relative rounded-md overflow-hidden bg-background border">
                           <Image
                             alt={product.name}
@@ -131,10 +152,10 @@ export default function AdminProductsPage() {
                         </div>
                       </TableCell>
                       <TableCell className="font-medium">{product.name}</TableCell>
-                      <TableCell className="hidden md:table-cell">
+                      <TableCell>
                         <Badge variant="outline">{product.category}</Badge>
                       </TableCell>
-                      <TableCell className="hidden lg:table-cell max-w-xs truncate">
+                      <TableCell className="max-w-xs truncate">
                         {product.description}
                       </TableCell>
                       <TableCell className="text-right">

@@ -304,15 +304,36 @@ export function AdminDashboard() {
                             Sort
                         </Button>
                     </CardHeader>
-                    <CardContent className="flex-grow p-0">
+                    <CardContent className="flex-grow p-4 md:p-0">
                           {enquiries.length > 0 ? (
-                          <div className="h-full overflow-y-auto">
-                              <div className="overflow-x-auto">
+                          <>
+                            {/* Mobile View: Card List */}
+                            <div className="md:hidden space-y-4">
+                              {enquiries.map((enquiry) => (
+                                <Card key={enquiry.id} className="p-3">
+                                  <div className="flex justify-between items-start">
+                                    <div className="flex-grow pr-4">
+                                      <div className="font-medium">{enquiry.name}</div>
+                                      <div className="text-sm text-muted-foreground truncate">{enquiry.email}</div>
+                                    </div>
+                                    <Button asChild size="sm" variant="outline" className="flex-shrink-0">
+                                      <Link href={`/admin/enquiries/${enquiry.id}`}>Details</Link>
+                                    </Button>
+                                  </div>
+                                  <div className="mt-2 pt-2 border-t flex items-center justify-between text-sm">
+                                      <StatusBadge status={enquiry.status} />
+                                      <span className="text-muted-foreground">{new Date(enquiry.date).toLocaleDateString()}</span>
+                                  </div>
+                                </Card>
+                              ))}
+                            </div>
+                            {/* Desktop View: Table */}
+                            <div className="hidden md:block h-full overflow-y-auto">
                               <Table>
                                   <TableHeader>
                                       <TableRow>
                                           <TableHead>Customer</TableHead>
-                                          <TableHead className="hidden sm:table-cell">Status</TableHead>
+                                          <TableHead>Status</TableHead>
                                           <TableHead className="text-right">Action</TableHead>
                                       </TableRow>
                                   </TableHeader>
@@ -321,9 +342,9 @@ export function AdminDashboard() {
                                       <TableRow key={enquiry.id}>
                                           <TableCell>
                                               <div className="font-medium">{enquiry.name}</div>
-                                              <div className="hidden md:block text-sm text-muted-foreground truncate max-w-xs">{enquiry.projectDetails || 'No details'}</div>
+                                              <div className="text-sm text-muted-foreground truncate max-w-xs">{enquiry.projectDetails || 'No details'}</div>
                                           </TableCell>
-                                          <TableCell className="hidden sm:table-cell"><StatusBadge status={enquiry.status} /></TableCell>
+                                          <TableCell><StatusBadge status={enquiry.status} /></TableCell>
                                           <TableCell className="text-right">
                                               <Button asChild size="sm" variant="outline">
                                                   <Link href={`/admin/enquiries/${enquiry.id}`}>Details <ExternalLink className="ml-2 h-3 w-3" /></Link>
@@ -333,8 +354,8 @@ export function AdminDashboard() {
                                       ))}
                                   </TableBody>
                               </Table>
-                              </div>
-                          </div>
+                            </div>
+                          </>
                           ) : (
                               <div className="flex items-center justify-center h-full text-center text-muted-foreground p-8">
                                   <p>No enquiries yet. <br /> New enquiries from the contact form will appear here.</p>
@@ -349,65 +370,90 @@ export function AdminDashboard() {
             </div>
 
             <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
+                <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
                   <div>
                     <CardTitle className="font-heading">Product Catalog</CardTitle>
                     <CardDescription>
                         You have {products.length} products in your catalog.
                     </CardDescription>
                   </div>
-                  <Button asChild size="sm">
+                  <Button asChild size="sm" className="mt-4 sm:mt-0">
                     <Link href="/admin/products/new">
                       <PlusCircle className="mr-2 h-4 w-4" /> Add New Product
                     </Link>
                   </Button>
                 </CardHeader>
                 <CardContent>
-                    <div className="overflow-x-auto">
-                    <Table>
-                        <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-[100px] hidden sm:table-cell">
-                            Image
-                            </TableHead>
-                            <TableHead>Name</TableHead>
-                            <TableHead className="hidden md:table-cell">Category</TableHead>
-                            <TableHead className="hidden lg:table-cell">
-                            Description
-                            </TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                        {products.map((product) => (
-                            <TableRow key={product.id}>
-                            <TableCell className="hidden sm:table-cell">
-                                <div className="w-16 h-16 relative rounded-md overflow-hidden bg-background border">
-                                <Image
-                                    alt={product.name}
-                                    className="object-contain p-1"
-                                    fill
-                                    src={product.imageUrl}
-                                    data-ai-hint={product.imageHint}
-                                />
-                                </div>
-                            </TableCell>
-                            <TableCell className="font-medium">{product.name}</TableCell>
-                            <TableCell className="hidden md:table-cell">
-                                <Badge variant="outline">{product.category}</Badge>
-                            </TableCell>
-                            <TableCell className="hidden lg:table-cell max-w-xs truncate">
-                                {product.description}
-                            </TableCell>
-                            <TableCell className="text-right">
-                                <Button asChild size="sm" variant="outline">
-                                    <Link href={`/admin/products/edit/${product.id}`}>Edit</Link>
-                                </Button>
-                            </TableCell>
-                            </TableRow>
+                    {/* Mobile View: Card List */}
+                    <div className="md:hidden space-y-4">
+                        {products.slice(0, 5).map((product) => (
+                          <Card key={product.id} className="flex items-center gap-4 p-3">
+                              <div className="relative w-16 h-16 rounded-md overflow-hidden bg-background border flex-shrink-0">
+                                  <Image
+                                      alt={product.name}
+                                      className="object-contain p-1"
+                                      fill
+                                      src={product.imageUrl}
+                                      data-ai-hint={product.imageHint}
+                                  />
+                              </div>
+                              <div className="flex-grow">
+                                  <div className="font-medium">{product.name}</div>
+                                  <Badge variant="outline">{product.category}</Badge>
+                              </div>
+                              <Button asChild size="sm" variant="outline" className="flex-shrink-0">
+                                  <Link href={`/admin/products/edit/${product.id}`}>Edit</Link>
+                              </Button>
+                          </Card>
                         ))}
-                        </TableBody>
-                    </Table>
+                        {products.length > 5 && (
+                           <Button asChild variant="outline" className="w-full">
+                                <Link href="/admin/products">View All Products</Link>
+                           </Button>
+                        )}
+                    </div>
+                    {/* Desktop View: Table */}
+                    <div className="hidden md:block overflow-x-auto">
+                      <Table>
+                          <TableHeader>
+                          <TableRow>
+                              <TableHead className="w-[100px]">Image</TableHead>
+                              <TableHead>Name</TableHead>
+                              <TableHead>Category</TableHead>
+                              <TableHead>Description</TableHead>
+                              <TableHead className="text-right">Actions</TableHead>
+                          </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                          {products.map((product) => (
+                              <TableRow key={product.id}>
+                              <TableCell>
+                                  <div className="w-16 h-16 relative rounded-md overflow-hidden bg-background border">
+                                  <Image
+                                      alt={product.name}
+                                      className="object-contain p-1"
+                                      fill
+                                      src={product.imageUrl}
+                                      data-ai-hint={product.imageHint}
+                                  />
+                                  </div>
+                              </TableCell>
+                              <TableCell className="font-medium">{product.name}</TableCell>
+                              <TableCell>
+                                  <Badge variant="outline">{product.category}</Badge>
+                              </TableCell>
+                              <TableCell className="max-w-xs truncate">
+                                  {product.description}
+                              </TableCell>
+                              <TableCell className="text-right">
+                                  <Button asChild size="sm" variant="outline">
+                                      <Link href={`/admin/products/edit/${product.id}`}>Edit</Link>
+                                  </Button>
+                              </TableCell>
+                              </TableRow>
+                          ))}
+                          </TableBody>
+                      </Table>
                     </div>
                 </CardContent>
             </Card>
