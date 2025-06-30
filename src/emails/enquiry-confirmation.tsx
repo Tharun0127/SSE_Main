@@ -85,7 +85,7 @@ export const EnquiryConfirmationEmail = ({ name }: EnquiryConfirmationEmailProps
           </Text>
           <Hr style={hr} />
           <Text style={footer}>
-            Sri Sai Enterprises, 123 HVAC Way, Suite 100, San Francisco, CA 94105
+            Sri Sai Enterprises, Plot NO: 119, C.I.E, Gandhi Nagar, Balanagar, Hyderabad - 500 037
           </Text>
         </Section>
       </Container>

@@ -72,8 +72,9 @@ export function Footer() {
                <h3 className="font-semibold text-primary-foreground mb-4">Contact</h3>
                <div className="flex flex-col gap-2 text-sm text-primary-foreground/80">
                  <a href="mailto:support@srisaiep.com" className="hover:text-primary-foreground transition-colors w-fit">support@srisaiep.com</a>
-                 <a href="tel:+1(800)555-0199" className="hover:text-primary-foreground transition-colors w-fit">+1 (800) 555-0199</a>
-                 <p>123 HVAC Way, Suite 100<br/>San Francisco, CA 94105</p>
+                 <a href="tel:+919849726724" className="hover:text-primary-foreground transition-colors w-fit">+91 98497 26724</a>
+                 <a href="tel:+919704868999" className="hover:text-primary-foreground transition-colors w-fit">+91 97048 68999</a>
+                 <p>Plot NO: 119, C.I.E, Gandhi Nagar,<br/>Balanagar, Hyderabad - 500 037</p>
                </div>
             </div>
         </div>

@@ -36,7 +36,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">Phone</h3>
-                  <a href="tel:+1(800)555-0199" className="text-muted-foreground hover:text-primary transition-colors">+1 (800) 555-0199</a>
+                  <a href="tel:+919849726724" className="text-muted-foreground hover:text-primary transition-colors block">+91 98497 26724</a>
+                  <a href="tel:+919704868999" className="text-muted-foreground hover:text-primary transition-colors block">+91 97048 68999</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -54,7 +55,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">Address</h3>
-                  <p className="text-muted-foreground">123 HVAC Way, Suite 100<br/>San Francisco, CA 94105</p>
+                  <p className="text-muted-foreground">Plot NO: 119, C.I.E, Gandhi Nagar,<br/>Balanagar, Hyderabad - 500 037</p>
                 </div>
               </div>
             </CardContent>
@@ -65,7 +66,7 @@ export default function ContactPage() {
                   alt="Map to Sri Sai Enterprises HQ"
                   fill
                   className="object-cover"
-                  data-ai-hint="San Francisco map"
+                  data-ai-hint="Hyderabad map"
                 />
           </div>
         </div>
