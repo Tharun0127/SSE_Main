@@ -224,7 +224,7 @@ export function AdminDashboard() {
                 </Card>
             </div>
             <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-                <div className="grid gap-4 md:grid-cols-2 xl:col-span-2">
+                <div className="grid gap-4 lg:grid-cols-2 xl:col-span-2">
                     <Card>
                         <CardHeader>
                             <CardTitle>Enquiry Status</CardTitle>
@@ -304,11 +304,11 @@ export function AdminDashboard() {
                             Sort
                         </Button>
                     </CardHeader>
-                    <CardContent className="flex-grow p-4 md:p-0">
+                    <CardContent className="flex-grow p-4 lg:p-0">
                           {enquiries.length > 0 ? (
                           <>
-                            {/* Mobile View: Card List */}
-                            <div className="md:hidden space-y-4">
+                            {/* Mobile and Tablet View: Card List */}
+                            <div className="lg:hidden space-y-4">
                               {enquiries.map((enquiry) => (
                                 <Card key={enquiry.id} className="p-3">
                                   <div className="flex justify-between items-start">
@@ -328,7 +328,7 @@ export function AdminDashboard() {
                               ))}
                             </div>
                             {/* Desktop View: Table */}
-                            <div className="hidden md:block h-full overflow-y-auto">
+                            <div className="hidden lg:block h-full overflow-y-auto">
                               <Table>
                                   <TableHeader>
                                       <TableRow>
