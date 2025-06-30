@@ -116,8 +116,9 @@ export default function Home() {
   return (
     <div className="flex flex-col bg-background">
       <section className="w-full bg-background text-foreground">
-        <div className="container flex flex-col items-center text-center py-20 md:py-32">
-          <div className="flex flex-col items-center text-center max-w-3xl">
+        <div className="container flex flex-col lg:flex-row items-center gap-12 py-20 md:py-24 lg:py-32">
+          {/* Left Column: Text Content */}
+          <div className="lg:w-1/2 lg:pr-8 flex flex-col items-center lg:items-start text-center lg:text-left">
               <motion.h1 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -130,7 +131,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4 }}
-                  className="max-w-2xl text-muted-foreground md:text-lg mt-6"
+                  className="max-w-xl text-muted-foreground md:text-lg mt-6"
               >
                   Delivering high-performance air distribution solutions for the Pharma, IT, and Infrastructure sectors since 2003.
               </motion.p>
@@ -148,11 +149,12 @@ export default function Home() {
                   </Button>
               </motion.div>
           </div>
+          {/* Right Column: Image */}
           <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="relative w-full max-w-2xl aspect-[4/3] mt-12"
+              className="relative w-full lg:w-1/2 aspect-[4/3] max-w-lg lg:max-w-none"
           >
               <Image
                   src="https://placehold.co/600x450.png"
@@ -165,7 +167,7 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-
+      
       <section className="w-full py-16 bg-secondary">
         <div className="container">
           <div className="text-center mb-12">
