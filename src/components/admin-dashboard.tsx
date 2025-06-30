@@ -321,7 +321,7 @@ export function AdminDashboard() {
                                       <TableRow key={enquiry.id}>
                                           <TableCell>
                                               <div className="font-medium">{enquiry.name}</div>
-                                              <div className="hidden text-sm text-muted-foreground md:inline truncate max-w-[150px]">{enquiry.projectDetails || 'No details'}</div>
+                                              <div className="hidden md:block text-sm text-muted-foreground truncate max-w-xs">{enquiry.projectDetails || 'No details'}</div>
                                           </TableCell>
                                           <TableCell className="hidden sm:table-cell"><StatusBadge status={enquiry.status} /></TableCell>
                                           <TableCell className="text-right">
@@ -344,7 +344,7 @@ export function AdminDashboard() {
                 </Card>
             </div>
             
-            <div className="grid gap-4 md:gap-8 md:grid-cols-2">
+            <div className="grid gap-4 md:gap-8 lg:grid-cols-2">
                 <LogoUploader />
             </div>
 
@@ -396,7 +396,7 @@ export function AdminDashboard() {
                             <TableCell className="hidden md:table-cell">
                                 <Badge variant="outline">{product.category}</Badge>
                             </TableCell>
-                            <TableCell className="hidden lg:table-cell max-w-sm truncate">
+                            <TableCell className="hidden lg:table-cell max-w-xs truncate">
                                 {product.description}
                             </TableCell>
                             <TableCell className="text-right">

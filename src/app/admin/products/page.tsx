@@ -134,7 +134,7 @@ export default function AdminProductsPage() {
                       <TableCell className="hidden md:table-cell">
                         <Badge variant="outline">{product.category}</Badge>
                       </TableCell>
-                      <TableCell className="hidden lg:table-cell max-w-sm truncate">
+                      <TableCell className="hidden lg:table-cell max-w-xs truncate">
                         {product.description}
                       </TableCell>
                       <TableCell className="text-right">
