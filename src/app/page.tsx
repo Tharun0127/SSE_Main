@@ -347,9 +347,9 @@ export default function Home() {
       <section id="consult-us" className="w-full py-16 md:py-24 bg-background">
         <div className="container">
           <div className="mx-auto max-w-4xl text-center bg-card p-8 md:p-12 rounded-2xl shadow-lg border transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-            <h2 className="text-3xl md:text-4xl font-extrabold font-heading">Have a Project in Mind?</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold font-heading">Need HVAC Products to Elevate Your Project?</h2>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-              Whether you're an architect, builder, or homeowner, our team is ready to provide expert consultation and tailor-made HVAC solutions for your specific needs.
+              Whether you're an architect, builder, or homeowner, our team is ready to provide tailor-made HVAC solutions. Submit your requirements, and we will contact you directly to discuss your project's needs in detail.
             </p>
             <div className="mt-8">
               <Button asChild size="lg">
