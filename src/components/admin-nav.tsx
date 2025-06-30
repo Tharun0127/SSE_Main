@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import { Menu, BarChart2, Package, Mail, Image as ImageIcon, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
@@ -44,6 +44,7 @@ export function AdminNav() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="sm:max-w-xs">
+          <SheetTitle className="sr-only">Admin Navigation Menu</SheetTitle>
           <nav className="grid gap-6 text-lg font-medium">
             <Link href="#" className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base">
                  <Image src="/sse+logo.png" width={24} height={24} alt="Logo" className="filter invert" />
