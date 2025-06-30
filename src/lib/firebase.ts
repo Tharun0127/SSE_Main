@@ -5,13 +5,13 @@ import { getAnalytics, isSupported } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCA_za_fnS-SzAMrCc5_0LkaIhN0pWTUr8",
-  authDomain: "srisaienterprisess-e5d9e.firebaseapp.com",
-  projectId: "srisaienterprisess-e5d9e",
-  storageBucket: "srisaienterprisess-e5d9e.appspot.com",
-  messagingSenderId: "973089316419",
-  appId: "1:973089316419:web:4257c5695340f77ad1bef6",
-  measurementId: "G-S0RL2E7700"
+  apiKey: "AIzaSyBCA5WE8_xlrHTnZpyCArh1YiQvrv7gpNY",
+  authDomain: "srisaienterprises-892b9.firebaseapp.com",
+  projectId: "srisaienterprises-892b9",
+  storageBucket: "srisaienterprises-892b9.firebasestorage.app",
+  messagingSenderId: "121785637733",
+  appId: "1:121785637733:web:9dac1b4eeb21bd3bc6df8c",
+  measurementId: "G-VGQCVPSY11",
 };
 
 
