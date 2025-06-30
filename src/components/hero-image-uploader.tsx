@@ -10,6 +10,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Upload } from 'lucide-react';
@@ -111,7 +112,7 @@ export function HeroImageUploader() {
         </CardHeader>
         <CardContent>
             <div className="mb-6">
-                <FormLabel>Current Image</FormLabel>
+                <Label>Current Image</Label>
                 {imagePreview && (
                     <div className="mt-2 relative w-full aspect-[4/3] border rounded-md bg-muted overflow-hidden">
                     <Image src={imagePreview} alt="Current hero image" fill className="object-cover" />
