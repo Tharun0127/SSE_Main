@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { Menu, ShoppingBag } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { doc, getDoc } from "firebase/firestore";
@@ -65,6 +65,10 @@ export function Header() {
       window.removeEventListener('storage', updateEnquiryCount);
     }
   }, []);
+
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
 
   const headerClass = cn(
     "sticky top-0 z-50 w-full border-b transition-colors duration-300",

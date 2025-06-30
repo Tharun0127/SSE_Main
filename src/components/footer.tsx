@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -16,6 +17,7 @@ const navLinks = [
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const [logoUrl, setLogoUrl] = useState("/sse+logo.png");
+  const pathname = usePathname();
 
   useEffect(() => {
     const fetchLogo = async () => {
@@ -32,6 +34,10 @@ export function Footer() {
 
     fetchLogo();
   }, []);
+
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <footer className="bg-primary text-primary-foreground">

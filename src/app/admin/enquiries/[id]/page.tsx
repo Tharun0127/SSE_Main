@@ -98,7 +98,7 @@ export default function EnquiryDetailsPage() {
             setSelectedStatus(data.status);
           } else {
              toast({ variant: 'destructive', title: 'Error', description: 'Enquiry not found.' });
-             router.replace('/admin');
+             router.replace('/admin/enquiries');
           }
         } catch (error) {
           console.error("Error fetching enquiry:", error);
@@ -128,7 +128,7 @@ export default function EnquiryDetailsPage() {
 
   if (isLoading) {
     return (
-      <div className="bg-secondary min-h-screen">
+      <div className="bg-muted/40 min-h-screen">
         <div className="container py-12 md:py-20">
             <Skeleton className="h-8 w-40 mb-8" />
             <div className="grid gap-8 md:grid-cols-3">
@@ -153,8 +153,8 @@ export default function EnquiryDetailsPage() {
           The requested enquiry could not be found.
         </p>
         <Button asChild className="mt-6">
-          <Link href="/admin">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
+          <Link href="/admin/enquiries">
+            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Enquiries
           </Link>
         </Button>
       </div>
@@ -162,12 +162,12 @@ export default function EnquiryDetailsPage() {
   }
 
   return (
-    <div className="bg-secondary min-h-screen">
+    <div className="bg-muted/40 min-h-screen">
       <div className="container py-12 md:py-20">
         <div className="mb-8">
           <Button asChild variant="outline" size="sm">
-            <Link href="/admin">
-              <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
+            <Link href="/admin/enquiries">
+              <ArrowLeft className="mr-2 h-4 w-4" /> Back to Enquiries
             </Link>
           </Button>
         </div>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import { motion } from "framer-motion";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import useEmblaCarousel from 'embla-carousel-react';
 
@@ -86,29 +86,39 @@ const features = [
 export default function Home() {
   const [allProducts, setAllProducts] = React.useState<Product[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [heroImageUrl, setHeroImageUrl] = React.useState("https://placehold.co/600x450.png");
 
   React.useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       setIsLoading(true);
       try {
+        // Fetch products
         const productMap = new Map<number, Product>();
         staticProducts.forEach(p => productMap.set(p.id, p));
 
-        const querySnapshot = await getDocs(collection(db, "products"));
-        querySnapshot.forEach((doc) => {
+        const productSnapshot = await getDocs(collection(db, "products"));
+        productSnapshot.forEach((doc) => {
           const firestoreProduct = doc.data() as Product;
           productMap.set(firestoreProduct.id, firestoreProduct);
         });
         
         setAllProducts(Array.from(productMap.values()));
+
+        // Fetch hero image
+        const contentDocRef = doc(db, 'settings', 'content');
+        const contentDocSnap = await getDoc(contentDocRef);
+        if (contentDocSnap.exists() && contentDocSnap.data().heroImageUrl) {
+            setHeroImageUrl(contentDocSnap.data().heroImageUrl);
+        }
+
       } catch (error) {
-        console.error("Error fetching products, falling back to static data:", error);
+        console.error("Error fetching data, falling back to static data:", error);
         setAllProducts(staticProducts);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchProducts();
+    fetchData();
   }, []);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -197,7 +207,7 @@ export default function Home() {
               className="relative w-full lg:w-1/2 aspect-[4/3] max-w-lg lg:max-w-none"
           >
               <Image
-                  src="https://placehold.co/600x450.png"
+                  src={heroImageUrl}
                   alt="Modern Air Cooling Unit"
                   fill
                   className="object-cover rounded-2xl shadow-2xl bg-accent"

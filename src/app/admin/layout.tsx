@@ -2,50 +2,73 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, type ReactNode } from 'react';
+import { AdminNav } from '@/components/admin-nav';
+import { AdminStatsCards } from '@/components/admin-stats-cards';
+import { Skeleton } from '@/components/ui/skeleton';
 
-/**
- * A simple loading component shown while verifying admin authentication.
- */
-function AdminLoading() {
+function AdminLoadingScreen() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40">
-      <div className="text-muted-foreground">Verifying access...</div>
+    <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="space-y-4 text-center">
+            <h2 className="text-xl font-semibold text-muted-foreground">Verifying Access...</h2>
+            <Skeleton className="h-2 w-64 mx-auto" />
+        </div>
     </div>
   );
 }
 
-/**
- * This layout protects all routes under /admin.
- * It verifies that the user is authenticated before rendering any admin sub-page.
- * If the user is not authenticated, it redirects them to the /admin login page.
- */
+
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  // Start as verified if on the login page itself to prevent a loading flash.
-  const [isVerified, setIsVerified] = useState(pathname === '/admin');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // No need to check auth for the login page itself within this layout.
-    // Its own component logic will handle showing login vs. dashboard.
-    if (pathname === '/admin') {
-      setIsVerified(true);
-      return;
-    }
-
-    const isAuthenticated = sessionStorage.getItem('isAdminAuthenticated') === 'true';
-
-    if (!isAuthenticated) {
-      // Use replace to avoid adding a redirect to the browser's history.
-      router.replace('/admin');
+    // This check runs on the client side after the component mounts.
+    const authStatus = sessionStorage.getItem('isAdminAuthenticated') === 'true';
+    
+    if (pathname.startsWith('/admin/login')) {
+      // If on login page, handle redirection if already logged in.
+      if (authStatus) {
+        router.replace('/admin');
+      }
+      setIsAuthenticated(false);
     } else {
-      setIsVerified(true);
+      // For all other admin pages, check for auth.
+      if (!authStatus) {
+        router.replace('/admin/login');
+      }
+      setIsAuthenticated(true);
     }
+    setIsLoading(false);
   }, [pathname, router]);
 
-  if (!isVerified) {
-    return <AdminLoading />;
+  if (isLoading) {
+    return <AdminLoadingScreen />;
   }
 
-  return <>{children}</>;
+  // If we are on the login page, don't show the admin layout shell.
+  if (!isAuthenticated && pathname.startsWith('/admin/login')) {
+    return <>{children}</>;
+  }
+  
+  // Don't render the layout shell if we're still waiting for the redirect to kick in.
+  if (!isAuthenticated) {
+    return <AdminLoadingScreen />;
+  }
+
+  return (
+     <div className="flex min-h-screen w-full flex-col bg-muted/40">
+        <header className="sticky top-0 z-30 flex flex-col border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <AdminNav />
+            <div className="py-4">
+              <AdminStatsCards />
+            </div>
+        </header>
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+            {children}
+        </main>
+    </div>
+  );
 }
