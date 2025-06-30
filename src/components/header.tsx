@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { Menu, ShoppingBag } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { doc, getDoc } from "firebase/firestore";
@@ -144,6 +144,7 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] bg-card">
+              <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
               <div className="flex items-center gap-2 mb-8">
                  <Image
                     src={logoUrl}
