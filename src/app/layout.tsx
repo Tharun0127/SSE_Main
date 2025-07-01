@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { Header } from '@/components/header';
@@ -11,6 +12,11 @@ import { AdminAuthHandler } from '@/components/admin-auth-handler';
 export const metadata: Metadata = {
   title: 'Sri Sai Enterprises',
   description: 'High-quality HVAC solutions for all your needs.',
+  icons: {
+    icon: '/sse+logo.png',
+    shortcut: '/sse+logo.png',
+    apple: '/sse+logo.png',
+  },
 };
 
 const fontHeading = Poppins({
