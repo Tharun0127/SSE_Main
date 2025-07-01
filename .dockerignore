@@ -1,33 +1,26 @@
 # Dependencies
-/node_modules
+node_modules
 
-# Next.js build output
-/.next/
-/out/
+# Next.js build artifacts
+.next
 
-# Miscellaneous
-.DS_Store
-*.pem
+# Docker files
+Dockerfile
+.dockerignore
 
-# Debug logs
+# Local development files
+.env*.local
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
 
-# Local environment files
-.env*.local
-.env
+# Git
+.git
+.gitignore
 
-# Vercel
-.vercel
-
-# TypeScript
-*.tsbuildinfo
-tsconfig.tsbuildinfo
-
-# Tests
-/coverage
-
-# VSCode
+# IDE config
 .vscode
+.idea
+
+# Misc
+README.md

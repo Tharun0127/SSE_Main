@@ -1,36 +1,40 @@
 # Stage 1: Build the application
 FROM node:20-alpine AS builder
-
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
+# Copy package files and install dependencies
 COPY package.json ./
 RUN npm install
 
 # Copy the rest of the application source code
 COPY . .
 
-# Build the Next.js app for standalone output
+# Build the Next.js app
+# The `standalone` output mode is already set in next.config.ts
 RUN npm run build
 
-# Stage 2: Production image
+# Stage 2: Create the final production image
 FROM node:20-alpine AS runner
-
 WORKDIR /app
 
-# Set the NODE_ENV to 'production'
-ENV NODE_ENV=production
-ENV PORT=3000
+# Create a non-root user for security purposes
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
 
-# Copy the standalone output from the builder stage
-COPY --from=builder /app/.next/standalone ./
-
-# Copy the public and static assets
+# Copy only the necessary files from the builder stage
+# This includes the standalone server, public assets, and static build outputs
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Set the user to the non-root user
+USER nextjs
+
+# Expose the port the app will run on
 EXPOSE 3000
 
-# Start the app
+# Set the environment variable for the port
+ENV PORT 3000
+
+# The command to start the server
 CMD ["node", "server.js"]
