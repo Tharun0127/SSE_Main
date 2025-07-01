@@ -1,7 +1,21 @@
 # Settings to manage and configure a Firebase App Hosting backend.
 # https://firebase.google.com/docs/app-hosting/configure
 
+# The ingress traffic for this backend. 'all' makes it publicly accessible.
+# https://firebase.google.com/docs/app-hosting/configure#ingress
+ingressControls: all
+
 runConfig:
-  # Increase this value if you'd like to automatically spin up
-  # more instances in response to increased traffic.
-  maxInstances: 1
+  # The CPU resource setting for this backend (1 CPU).
+  # https://firebase.google.com/docs/app-hosting/configure#cpu
+  cpu: 1
+  # The memory resource setting for this backend (512 MiB).
+  # https://firebase.google.com/docs/app-hosting/configure#memory
+  memoryMiB: 512
+  # The maximum number of instances for this backend.
+  # https://firebase.google.com/docs/app-hosting/configure#max-instances
+  maxInstances: 2
+  # The minimum number of instances for this backend.
+  # Set to 0 to scale to zero when there's no traffic.
+  # https://firebase.google.com/docs/app-hosting/configure#min-instances
+  minInstances: 0

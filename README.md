@@ -2,12 +2,11 @@
 
 This is a Next.js application for Sri Sai Enterprises, a provider of HVAC solutions. The project features a product catalog, an enquiry system, and a full admin dashboard for content management, all backed by Firebase.
 
-## Prerequisites
-
 Before you begin, ensure you have the following installed:
 - [Node.js](https://nodejs.org/) (v18 or later recommended)
 - [npm](https://www.npmjs.com/) (comes with Node.js)
 - [Firebase CLI](https://firebase.google.com/docs/cli#install_the_cli) (`npm install -g firebase-tools`)
+- [Docker](https://www.docker.com/products/docker-desktop/) (for local containerized development)
 
 ---
 
@@ -119,16 +118,18 @@ Your application should now be running at `http://localhost:9002`.
 
 ---
 
-## 3. Docker Development
+## 3. Local Docker Development
 
-This project includes a `Dockerfile` to containerize the application, ensuring a consistent environment.
+This project includes a `Dockerfile` to containerize the application, ensuring a consistent environment. You can use this to test a production-like build on your local machine.
 
 1.  **Build the Docker image:**
+    This command builds the container image based on the instructions in the `Dockerfile`.
     ```bash
     docker build -t sri-sai-app .
     ```
 
 2.  **Run the container:**
+    This command starts a container from the image you just built.
     ```bash
     docker run -p 3000:3000 sri-sai-app
     ```
@@ -138,7 +139,7 @@ This project includes a `Dockerfile` to containerize the application, ensuring a
 
 ## 4. Deployment to Firebase
 
-This project is configured for **Firebase App Hosting**. You do not need to manually build or push the Docker image. Firebase will automatically build the container from your source code and deploy it.
+This project is configured for **Firebase App Hosting**. You do not need to manually build or push the Docker image. Firebase uses the `Dockerfile` in your project as instructions to automatically build the container from your source code and deploy it.
 
 1.  **Log in to Firebase:**
     If you haven't already, log in to the Firebase CLI:

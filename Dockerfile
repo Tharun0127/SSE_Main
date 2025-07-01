@@ -1,40 +1,57 @@
-# Stage 1: Build the application
-FROM node:20-alpine AS builder
+# Dockerfile for a Next.js application
+
+# 1. Builder Stage: Build the Next.js app
+# This stage installs dependencies and builds the application.
+FROM node:18-alpine AS builder
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package.json ./
-RUN npm install
+# Install dependencies
+COPY package.json package-lock.json* ./
+RUN npm ci
 
-# Copy the rest of the application source code
+# Copy source code
 COPY . .
 
-# Build the Next.js app
-# The `standalone` output mode is already set in next.config.ts
+# Disable Next.js telemetry
+ENV NEXT_TELEMETRY_DISABLED 1
+
+# Build the Next.js application
 RUN npm run build
 
-# Stage 2: Create the final production image
-FROM node:20-alpine AS runner
+# 2. Runner Stage: Create the final production image
+# This stage creates a minimal image with only the necessary files to run the app.
+FROM node:18-alpine AS runner
 WORKDIR /app
 
-# Create a non-root user for security purposes
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED 1
 
-# Copy only the necessary files from the builder stage
-# This includes the standalone server, public assets, and static build outputs
+# Create a non-root user for security
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Copy the public assets
 COPY --from=builder /app/public ./public
+
+# Set correct permissions for the .next folder
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+# Automatically leverage Next.js output file tracing to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Set the user to the non-root user
+# Switch to the non-root user
 USER nextjs
 
 # Expose the port the app will run on
 EXPOSE 3000
 
-# Set the environment variable for the port
+# Set the port environment variable
 ENV PORT 3000
 
-# The command to start the server
+# Start the application
 CMD ["node", "server.js"]
