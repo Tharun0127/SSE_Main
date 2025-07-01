@@ -15,12 +15,12 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <>
       <Card className="flex h-full flex-col overflow-hidden rounded-lg shadow-md transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-        <Link href={`/products/${product.id}`} className="block relative aspect-video w-full">
+        <Link href={`/products/${product.id}`} className="block relative aspect-video w-full group">
           <Image
             src={product.imageUrl}
             alt={product.name}
             fill
-            className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
             data-ai-hint={product.imageHint}
           />
         </Link>

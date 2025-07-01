@@ -102,7 +102,7 @@ export default function ProductDetailPage() {
                             src={product.imageUrl}
                             alt={product.name}
                             fill
-                            className="object-contain p-8"
+                            className="object-cover"
                             data-ai-hint={product.imageHint}
                             priority
                         />
