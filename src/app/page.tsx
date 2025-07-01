@@ -57,7 +57,7 @@ const LOGOS = [
   {
     name: "LG",
     imageUrl:
-      "https://firebasestorage.googleapis.com/v0/b/srisaienterprises-892b9.firebasestorage.app/o/Trusted%20Companies%2Flogo-lg-100-44.svg?alt=media&token=5a7690e3-57b2-41fa-8237-194c0776d9a9",
+      "https://1000logos.net/wp-content/uploads/2017/03/LG-Logo-1995.png",
     hint: "LG logo",
   },
 ];
