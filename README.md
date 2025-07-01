@@ -119,32 +119,15 @@ Your application should now be running at `http://localhost:9002`.
 
 ---
 
-## 3. Local Docker Development
-
-This project includes a `Dockerfile` to containerize the application, ensuring a consistent environment. You can use this to test a production-like build on your local machine.
-
-1.  **Build the Docker image:**
-    This command builds the container image based on the instructions in the `Dockerfile`.
-    ```bash
-    docker build -t sri-sai-app .
-    ```
-
-2.  **Run the container:**
-    This command starts a container from the image you just built.
-    ```bash
-    docker run -p 3000:3000 sri-sai-app
-    ```
-    You can then access the application at `http://localhost:3000`.
-
----
-
-## 4. Deployment to Firebase
+## 3. Deployment
 
 This project is configured for **Firebase App Hosting**. You have two main options for deployment.
 
 ### Option 1: Automated Deploys with GitHub (Recommended)
 
 This is the best method for continuous deployment. Firebase will automatically build and deploy your application whenever you push code to your GitHub repository.
+
+#### A. Initial Setup
 
 1.  **Push your project to GitHub:**
     If you haven't already, create a new repository on GitHub and push your project code to it.
@@ -160,7 +143,24 @@ This is the best method for continuous deployment. Firebase will automatically b
     *   Set your **live branch** to `main` (or whichever branch you want to deploy from).
     *   Enable **automatic deployments**.
 
-That's it! Now, every time you `git push` to your `main` branch, Firebase will automatically build a new container from your `Dockerfile` and deploy it.
+#### B. Committing and Deploying Changes
+
+Once the initial setup is complete, deploying new changes is as simple as committing and pushing your code to the live branch.
+
+1.  **Stage Your Changes:** This command prepares all the modified files for saving.
+    ```bash
+    git add .
+    ```
+
+2.  **Save Your Changes (Commit):** This command saves a snapshot of your files with a descriptive message.
+    ```bash
+    git commit -m "Your descriptive message about the changes"
+    ```
+
+3.  **Push to GitHub:** This command sends your changes to GitHub, which automatically triggers your Firebase deployment.
+    ```bash
+    git push
+    ```
 
 ### Option 2: Manual Deploys from the Command Line
 
@@ -180,3 +180,22 @@ You can also deploy your application manually from your local machine using the 
     Firebase will use your `apphosting.yaml` and `Dockerfile` to automatically build and deploy your containerized application to App Hosting.
 
     > **Note on Prompts**: If this is your first time deploying and the Firebase CLI asks for your "public root directory", you can safely enter **`.`** (a single dot) for the root directory. This setting is for static file hosting, but your primary deployment is the container managed by App Hosting, which builds from the project root.
+
+---
+
+## 4. Local Docker Development
+
+This project includes a `Dockerfile` to containerize the application, ensuring a consistent environment. You can use this to test a production-like build on your local machine.
+
+1.  **Build the Docker image:**
+    This command builds the container image based on the instructions in the `Dockerfile`.
+    ```bash
+    docker build -t sri-sai-app .
+    ```
+
+2.  **Run the container:**
+    This command starts a container from the image you just built.
+    ```bash
+    docker run -p 3000:3000 sri-sai-app
+    ```
+    You can then access the application at `http://localhost:3000`.
