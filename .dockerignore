@@ -1,24 +1,8 @@
-# Git and version control
-.git
-.github
-
-# Node modules
+Dockerfile
+.dockerignore
 node_modules
-
-# Next.js build output
+npm-debug.log
+README.md
 .next
-
-# Local environment variables
-.env.local
-.env.development.local
-.env.test.local
-
-# VSCode settings
 .vscode
-
-# Mac-specific files
-.DS_Store
-
-# Log files
-npm-debug.log*
-yarn-error.log*
+.env.local
