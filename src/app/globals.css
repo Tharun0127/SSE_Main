@@ -40,6 +40,7 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 50% 55%;
     --chart-5: 220 20% 35%;
+    color-scheme: light;
   }
 
   * {
