@@ -1,6 +1,6 @@
 # Sri Sai Enterprises - Next.js HVAC Solutions Website
 
-This is a Next.js application for Sri Sai Enterprises, a provider of HVAC solutions. The project features a product catalog, an enquiry system, and a full admin dashboard for content management, all backed by Firebase.
+This is a Next.js application for Sri Sai Enterprises, a provider of HVAC solutions. The project features a product catalog, an enquiry system, and a full admin dashboard for content management, all backed by Firebase. It is configured for containerized deployment using Docker and Firebase App Hosting.
 
 Before you begin, ensure you have the following installed:
 - [Node.js](https://nodejs.org/) (v18 or later recommended)
@@ -139,7 +139,31 @@ This project includes a `Dockerfile` to containerize the application, ensuring a
 
 ## 4. Deployment to Firebase
 
-This project is configured for **Firebase App Hosting**. You do not need to manually build or push the Docker image. Firebase uses the `Dockerfile` in your project as instructions to automatically build the container from your source code and deploy it.
+This project is configured for **Firebase App Hosting**. You have two main options for deployment.
+
+### Option 1: Automated Deploys with GitHub (Recommended)
+
+This is the best method for continuous deployment. Firebase will automatically build and deploy your application whenever you push code to your GitHub repository.
+
+1.  **Push your project to GitHub:**
+    If you haven't already, create a new repository on GitHub and push your project code to it.
+
+2.  **Connect Firebase to GitHub:**
+    *   Go to the [Firebase Console](https://console.firebase.google.com/) and navigate to your project.
+    *   In the **Build** menu, select **App Hosting**.
+    *   You should see your backend listed. Click on it to manage it.
+    *   Find the option to **Connect to GitHub**.
+    *   Follow the on-screen prompts to authorize Firebase to access your GitHub account and select the repository for this project.
+
+3.  **Configure Deployment Settings:**
+    *   Set your **live branch** to `main` (or whichever branch you want to deploy from).
+    *   Enable **automatic deployments**.
+
+That's it! Now, every time you `git push` to your `main` branch, Firebase will automatically build a new container from your `Dockerfile` and deploy it.
+
+### Option 2: Manual Deploys from the Command Line
+
+You can also deploy your application manually from your local machine using the Firebase CLI.
 
 1.  **Log in to Firebase:**
     If you haven't already, log in to the Firebase CLI:
@@ -153,4 +177,4 @@ This project is configured for **Firebase App Hosting**. You do not need to manu
     firebase deploy
     ```
 
-Firebase will provide you with a URL where your live application is hosted.
+Firebase will use your code and the `Dockerfile` to build the container image and deploy it. It will provide you with the URL where your live application is hosted.
