@@ -1,3 +1,4 @@
+
 # Sri Sai Enterprises - Next.js HVAC Solutions Website
 
 This is a Next.js application for Sri Sai Enterprises, a provider of HVAC solutions. The project features a product catalog, an enquiry system, and a full admin dashboard for content management, all backed by Firebase. It is configured for containerized deployment using Docker and Firebase App Hosting.
@@ -172,9 +173,10 @@ You can also deploy your application manually from your local machine using the 
     ```
 
 2.  **Deploy your application:**
-    Run the following command from your project's root directory:
+    From your project's root directory, run the deploy command:
     ```bash
     firebase deploy
     ```
+    Firebase will use your `apphosting.yaml` and `Dockerfile` to automatically build and deploy your containerized application to App Hosting.
 
-Firebase will use your code and the `Dockerfile` to build the container image and deploy it. It will provide you with the URL where your live application is hosted.
+    > **Note on Prompts**: If this is your first time deploying and the Firebase CLI asks for your "public root directory", you can safely enter **`.`** (a single dot) for the root directory. This setting is for static file hosting, but your primary deployment is the container managed by App Hosting, which builds from the project root.
